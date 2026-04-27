@@ -1,1 +1,1 @@
-"# Tienda" 
+"# Proyecto Tienda de Videojuegos" 
