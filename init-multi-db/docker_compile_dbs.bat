@@ -1,3 +1,11 @@
 docker exec -i postgres-db psql -U postgres -d postgres < 01-init.sql
-docker exec -i postgres-db psql -U postgres -d postgres < 02-create_usuarios.sql
-docker exec -i postgres-db psql -U postgres -d postgres < 03-create_catalogo.sql
+docker exec -i postgres-db psql -U postgres -d postgres < 2.-usuarios.sql
+docker exec -i postgres-db psql -U postgres -d postgres < 3.-catalogo.sql
+docker exec -i postgres-db psql -U postgres -d postgres < 4.-inventario.sql
+docker exec -i postgres-db psql -U postgres -d postgres < 5.-descuentos.sql
+docker exec -i postgres-db psql -U postgres -d postgres < 6.-pedidos.sql
+docker exec -i postgres-db psql -U postgres -d postgres < 7.-compras.sql
+docker exec -i postgres-db psql -U postgres -d postgres < 8.-pagos.sql
+docker exec -i postgres-db psql -U postgres -d postgres < 9.resenas.sql
+docker exec -i postgres-db psql -U postgres -d postgres < 10.-recomendaciones.sql
+docker exec -i postgres-db psql -U postgres -d postgres < 11.notificaciones.sql
