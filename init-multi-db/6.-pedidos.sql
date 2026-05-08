@@ -1,22 +1,27 @@
--- 1. Conexión
-\c pedidos
+\c db_pedidos
 
--- 2. Eliminación
-DROP TABLE IF EXISTS detalle_pedidos;
-DROP TABLE IF EXISTS ordenes;
+DROP TABLE IF EXISTS items_pedido;
+DROP TABLE IF EXISTS pedidos;
+DROP TABLE IF EXISTS usuarios_proyeccion;
 
--- 3. Creación
-CREATE TABLE ordenes (
-    id_orden SERIAL PRIMARY KEY,
-    id_usuario INT NOT NULL,
-    estado VARCHAR(20) DEFAULT 'pendiente' CHECK (estado IN ('pendiente', 'pagado', 'enviado', 'cancelado')),
-    total DECIMAL(10,2) DEFAULT 0
+CREATE TABLE usuarios_proyeccion (
+    email VARCHAR(100) PRIMARY KEY,
+    nombre VARCHAR(150)
 );
 
--- 4. Datos de prueba
-INSERT INTO ordenes (id_usuario, estado, total) VALUES 
-(1, 'pagado', 905.00),
-(2, 'pendiente', 0.00), -- Caso borde: Pedido iniciado sin total aún
-(3, 'cancelado', 50.00);
+CREATE TABLE pedidos (
+    orden_id VARCHAR(20) PRIMARY KEY,
+    user_email VARCHAR(100) REFERENCES usuarios_proyeccion(email),
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    total DECIMAL(12,2)
+);
 
--- 5. Documentación: Registro principal de transacciones y estados de compra.
+CREATE TABLE items_pedido (
+    id SERIAL PRIMARY KEY,
+    orden_id VARCHAR(20) REFERENCES pedidos(orden_id),
+    juego_sku VARCHAR(50), -- Se guarda el SKU directamente
+    cantidad INTEGER
+);
+
+INSERT INTO usuarios_proyeccion VALUES ('gamer99@gmail.com', 'Juan Perez');
+INSERT INTO pedidos VALUES ('ORD-001', 'gamer99@gmail.com', NOW(), 120.00);

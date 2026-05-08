@@ -1,21 +1,26 @@
--- 1. Conexión
-\c recomendaciones
+\c db_recomendaciones
 
--- 2. Eliminación
+DROP TABLE IF EXISTS logs_IA;
 DROP TABLE IF EXISTS sugerencias;
+DROP TABLE IF EXISTS usuarios_proyeccion;
 
--- 3. Creación
-CREATE TABLE sugerencias (
-    id_usuario INT,
-    id_producto_recomendado INT,
-    puntuacion_relevancia DECIMAL(3,2), -- 0.00 a 1.00
-    PRIMARY KEY (id_usuario, id_producto_recomendado)
+CREATE TABLE usuarios_proyeccion (
+    email VARCHAR(100) PRIMARY KEY,
+    intereses_tags VARCHAR(255) -- 'rpg, action, openworld'
 );
 
--- 4. Datos de prueba
-INSERT INTO sugerencias VALUES 
-(1, 10, 0.95),
-(1, 11, 0.80),
-(2, 1, 0.01); -- Caso borde: Relevancia casi nula
+CREATE TABLE sugerencias (
+    id SERIAL PRIMARY KEY,
+    user_email VARCHAR(100) REFERENCES usuarios_proyeccion(email),
+    juego_sku_sugerido VARCHAR(50),
+    score_confianza DECIMAL(3,2) -- 0.99 para alta recomendación
+);
 
--- 5. Documentación: Motor de sugerencias que vincula usuarios con productos potenciales.
+CREATE TABLE logs_IA (
+    id SERIAL PRIMARY KEY,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    resultado_modelo VARCHAR(100)
+);
+
+INSERT INTO usuarios_proyeccion VALUES ('gamer99@gmail.com', 'rpg, souls-like');
+INSERT INTO sugerencias (user_email, juego_sku_sugerido, score_confianza) VALUES ('gamer99@gmail.com', 'ELDER-001', 0.95);

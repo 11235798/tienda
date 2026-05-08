@@ -1,22 +1,26 @@
--- 1. Conexión
-\c pagos
+\c db_pagos
 
--- 2. Eliminación
+DROP TABLE IF EXISTS recibos;
 DROP TABLE IF EXISTS transacciones;
+DROP TABLE IF EXISTS pedidos_proyeccion;
 
--- 3. Creación
-CREATE TABLE transacciones (
-    id_transaccion UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    id_orden INT NOT NULL,
-    metodo VARCHAR(50) CHECK (metodo IN ('tarjeta', 'transferencia', 'crypto')),
-    monto DECIMAL(10,2) NOT NULL,
-    exitoso BOOLEAN DEFAULT FALSE
+CREATE TABLE pedidos_proyeccion (
+    orden_id VARCHAR(20) PRIMARY KEY,
+    monto_pendiente DECIMAL(12,2)
 );
 
--- 4. Datos de prueba
-INSERT INTO transacciones (id_orden, metodo, monto, exitoso) VALUES 
-(1, 'tarjeta', 905.00, TRUE),
-(1, 'tarjeta', 905.00, FALSE), -- Caso borde: Intento fallido
-(2, 'crypto', 0.01, TRUE); -- Caso borde: Monto cripto muy pequeño
+CREATE TABLE transacciones (
+    id VARCHAR(50) PRIMARY KEY, -- ID de pasarela de pago (Stripe/PayPal)
+    orden_id VARCHAR(20) REFERENCES pedidos_proyeccion(orden_id),
+    metodo VARCHAR(20), -- 'CREDITO', 'DEBITO'
+    estado VARCHAR(20) -- 'SUCCESS', 'FAILED'
+);
 
--- 5. Documentación: Auditoría de intentos de pago y métodos utilizados.
+CREATE TABLE recibos (
+    id SERIAL PRIMARY KEY,
+    transaccion_id VARCHAR(50) REFERENCES transacciones(id),
+    fecha_emision TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO pedidos_proyeccion VALUES ('ORD-001', 120.00);
+INSERT INTO transacciones VALUES ('PAY-8822', 'ORD-001', 'CREDITO', 'SUCCESS');

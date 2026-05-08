@@ -1,21 +1,25 @@
--- 1. Conexión
-\c descuentos
+\c db_descuentos
 
--- 2. Eliminación
+DROP TABLE IF EXISTS cupones_uso;
 DROP TABLE IF EXISTS cupones;
+DROP TABLE IF EXISTS juegos_proyeccion;
 
--- 3. Creación
-CREATE TABLE cupones (
-    codigo VARCHAR(20) PRIMARY KEY,
-    porcentaje INT CHECK (porcentaje BETWEEN 1 AND 100),
-    fecha_expiracion DATE NOT NULL,
-    uso_maximo INT DEFAULT 1
+CREATE TABLE juegos_proyeccion (
+    sku VARCHAR(50) PRIMARY KEY,
+    precio_base DECIMAL(10,2)
 );
 
--- 4. Datos de prueba
-INSERT INTO cupones (codigo, porcentaje, fecha_expiracion, uso_maximo) VALUES 
-('BIENVENIDA10', 10, '2026-12-31', 1000),
-('REVENTON100', 100, '2026-01-01', 1), -- Caso borde: Descuento total
-('MINI', 1, '2026-05-01', 5); -- Caso borde: Descuento mínimo
+CREATE TABLE cupones (
+    codigo VARCHAR(20) PRIMARY KEY,
+    porcentaje_dcto INTEGER CHECK (porcentaje_dcto <= 100),
+    activo BOOLEAN DEFAULT TRUE
+);
 
--- 5. Documentación: Gestiona códigos promocionales con límites de uso y tiempo.
+CREATE TABLE cupones_uso (
+    id SERIAL PRIMARY KEY,
+    cupon_codigo VARCHAR(20) REFERENCES cupones(codigo),
+    aplicado_a_sku VARCHAR(50) REFERENCES juegos_proyeccion(sku)
+);
+
+INSERT INTO juegos_proyeccion VALUES ('ELDER-001', 59.99);
+INSERT INTO cupones VALUES ('OFFER20', 20, TRUE);

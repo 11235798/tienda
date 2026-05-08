@@ -1,25 +1,28 @@
--- CADA BASE DE DATOS DE CADA MICROSERVICIO DEBE TENER SU PROPIO
--- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
+\c db_inventario
 
--- Conectarse a la base de datos específica para este microservicio
--- 1. Conexión
-\c inventario
-
--- 2. Eliminación
+DROP TABLE IF EXISTS movimientos;
 DROP TABLE IF EXISTS stock;
+DROP TABLE IF EXISTS juegos_proyeccion;
 
--- 3. Creación
-CREATE TABLE stock (
-    id_producto INT PRIMARY KEY,
-    cantidad INT NOT NULL CHECK (cantidad >= 0),
-    ubicacion_pasillo VARCHAR(50),
-    ultima_actualizacion TIMESTAMP DEFAULT NOW()
+-- Proyección necesaria para saber qué producto estamos inventariando
+CREATE TABLE juegos_proyeccion (
+    sku VARCHAR(50) PRIMARY KEY,
+    titulo VARCHAR(150)
 );
 
--- 4. Datos de prueba
-INSERT INTO stock (id_producto, cantidad, ubicacion_pasillo) VALUES 
-(1, 100, 'A-12'),
-(2, 0, 'B-05'), -- Caso borde: Sin stock
-(3, 9999, 'C-01'); -- Caso borde: Stock masivo
+CREATE TABLE stock (
+    juego_sku VARCHAR(50) PRIMARY KEY REFERENCES juegos_proyeccion(sku),
+    cantidad_disponible INTEGER NOT NULL DEFAULT 0,
+    ubicacion_bodega VARCHAR(50)
+);
 
--- 5. Documentación: Rastreo de unidades físicas por producto; impide stock negativo.
+CREATE TABLE movimientos (
+    id SERIAL PRIMARY KEY,
+    juego_sku VARCHAR(50) REFERENCES stock(juego_sku),
+    tipo_movimiento VARCHAR(10), -- 'IN', 'OUT'
+    cantidad INTEGER NOT NULL
+);
+
+-- Datos de prueba
+INSERT INTO juegos_proyeccion VALUES ('ELDER-001', 'Elden Ring');
+INSERT INTO stock VALUES ('ELDER-001', 50, 'Pasillo A-1');

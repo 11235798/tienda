@@ -1,23 +1,27 @@
--- 1. Conexión
-\c resenas
+\c db_resenas
 
--- 2. Eliminación
-DROP TABLE IF EXISTS opiniones;
+DROP TABLE IF EXISTS votos_resena;
+DROP TABLE IF EXISTS resenas;
+DROP TABLE IF EXISTS juegos_proyeccion;
 
--- 3. Creación
-CREATE TABLE opiniones (
-    id_opinion SERIAL PRIMARY KEY,
-    id_producto INT NOT NULL,
-    id_usuario INT NOT NULL,
-    calificacion INT CHECK (calificacion BETWEEN 1 AND 5),
-    comentario TEXT,
-    fecha TIMESTAMP DEFAULT NOW()
+CREATE TABLE juegos_proyeccion (
+    sku VARCHAR(50) PRIMARY KEY,
+    titulo VARCHAR(150)
 );
 
--- 4. Datos de prueba
-INSERT INTO opiniones (id_producto, id_usuario, calificacion, comentario) VALUES 
-(1, 1, 5, 'Excelente producto!'),
-(2, 2, 1, 'Llegó roto'), -- Caso borde: Calificación mínima
-(3, 3, 3, NULL); -- Caso borde: Calificación sin texto
+CREATE TABLE resenas (
+    id SERIAL PRIMARY KEY,
+    juego_sku VARCHAR(50) REFERENCES juegos_proyeccion(sku),
+    user_email VARCHAR(100),
+    puntos INTEGER CHECK (puntos BETWEEN 1 AND 5),
+    comentario TEXT
+);
 
--- 5. Documentación: Almacena feedback de clientes; califica de 1 a 5 estrellas.
+CREATE TABLE votos_resena (
+    id SERIAL PRIMARY KEY,
+    resena_id INTEGER REFERENCES resenas(id),
+    voto_util BOOLEAN -- TRUE = Útil, FALSE = No útil
+);
+
+INSERT INTO juegos_proyeccion VALUES ('ELDER-001', 'Elden Ring');
+INSERT INTO resenas (juego_sku, user_email, puntos, comentario) VALUES ('ELDER-001', 'gamer99@gmail.com', 5, 'Obra maestra');

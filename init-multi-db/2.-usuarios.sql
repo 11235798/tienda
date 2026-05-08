@@ -1,27 +1,30 @@
--- CADA BASE DE DATOS DE CADA MICROSERVICIO DEBE TENER SU PROPIO
--- SCRIPT DE CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
+\c db_usuarios
 
--- 1. Conexión
-\c usuarios
-
--- 2. Eliminación (Jerarquía inversa)
 DROP TABLE IF EXISTS perfiles;
-DROP TABLE IF EXISTS cuentas;
+DROP TABLE IF EXISTS usuarios;
 
--- 3. Creación con restricciones
-CREATE TABLE cuentas (
-    id_usuario SERIAL PRIMARY KEY,
-    email VARCHAR(255) UNIQUE NOT NULL CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
-    password_hash TEXT NOT NULL,
-    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- Tabla principal de usuarios
+CREATE TABLE usuarios (
+    email VARCHAR(100) PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    activo BOOLEAN DEFAULT TRUE
 );
 
-CREATE INDEX idx_email ON cuentas(email);
+-- Tabla de perfiles vinculada al usuario
+CREATE TABLE perfiles (
+    id SERIAL PRIMARY KEY,
+    user_email VARCHAR(100) REFERENCES usuarios(email) ON DELETE CASCADE,
+    nombre_completo VARCHAR(150),
+    pais VARCHAR(50),
+    suscripcion_tipo VARCHAR(20) -- 'BASIC', 'PREMIUM'
+);
 
--- 4. Datos de prueba
-INSERT INTO cuentas (email, password_hash) VALUES 
-('admin@tienda.com', 'hash_seguro_1'), -- Caso normal
-('usuario_borde@test.com', 'hash_seguro_2'),
-('t@t.co', 'hash_minimo'); -- Caso borde (email corto)
+-- Datos de prueba
+INSERT INTO usuarios (email, username, password_hash) VALUES 
+('admin@tienda.com', 'admin_boss', 'hash_123'),
+('gamer99@gmail.com', 'dark_knight', 'hash_456');
 
--- 5. Documentación: Almacena credenciales y asegura emails únicos y válidos.
+INSERT INTO perfiles (user_email, nombre_completo, pais, suscripcion_tipo) VALUES 
+('admin@tienda.com', 'System Admin', 'Chile', 'PREMIUM'),
+('gamer99@gmail.com', 'Juan Perez', 'Mexico', 'BASIC');

@@ -1,22 +1,25 @@
--- 1. Conexión
-\c notificaciones
+\c db_notificaciones
 
--- 2. Eliminación
-DROP TABLE IF EXISTS alertas;
+DROP TABLE IF EXISTS historial_notificaciones;
+DROP TABLE IF EXISTS plantillas;
+DROP TABLE IF EXISTS usuarios_proyeccion;
 
--- 3. Creación
-CREATE TABLE alertas (
-    id_alerta SERIAL PRIMARY KEY,
-    id_usuario INT NOT NULL,
-    mensaje TEXT NOT NULL,
-    leido BOOLEAN DEFAULT FALSE,
-    tipo VARCHAR(20) -- 'pago', 'envio', 'oferta'
+CREATE TABLE usuarios_proyeccion (
+    email VARCHAR(100) PRIMARY KEY,
+    username VARCHAR(50)
 );
 
--- 4. Datos de prueba
-INSERT INTO alertas (id_usuario, mensaje, tipo) VALUES 
-(1, 'Tu pedido ha sido enviado', 'envio'),
-(2, 'Tienes un cupón de 10% disponible', 'oferta'),
-(3, '', 'pago'); -- Caso borde: Mensaje vacío (error de sistema)
+CREATE TABLE plantillas (
+    evento VARCHAR(50) PRIMARY KEY, -- 'PEDIDO_CONFIRMADO', 'REGISTRO'
+    mensaje_template TEXT NOT NULL
+);
 
--- 5. Documentación: Historial de comunicaciones enviadas a los usuarios.
+CREATE TABLE historial_notificaciones (
+    id SERIAL PRIMARY KEY,
+    user_email VARCHAR(100) REFERENCES usuarios_proyeccion(email),
+    tipo VARCHAR(10), -- 'EMAIL', 'PUSH'
+    fecha_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO usuarios_proyeccion VALUES ('gamer99@gmail.com', 'dark_knight');
+INSERT INTO plantillas VALUES ('WELCOME', 'Hola {{username}}, bienvenido a la tienda.');
