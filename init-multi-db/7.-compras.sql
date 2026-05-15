@@ -25,3 +25,4 @@ CREATE TABLE ordenes_compra (
 
 INSERT INTO proveedores VALUES ('77-888-9', 'Sony Latam', 'ventas@sony.com');
 INSERT INTO juegos_proyeccion VALUES ('ELDER-001', 'Elden Ring');
+INSERT INTO ordenes_compra (proveedor_rut, juego_sku, costo_unitario, fecha_entrega) VALUES ('77-888-9', 'ELDER-001', 123.45, "2026-07-31") 
