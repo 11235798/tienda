@@ -17,8 +17,8 @@ CREATE TABLE proveedores (
 
 CREATE TABLE ordenes_compra (
     id              SERIAL      PRIMARY KEY,
-    proveedor_rut   VARCHAR(20) REFERENCES proveedores(rut) NOT NULL,
-    juego_sku       VARCHAR(50) REFERENCES juegos_proyeccion(sku) NOT NULL,
+    proveedor_rut   VARCHAR(20) REFERENCES proveedores(rut)         NOT NULL,
+    juego_sku       VARCHAR(50) REFERENCES juegos_proyeccion(sku)   NOT NULL,
     costo_unitario  INT         NOT NULL,
     fecha_entrega   DATE        NOT NULL
 );
