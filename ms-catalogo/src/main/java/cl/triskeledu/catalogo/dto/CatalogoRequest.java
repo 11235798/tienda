@@ -1,9 +1,16 @@
 package cl.triskeledu.catalogo.dto;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import cl.triskeledu.catalogo.model.EstadoProducto;
 public class CatalogoRequest {
 
 
@@ -27,6 +34,19 @@ public class CatalogoRequest {
     @PastOrPresent(message = "La fecha de modificación no puede ser una fecha futura")
     private LocalDateTime fchaModificacion;
 
-    // Getters y Setters
+    @NotBlank(message = "El SKU es obligatorio")
+    @Size(max = 50, message = "El SKU no puede exceder los 50 caracteres")
+    String sku;
+        @NotNull(message = "El precio es obligatorio")
+        @DecimalMin(value = "0.0", inclusive = false, message = "El precio debe ser mayor a 0")
+        @Digits(integer = 8, fraction = 2, message = "Formato de precio inválido")
+        BigDecimal precio;
+
+        @NotNull(message = "El estado es obligatorio")
+        EstadoProducto estado;
+
+        @NotNull(message = "El ID de la categoría es obligatorio")
+        @Positive(message = "El ID de la categoría debe ser un número positivo")
+        Long categoriaId;
 
 }
