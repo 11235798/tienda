@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS videojuego_descuento;
 DROP TABLE IF EXISTS videojuegos;
 DROP TABLE IF EXISTS campanas_descuento;
 
+<<<<<<< HEAD
 -- 2. TABLAS MAESTRAS
 CREATE TABLE campanas_descuento (
     id                  SERIAL       PRIMARY KEY,
@@ -62,3 +63,25 @@ INSERT INTO videojuego_descuento (videojuego_id, campana_id, estado) VALUES
 
 -- The Witcher 3 también entra en el fin de semana de publisher, pero la promo fue pausada
 (4, 3, 'Pausado');
+=======
+CREATE TABLE juegos_proyeccion (
+    sku         VARCHAR(50)     UNIQUE  PRIMARY KEY,
+    precio_base INT
+);
+
+CREATE TABLE cupones (
+    codigo          VARCHAR(20) UNIQUE  PRIMARY KEY,
+    porcentaje_dcto INTEGER     CHECK (porcentaje_dcto <= 100),
+    activo          BOOLEAN     DEFAULT TRUE
+);
+
+CREATE TABLE cupones_uso (
+    id              SERIAL      PRIMARY KEY,
+    cupon_codigo    VARCHAR(20) REFERENCES cupones(codigo),
+    aplicado_a_sku  VARCHAR(50) REFERENCES juegos_proyeccion(sku)
+);
+
+INSERT INTO juegos_proyeccion VALUES ('ELDER-001', 59000);
+INSERT INTO cupones VALUES ('OFFER20', 20, TRUE);
+INSERT INTO cupones_uso (cupon_codigo, aplicado_a_sku) VALUES ('OFFER20', 'ELDER-001')
+>>>>>>> 30f62b9e17859063129dfba81ce557c497c571e1
