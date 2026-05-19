@@ -1,4 +1,4 @@
-\c resenas;
+\c db_resenas;
 
 -- 1. ELIMINACIÓN EN JERARQUÍA INVERSA
 DROP TABLE IF EXISTS resenas;

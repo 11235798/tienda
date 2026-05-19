@@ -1,4 +1,4 @@
-\c compras;
+\c db_compras;
 
 -- 1. ELIMINACIÓN EN JERARQUÍA INVERSA
 DROP TABLE IF EXISTS detalle_compras;

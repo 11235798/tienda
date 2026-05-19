@@ -1,4 +1,4 @@
-\c usuarios;
+\c db_usuarios;
 
 -- 1. ELIMINACIÓN EN JERARQUÍA INVERSA
 DROP TABLE IF EXISTS usuario_logros;

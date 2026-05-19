@@ -1,4 +1,4 @@
-\c pagos;
+\c db_pagos;
 
 -- 1. ELIMINACIÓN EN JERARQUÍA INVERSA
 DROP TABLE IF EXISTS transacciones_pago;

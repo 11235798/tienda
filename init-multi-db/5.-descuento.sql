@@ -1,4 +1,4 @@
-\c descuentos;
+\c db_descuentos;
 
 -- 1. ELIMINACIÓN EN JERARQUÍA INVERSA
 DROP TABLE IF EXISTS videojuego_descuento;

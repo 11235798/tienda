@@ -1,4 +1,4 @@
-\c recomendaciones;
+\c db_recomendaciones;
 
 -- 1. ELIMINACIÓN EN JERARQUÍA INVERSA
 DROP TABLE IF EXISTS recomendaciones;

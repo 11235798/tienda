@@ -1,4 +1,4 @@
-\c inventario;
+\c db_inventario;
 
 -- 1. ELIMINACIÓN EN JERARQUÍA INVERSA
 DROP TABLE IF EXISTS inventario_bodegas;

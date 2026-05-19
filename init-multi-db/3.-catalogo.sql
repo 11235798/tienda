@@ -1,4 +1,4 @@
-\c catalogo;
+\c db_catalogo;
 
 -- 1. ELIMINACIÓN EN JERARQUÍA INVERSA
 DROP TABLE IF EXISTS videojuego_categoria;

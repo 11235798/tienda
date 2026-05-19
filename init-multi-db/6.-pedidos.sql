@@ -1,4 +1,4 @@
-\c pedidos;
+\c db_pedidos;
 
 -- 1. ELIMINACIÓN EN JERARQUÍA INVERSA
 DROP TABLE IF EXISTS lineas_pedido;
