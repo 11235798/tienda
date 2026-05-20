@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cl.triskeledu.resenas.dto.ResenasResponse;
-import cl.triskeledu.resenas.model.TipoReaccion;
 
 public class ResenasRepository {
 private List<ResenasResponse> resenas = new ArrayList<>();
@@ -40,13 +39,6 @@ private List<ResenasResponse> resenas = new ArrayList<>();
     public List<ResenasResponse> findByCalificacion(Integer calificacion) {
         return resenas.stream()
             .filter(o -> o.getCalificacion() != null && o.getCalificacion().equals(calificacion))
-            .toList();
-    }
-
-    // Buscar por tipo de reacción
-    public List<ResenasResponse> findByTipoReaccion(TipoReaccion tipoReaccion) {
-        return resenas.stream()
-            .filter(o -> o.getTipoReaccion() == tipoReaccion)
             .toList();
     }
 }

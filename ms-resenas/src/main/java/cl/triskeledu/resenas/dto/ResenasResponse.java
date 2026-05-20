@@ -1,8 +1,6 @@
 package cl.triskeledu.resenas.dto;
 
 import java.time.LocalDateTime;
-
-import cl.triskeledu.resenas.model.TipoReaccion;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,5 +23,4 @@ public class ResenasResponse {
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaModificacion;
     private String texto;
-    private TipoReaccion tipoReaccion;
 }
