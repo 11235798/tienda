@@ -41,7 +41,7 @@ INSERT INTO videojuegos (sku, titulo, desarrolladora, anio_lanzamiento, platafor
 ('VG-9002', 'Fortnite',                   'Epic Games',      2017, 'Multiplataforma'),
 ('VG-9003', 'Geometry Dash',              'RobTop Games',    2013, 'Móvil / PC'),
 ('VG-9004', 'Hungry Shark Evolution',     'Ubisoft',         2012, 'Móvil'),
-('VG-9005', 'Assassin''s Creed Valhalla', 'Ubisoft',         2020, 'Multiplataforma'),
+('VG-9005', "Assassin's Creed Valhalla", 'Ubisoft',         2020, 'Multiplataforma'),
 ('VG-9006', 'The Legend of Zelda: BOTW',  'Nintendo',        2017, 'Nintendo Switch'),
 ('VG-9007', 'EA Sports FC 24',            'Electronic Arts', 2023, 'Multiplataforma'),
 ('VG-9008', 'Minecraft',                  'Mojang',          2011, 'Multiplataforma'),
