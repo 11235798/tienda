@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class CategoriaCatResponse {
-    private Long idCategoria;
-    private String nombreCategoria;
+    private Long idCat;
+    private String nombreCat;
 }

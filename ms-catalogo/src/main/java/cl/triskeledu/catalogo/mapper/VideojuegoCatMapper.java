@@ -12,7 +12,8 @@ import cl.triskeledu.catalogo.model.VideojuegoCatalogo;
 
 @Mapper(componentModel = "spring")
 public interface VideojuegoCatMapper {
-    @Mapping(target = "idVideojuego", ignore = true)
+    @Mapping(target = "idVid", ignore = true)
+    @Mapping(target = "categorias", ignore = true)
     VideojuegoCatalogo toEntity(VideojuegoCatRequest request);
 
     VideojuegoCatResponse toResponse(VideojuegoCatalogo videojuego);
@@ -20,7 +21,8 @@ public interface VideojuegoCatMapper {
     List<VideojuegoCatResponse> toResponseList
         (List<VideojuegoCatalogo> videojuegos);
     
-        @Mapping(target = "idVideojuego", ignore = true)
+    @Mapping(target = "idVid", ignore = true)
+    @Mapping(target = "categorias", ignore = true)
     void updateEntity(VideojuegoCatRequest request,
         @MappingTarget VideojuegoCatalogo videojuegoCatalogo);
 }

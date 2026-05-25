@@ -4,10 +4,10 @@ import lombok.Data;
 
 @Data
 public class VideojuegoCatResponse {
-    private Long idVideojuego;
-    private String skuVideojuego;
-    private String tituloVideojuego;
-    private String desarrolladoraVideojuego;
-    private int anioLanzamientoVideojuego;
-    private String plataformaVideojuego;
+    private Long idVid;
+    private String skuVid;
+    private String tituloVid;
+    private String desarrolladoraVid;
+    private int anioLanzamientoVid;
+    private String plataformaVid;
 }

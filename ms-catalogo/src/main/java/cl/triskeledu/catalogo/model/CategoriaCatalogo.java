@@ -23,12 +23,12 @@ public class CategoriaCatalogo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long idCategoria;
+    private Long idCat;
 
     @Column(name = "nombre", length = 100, nullable = false)
-    private String nombreCategoria;
+    private String nombreCat;
 
     @Builder.Default
-    @ManyToMany(mappedBy = "categorias") 
+    @ManyToMany(mappedBy = "categorias")
     private List<VideojuegoCatalogo> videojuegos = new ArrayList<>();
 }

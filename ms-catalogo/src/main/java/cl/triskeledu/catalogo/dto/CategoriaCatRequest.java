@@ -9,5 +9,5 @@ public class CategoriaCatRequest {
     @NotBlank(message = "El nombre de la categoria es obligatorio")
     @Size(min = 1, max = 100,
         message = "El nombre de la categoria debe tener entre 1 y 100 caracteres")
-    private String nombreCategoria;
+    private String nombreCat;
 }
