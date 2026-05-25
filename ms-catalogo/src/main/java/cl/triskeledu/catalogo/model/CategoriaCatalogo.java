@@ -1,5 +1,8 @@
 package cl.triskeledu.catalogo.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,4 +27,8 @@ public class CategoriaCatalogo {
 
     @Column(name = "nombre", length = 100, nullable = false)
     private String nombreCategoria;
+
+    @Builder.Default
+    @ManyToMany(mappedBy = "categorias") 
+    private List<VideojuegoCatalogo> videojuegos = new ArrayList<>();
 }

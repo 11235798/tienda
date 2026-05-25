@@ -1,5 +1,8 @@
 package cl.triskeledu.catalogo.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -42,4 +45,13 @@ public class VideojuegoCatalogo {
     
     @Column(name = "plataforma", length = 150, nullable = false)
     private String plataformaVideojuego;
+
+    @Builder.Default
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+        name = "videojuego_categoria", 
+        joinColumns = @JoinColumn(name = "videojuego_id"),
+        inverseJoinColumns = @JoinColumn(name = "categoria_id")
+    )
+    private List<CategoriaCatalogo> categorias = new ArrayList<>();
 }
