@@ -3,42 +3,58 @@ package cl.triskeledu.resenas.repository;
 import java.util.ArrayList;
 import java.util.List;
 
-import cl.triskeledu.resenas.dto.ResenasResponse;
+import org.springframework.stereotype.Repository;
 
+import cl.triskeledu.resenas.dto.ResenaResponse;
+
+@Repository
 public class ResenasRepository {
-private List<ResenasResponse> resenas = new ArrayList<>();
-
-    // Obtener todos los registros
-    public List<ResenasResponse> findAll() {
-        return resenas;
+private List<ResenaResponse> resenas = new ArrayList<>();
+// Obtener todos los registros
+    public List<ResenaResponse> findAll() {
+        return List.copyOf(resenas);
     }
 
-    // Buscar por ID usando Streams de Java 8+
-    public ResenasResponse findById(Long id) {
-        return resenas.stream()
-            .filter(o -> o.getId().equals(id)) // Se usa .equals() para comparar objetos Long
+    // Buscar por ID
+    public ResenaResponse findById(Integer id) {
+    return resenas.stream()
+            .filter(o -> o.getId() == id)
             .findFirst()
             .orElse(null);
     }
 
-    // Buscar por ID del producto
-    public List<ResenasResponse> findByProductoId(Long productoId) {
+    // Buscar por Email del usuario
+    public List<ResenaResponse> findByUsuarioEmail(Long userEmail) {
         return resenas.stream()
-            .filter(o -> o.getProductoId() != null && o.getProductoId().equals(productoId))
+            .filter(o -> o.getUserEmail() != null && o.getUserEmail().equals(userEmail))
             .toList();
     }
 
-    // Buscar por ID del usuario
-    public List<ResenasResponse> findByUsuarioId(Long usuarioId) {
-        return resenas.stream()
-            .filter(o -> o.getUsuarioId() != null && o.getUsuarioId().equals(usuarioId))
-            .toList();
-    }
+    public ResenaResponse save(ResenaResponse resena) {
+        // CREAR
+        if (resena.getId() == 0) {
+            int lastId = resenas.size() + 1;
+            resena.setId(lastId);
+            resenas.add(resena);
+            return resena;
+        }
 
-    // Buscar por calificación (Ej: traer todas las reseñas de 5 estrellas)
-    public List<ResenasResponse> findByCalificacion(Integer calificacion) {
-        return resenas.stream()
-            .filter(o -> o.getCalificacion() != null && o.getCalificacion().equals(calificacion))
-            .toList();
+        // ACTUALIZAR
+        ResenaResponse resenaEncontrada = findById(resena.getId());
+
+        if (resenaEncontrada == null) {
+            return null;
+        }
+
+        resenaEncontrada.setUserEmail(resena.getUserEmail());
+        resenaEncontrada.setPuntos(resena.getPuntos());
+        resenaEncontrada.setVoto(resena.getVoto());
+        resenaEncontrada.setComentario(resena.getComentario());
+        resenaEncontrada.setTitulo(resena.getTitulo());
+
+        return resenaEncontrada;
+    }
+    public Boolean deleteById(Integer id) {
+        return resenas.removeIf(resena -> resena.getId() == id);
     }
 }

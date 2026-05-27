@@ -2,57 +2,66 @@ package cl.triskeledu.resenas.controller;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import cl.triskeledu.resenas.dto.ResenasResponse;
+import cl.triskeledu.resenas.dto.ResenaResponse;
 import cl.triskeledu.resenas.service.ResenasService;
-import lombok.RequiredArgsConstructor;
-
 
 @RestController
-@RequiredArgsConstructor
-@RequestMapping("/api/v1/Resenas")
+@RequestMapping("/api/v1/resenas")
 public class ResenasController {
-private final ResenasService resenasService;
-// Se marca como 'final' para garantizar que no cambie tras la creación
- // Obtener todas las compras
+
+    @Autowired
+    private ResenasService resenasService;
+
+    // Obtener todas las reseñas
     @GetMapping
-    public List<ResenasResponse> findAll() {
-        return resenasService.findAll();
+    public ResponseEntity<List<ResenaResponse>> findAll() {
+
+        return ResponseEntity.ok(resenasService.findAll());
     }
 
-    // Buscar por ID
+    // Obtener reseña por ID
     @GetMapping("/{id}")
-    public ResenasResponse findById(@PathVariable Long id) {
-        return resenasService.findById(id);
+    public ResponseEntity<ResenaResponse> findById(
+            @PathVariable Integer id
+    ) {
+
+        return ResponseEntity.ok(resenasService.findById(id));
     }
 
-    // Crear compra
+    // Buscar reseñas por email
+    @GetMapping("/{email}")
+    public ResponseEntity<List<ResenaResponse>> findByUsuarioEmail(
+            @PathVariable Long email
+    ) {
+
+        return ResponseEntity.ok(
+                resenasService.findByUsuarioEmail(email)
+        );
+    }
+
+    // Crear reseña
     @PostMapping
-    public ResenasResponse create(@RequestBody ResenasResponse resena) {
-        return resenasService.save(resena);
+    public ResponseEntity<ResenaResponse> save(
+            @RequestBody ResenaResponse resena
+    ) {
+
+        return ResponseEntity.ok(
+                resenasService.save(resena)
+        );
     }
 
-    // Actualizar compra
-    @PutMapping("/{id}")
-    public ResenasResponse update(
-            @PathVariable Long id,
-            @RequestBody ResenasResponse resena) {
-
-        resena.setId(id);
-        return resenasService.save(resena);
-    }
-
-    // Eliminar compra
+    // Eliminar reseña
     @DeleteMapping("/{id}")
-    public Boolean deleteById(@PathVariable Long id) {
-        return resenasService.deleteById(id);
+    public ResponseEntity<Boolean> deleteById(
+            @PathVariable Integer id
+    ) {
+
+        return ResponseEntity.ok(
+                resenasService.deleteById(id)
+        );
     }
 }

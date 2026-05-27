@@ -1,1 +1,2 @@
 reglas de negocio:
+usuario debe poder crear, editar y borrar reseñas
