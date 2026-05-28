@@ -38,8 +38,8 @@ public class CategoriaCatService {
         return categoriaMapper.toResponse(getCategoriaById(id));
     }
 
-    public CategoriaCatResponse findByNombre(String nombre) {
-        return categoriaMapper.toResponse(getCategoriaByNombre(nombre));
+    public CategoriaCatResponse findByNombreCat(String nombre) {
+        return categoriaMapper.toResponse(getCategoriaByNombreCat(nombre));
     }
 
     @Transactional
@@ -55,10 +55,10 @@ public class CategoriaCatService {
     }
 
     private void validateNombreUnico(String nombre) {
-        categoriaRep.findByNombre(nombre).ifPresent(l -> {
-            throw new DuplicateResourceException(
-            "Una categoria", "nombre", nombre, l.getIdCat());
-        });
+        // categoriaRep.findByNombreCat(nombre).ifPresent(l -> {
+        //     throw new DuplicateResourceException(
+        //     "Una categoria", "nombre", nombre, l.getIdCat());
+        // });
     }
 
     private CategoriaCatalogo getCategoriaById(long id) {
@@ -67,33 +67,26 @@ public class CategoriaCatService {
         //         "Categorias", "ID", id));  
     }
 
-    private VideojuegoCatalogo getCategoriaByNombre(String nombre) {
-//        return categoriaRep.findByNombre(nombre).orElseThrow(
+    private CategoriaCatalogo getCategoriaByNombreCat(String nombre) {
+//        return categoriaRep.findByNombreCat(nombre).orElseThrow(
 //            () -> new EntityNotFoundException(
 //            "Categorias", "nombre", id
 //        ));
     }
 
-    private boolean checkMismoNombre(Long id, String nombre) {
+    private boolean checkMismoNombreCat(Long id, String nombre) {
         CategoriaCatalogo categoria = getCategoriaById(id);
         return nombre.equalsIgnoreCase(categoria.getNombreCat());
     }
 
-    private CategoriaCatalogo getVideojuegoById(Long id) {
-//        return videojuegoRep.findById(id).orElseThrow(
-//            () -> new EntityNotFoundException(
-//            "Videojuegos", "ID", id
-//        ));
-    }
-
-    public boolean existsByNombre(String nombre) {
-        return categoriaRep.existsByNombre(nombre);
+    public boolean existsByNombreCat(String nombre) {
+        return categoriaRep.existsByNombreCat(nombre);
     }
 
     @Transactional
     public CategoriaCatResponse update(
     Long id, CategoriaCatRequest request) {
-        if (!checkMismoNombre(id, request.getNombreCat()))
+        if (!checkMismoNombreCat(id, request.getNombreCat()))
             validateNombreUnico(request.getNombreCat());
         CategoriaCatalogo categoria = new CategoriaCatalogo();
         categoriaMapper.updateEntity(request, categoria);

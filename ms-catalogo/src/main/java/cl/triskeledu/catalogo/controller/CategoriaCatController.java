@@ -40,8 +40,8 @@ public class CategoriaCatController {
 
     @GetMapping("/nombre/{nombre}")
     public ResponseEntity<CategoriaCatResponse>
-    findByNombre(@PathVariable String nombre) {
-        return ResponseEntity.ok(categoriaSer.findByNombre(nombre));
+    findByNombreCat(@PathVariable String nombre) {
+        return ResponseEntity.ok(categoriaSer.findByNombreCat(nombre));
     }
 
     @PostMapping
@@ -67,7 +67,7 @@ public class CategoriaCatController {
     
     @GetMapping("/existe/nombre/{nombre}")
     public ResponseEntity<Boolean>
-    existByIsbn(@PathVariable String nombre) {
-        return ResponseEntity.ok(categoriaSer.existsByNombre(nombre));
+    existByNombreCat(@PathVariable String nombre) {
+        return ResponseEntity.ok(categoriaSer.existsByNombreCat(nombre));
     }
 }
