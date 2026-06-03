@@ -28,7 +28,7 @@ import lombok.*;
 public class VideojuegoCategoriaCatalogo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long idVC;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

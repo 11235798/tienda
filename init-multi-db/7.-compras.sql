@@ -5,7 +5,6 @@ DROP TABLE IF EXISTS detalle_compras;
 DROP TABLE IF EXISTS videojuegos;
 DROP TABLE IF EXISTS clientes;
 
-<<<<<<< HEAD
 -- 2. TABLAS MAESTRAS
 CREATE TABLE clientes (
     id                SERIAL       PRIMARY KEY,
@@ -66,27 +65,3 @@ INSERT INTO detalle_compras (cliente_id, videojuego_id, cantidad, precio_histori
 
 -- Carlos volvió a comprar un juego que estaba en oferta en ese momento (precio histórico es menor al actual)
 (1, 5, 1, 1500);
-=======
-CREATE TABLE juegos_proyeccion (
-    sku     VARCHAR(50) UNIQUE  PRIMARY KEY,
-    titulo  VARCHAR(150)
-);
-
-CREATE TABLE proveedores (
-    rut             VARCHAR(20)     UNIQUE PRIMARY KEY,
-    razon_social    VARCHAR(150)    NOT NULL,
-    contacto        VARCHAR(100)
-);
-
-CREATE TABLE ordenes_compra (
-    id              SERIAL      PRIMARY KEY,
-    proveedor_rut   VARCHAR(20) REFERENCES proveedores(rut)         NOT NULL,
-    juego_sku       VARCHAR(50) REFERENCES juegos_proyeccion(sku)   NOT NULL,
-    costo_unitario  INT         NOT NULL,
-    fecha_entrega   DATE        NOT NULL
-);
-
-INSERT INTO proveedores VALUES ('77-888-9', 'Sony Latam', 'ventas@sony.com');
-INSERT INTO juegos_proyeccion VALUES ('ELDER-001', 'Elden Ring');
-INSERT INTO ordenes_compra (proveedor_rut, juego_sku, costo_unitario, fecha_entrega) VALUES ('77-888-9', 'ELDER-001', 60000, "2026-07-31") 
->>>>>>> 30f62b9e17859063129dfba81ce557c497c571e1

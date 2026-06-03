@@ -28,10 +28,10 @@ import lombok.*;
 public class VideojuegoCatalogo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long idVid;
     
-    @Column(name = "sku", length = 20, nullable = false)
+    @Column(name = "sku", length = 20, unique = true, nullable = false)
     private String skuVid;
     
     @Column(name = "titulo", length = 255, nullable = false)
