@@ -20,7 +20,7 @@ public class VideojuegoComRequest {
     @Size(min = 1, max = 50, message = "El formato debe tener entre 1 y 50 caracteres")
     @Pattern(
         regexp = "Físico|Digital",
-        message = 'El formato debe ser: "Físico" o "Digital"'
+        message = "El formato debe ser: 'Físico' o 'Digital'"
     )
     private String formato;
 

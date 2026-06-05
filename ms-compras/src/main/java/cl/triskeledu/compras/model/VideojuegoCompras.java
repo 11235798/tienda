@@ -3,9 +3,6 @@ package cl.triskeledu.compras.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(
     name = "videojuegos",
@@ -26,7 +23,7 @@ public class VideojuegoCompras {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "sku", length = 20, unique = true, nullabe = false)
+    @Column(name = "sku", length = 20, unique = true, nullable = false)
     private String sku;
 
     @Column(name = "titulo", length = 255, nullable = false)

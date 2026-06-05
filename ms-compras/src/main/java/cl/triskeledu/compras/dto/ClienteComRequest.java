@@ -1,5 +1,10 @@
 package cl.triskeledu.compras.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+
+@Data
 public class ClienteComRequest {
     @NotBlank(message = "El rut es obligatorio")
     @Size(min = 1, max = 15, message = "El rut debe tener entre 1 y 15 caracteres")

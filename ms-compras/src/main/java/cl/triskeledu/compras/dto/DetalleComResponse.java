@@ -1,5 +1,7 @@
 package cl.triskeledu.compras.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.Data;
 
 @Data
