@@ -8,7 +8,7 @@ import cl.triskeledu.compras.model.ClienteCompras;
 import java.util.Optional;
 
 @Repository
-public interface ClienteComRepository {
+public interface ClienteComRepository extends JpaRepository<ClienteCompras, Long>{
     Optional<ClienteCompras> findByRut(String rut);
 
     boolean existsByRut(String rut);

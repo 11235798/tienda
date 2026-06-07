@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import cl.triskeledu.compras.model.DetalleCompras;
 
-public interface DetalleComRepository {
+@Repository
+public interface DetalleComRepository extends JpaRepository<DetalleCompras, Long>{
 
 }

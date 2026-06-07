@@ -8,7 +8,7 @@ import cl.triskeledu.compras.model.VideojuegoCompras;
 import java.util.Optional;
 
 @Repository
-public interface VideojuegoComRepository {
+public interface VideojuegoComRepository extends JpaRepository<VideojuegoCompras, Long>{
     Optional<VideojuegoCompras> findBySku(String sku);
 
     boolean existsBySku(String sku);
