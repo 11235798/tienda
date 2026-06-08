@@ -1,7 +1,13 @@
 package cl.triskeledu.compras.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import cl.triskeledu.compras.dto.ClienteComResponse;
+import cl.triskeledu.compras.mapper.ClienteComMapper;
+import cl.triskeledu.compras.repository.ClienteComRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 // import java.util.ArrayList;
@@ -28,5 +34,16 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ClienteComService {
+    private final ClienteComRepository clienteRepository;
+    // private final RecursoFisicoRepository recursoFisicoRepository;
+    // private final CatalogoClient catalogoClient;
+    private final ClienteComMapper clienteMapper;
 
+    @Transactional
+    public List<ClienteComResponse> findAll() {
+        return clienteMapper.toResponseList(clienteRepository.findAll());
+    }
+
+    @Transactional
+    public void save()
 }
