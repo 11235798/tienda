@@ -1,17 +1,27 @@
 package cl.triskeledu.compras.service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import cl.triskeledu.compras.dto.DetalleComRequest;
+import cl.triskeledu.compras.dto.DetalleComResponse;
+import cl.triskeledu.compras.mapper.DetalleComMapper;
+import cl.triskeledu.compras.model.ClienteCompras;
+import cl.triskeledu.compras.model.DetalleCompras;
+import cl.triskeledu.compras.model.VideojuegoCompras;
+import cl.triskeledu.compras.repository.ClienteComRepository;
+import cl.triskeledu.compras.repository.DetalleComRepository;
+import cl.triskeledu.compras.repository.VideojuegoComRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 // import java.util.ArrayList;
-// import java.util.List;
-
-// import org.springframework.stereotype.Service;
 
 // import cl.triskeledu.catalogo.client.RecursoClient;
 // import cl.triskeledu.catalogo.dto.LibroRequest;
-// import cl.triskeledu.catalogo.dto.LibroResponse;
 // import cl.triskeledu.catalogo.event.LibroEventProducer;
 // import cl.triskeledu.common.event.LibroCreatedEvent;
 // import cl.triskeledu.common.event.LibroDeletedEvent;
@@ -21,12 +31,73 @@ import lombok.RequiredArgsConstructor;
 // import cl.triskeledu.catalogo.model.Categoria;
 // import cl.triskeledu.catalogo.model.Libro;
 // import cl.triskeledu.catalogo.repository.CategoriaRepository;
-// import cl.triskeledu.catalogo.repository.LibroRepository;
 // import jakarta.transaction.Transactional;
-// import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class DetalleComService {
+    private final DetalleComRepository detalleRepository;
+    private final DetalleComMapper detalleMapper;
+    private final VideojuegoComRepository videojuegoRepository;
+    private final ClienteComRepository clienteRepository;
 
+    public List<DetalleComResponse> findAll() {
+        return detalleMapper.toResponseList(detalleRepository.findAll());
+    }
+
+    public DetalleComResponse findById(Long id) {
+        return detalleMapper.toResponse(getDetalleById(id));
+    }
+
+    private DetalleCompras getDetalleById(Long id) {
+        return detalleRepository.findById(id)
+        /*.orElseThrow(() -> new EntityNotFoundException
+        ("Detalles Compra", "ID", id))*/;
+    }
+
+    public List<DetalleComResponse> findByClienteId(Long clienteId) {
+        return detalleMapper.toResponseList(detalleRepository.findByClienteId(clienteId));
+    }
+
+    public List<DetalleComResponse> findByVideojuegoSku(String videojuegoSku) {
+        return detalleMapper.toResponseList(detalleRepository.findByVideojuegoSku(videojuegoSku));
+    }
+
+    @Transactional
+    public DetalleComResponse create(DetalleComRequest request) {
+        /*if (!catalogoClient.existsByIsbn(request.getIsbn())) {
+            throw new EntityNotFoundException
+            ("Videojuegos en Catálogo", "Sku", request.getVideojuegoSku());
+        } */
+
+        String videojuegoSku = (request.getVideojuegoSku())
+        /*.orElseThrow(() -> new EntityNotFoundException(
+            "Videojuegos Compra", "Sku", request.getVideojuegoSku()
+        ))*/;
+
+        Long clienteId = (request.getClienteId())
+        /*.orElseThrow(() -> new EntityNotFoundException(
+            "Clientes Compra", "Id", request.getClienteId()
+        ))*/;
+
+        DetalleCompras detalle = new DetalleCompras();
+        detalleMapper.updateEntity(request, detalle);
+
+        detalle.setClienteId(clienteId);
+        detalle.setVideojuegoSku(videojuegoSku);
+        detalle.setCantidad(request.getCantidad());
+        detalle.setPrecioHistorico(request.getPrecioHistorico());
+        detalle.setFechaCompra(LocalDateTime.now());
+    }
+
+    @Transactional
+    public void deleteById(Long id) {
+        DetalleCompras detalle = getDetalleById(id);
+        List<String> tablasAsociadas = new ArrayList<>();
+        /*if (!recurso.getHistorial().isEmpty())      tablasAsociadas.add("Historial de eventos");
+        if (!recurso.getMantenimientos().isEmpty()) tablasAsociadas.add("Mantenimientos");
+        if (!tablasAsociadas.isEmpty())
+            throw new ReferentialIntegrityException("Recursos físicos", id, String.join(", ", tablasAsociadas)); */
+        detalleRepository.delete(detalle);
+    }
 }

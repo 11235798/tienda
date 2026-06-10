@@ -34,7 +34,7 @@ public class CategoriaCatService {
         return categoriaMapper.toResponseList(categoriaRep.findAll());
     }
 
-    public CategoriaCatResponse findById(long id) {
+    public CategoriaCatResponse findById(Long id) {
         return categoriaMapper.toResponse(getCategoriaById(id));
     }
 
@@ -61,7 +61,7 @@ public class CategoriaCatService {
         // });
     }
 
-    private CategoriaCatalogo getCategoriaById(long id) {
+    private CategoriaCatalogo getCategoriaById(Long id) {
         // return categoriaRep.findById(id).orElseThrow(
         //     () -> new EntityNotFoundException(
         //         "Categorias", "ID", id));  

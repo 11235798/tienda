@@ -31,10 +31,12 @@ public class VideojuegoComService {
     }
 
     @Transactional
-    public void save(String sku, String titulo) {
+    public void save(String sku, String titulo, String formato, int precioActual) {
         VideojuegoCompras videojuego = new VideojuegoCompras();
         videojuego.setSku(sku);
         videojuego.setTitulo(titulo);
+        videojuego.setFormato(formato);
+        videojuego.setPrecioActual(precioActual);
         videojuegoRepository.save(videojuego);
     }
 
