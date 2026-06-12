@@ -43,6 +43,19 @@ public class ClienteComService {
         clienteRepository.save(cliente);
     }
 
+    @Transactional
+    public ClienteComResponse update(Long id, ClienteComRequest request) {
+        ClienteCompras cliente = findById(id);
+
+        clienteMapper.updateEntity(request, detalle);
+        cliente.setRut(rut);
+        cliente.setNombre(nombre);
+        cliente.setEmail(email);
+
+        return clienteMapper.toResponse(clienteRepository.save(cliente));
+    }
+
+    @Transactional
     public void deleteByRut(String rut) {
         ClienteCompras cliente = findByRut(rut);
         List<String> tablasAsociadas = new ArrayList<>();
@@ -56,5 +69,14 @@ public class ClienteComService {
         return clienteRepository.findByRut(rut)
         /*.orElseThrow(() -> new EntityNotFoundException
         ("Cliente Compras", "Rut", rut))*/;
+    }
+
+    public ClienteComResponse findById(Long id) {
+        return clienteMapper.toResponse(getClienteById(id));
+    }
+
+    private ClienteCompras getClienteById(Long id) {
+        return clienteRepository.findById(id)
+    //  .orElseThrow(() -> new EntityNotFoundException("Clientes", "ID", id));
     }
 }

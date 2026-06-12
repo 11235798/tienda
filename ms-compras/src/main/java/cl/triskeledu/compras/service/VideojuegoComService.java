@@ -41,6 +41,19 @@ public class VideojuegoComService {
     }
 
     @Transactional
+    public VideojuegoComResponse update(Long id, VideojuegoComRequest request) {
+        VideojuegoCompras videojuego = findById(id);
+
+        videojuegoMapper.updateEntity(request, detalle);
+        videojuego.setSku(sku);
+        videojuego.setTitulo(titulo);
+        videojuego.setFormato(formato);
+        videojuego.setPrecioActual(precioActual);
+
+        return videojuegoMapper.toResponse(videojuegoRepository.save(videojuego));
+    }
+
+    @Transactional
     public void deleteBySku(String sku) {
         VideojuegoCompras videojuego = findBySku(sku);
         List<String> tablasAsociadas = new ArrayList<>();
@@ -54,5 +67,14 @@ public class VideojuegoComService {
         return videojuegoRepository.findBySku(sku)
         /*.orElseThrow(() -> new EntityNotFoundException
         ("Videojuego Compras", "Sku", sku))*/;
+    }
+
+    public VideojuegoComResponse findById(Long id) {
+        return videojuegoMapper.toResponse(getVideojuegoById(id));
+    }
+
+    private VideojuegoCompras getVideojuegoById(Long id) {
+        return videojuegoRepository.findById(id)
+    //  .orElseThrow(() -> new EntityNotFoundException("Videojuegos", "ID", id));
     }
 }

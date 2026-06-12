@@ -27,8 +27,4 @@ public class DetalleComRequest {
     @NotBlank(message = "El precio histórico es obligatorio")
     @Min(value = 0, message = "El precio histórico debe ser mayor o igual a 0")
     private int precioHistorico;//CHECK (precio_historico >= 0), -- Congela el precio al momento de comprar
-    
-    @NotBlank(message = "La fecha de compra es obligatoria")
-    // @Column(name = "fecha_compra", nullable = false)
-    private LocalDateTime fechaCompra;
 }

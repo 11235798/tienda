@@ -88,6 +88,31 @@ public class DetalleComService {
         detalle.setCantidad(request.getCantidad());
         detalle.setPrecioHistorico(request.getPrecioHistorico());
         detalle.setFechaCompra(LocalDateTime.now());
+
+        return detalleMapper.toResponse(detalleRepository.save(detalle));
+    }
+
+    @Transactional
+    public DetalleComResponse update(Long id, DetalleComRequest request) {
+        DetalleCompras detalle = getDetalleById(id);
+
+        String videojuegoSku = (request.getVideojuegoSku())
+        /*.orElseThrow(() -> new EntityNotFoundException(
+            "Videojuegos Compra", "Sku", request.getVideojuegoSku()
+        ))*/;
+
+        Long clienteId = (request.getClienteId())
+        /*.orElseThrow(() -> new EntityNotFoundException(
+            "Clientes Compra", "Id", request.getClienteId()
+        ))*/;
+
+        detalleMapper.updateEntity(request, detalle);
+        detalle.setClienteId(clienteId);
+        detalle.setVideojuegoSku(videojuegoSku);
+        detalle.setCantidad(request.getCantidad());
+        detalle.setPrecioHistorico(request.getPrecioHistorico());
+
+        return detalleMapper.toResponse(detalleRepository.save(detalle));
     }
 
     @Transactional
