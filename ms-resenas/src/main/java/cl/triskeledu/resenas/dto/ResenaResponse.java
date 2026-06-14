@@ -1,19 +1,23 @@
 package cl.triskeledu.resenas.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ResenaResponse {
 
     private Integer id;
-    private Long userEmail;
-    private Integer puntos;
+
+    private Integer videojuegoId;
+    private String videojuegoTitulo;
+
+    private Integer usuarioId;
+    private String usuarioNickname;
+
+    private Integer calificacion;
+
     private String comentario;
-    private Boolean voto;
-    private String titulo;
 }

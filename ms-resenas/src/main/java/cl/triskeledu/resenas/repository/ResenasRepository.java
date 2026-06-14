@@ -1,60 +1,21 @@
 package cl.triskeledu.resenas.repository;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import cl.triskeledu.resenas.dto.ResenaResponse;
+import cl.triskeledu.resenas.model.Resena;
 
-@Repository
-public class ResenasRepository {
-private List<ResenaResponse> resenas = new ArrayList<>();
-// Obtener todos los registros
-    public List<ResenaResponse> findAll() {
-        return List.copyOf(resenas);
-    }
+public interface ResenasRepository extends JpaRepository<Resena,Integer> {
+    // Buscar reseñas de un usuario
+    List<Resena> findByUsuarioId(Integer usuarioId);
 
-    // Buscar por ID
-    public ResenaResponse findById(Integer id) {
-    return resenas.stream()
-            .filter(o -> o.getId() == id)
-            .findFirst()
-            .orElse(null);
-    }
+    // Buscar reseñas de un videojuego
+    List<Resena> findByVideojuegoId(Integer videojuegoId);
 
-    // Buscar por Email del usuario
-    public List<ResenaResponse> findByUsuarioEmail(Long userEmail) {
-        return resenas.stream()
-            .filter(o -> o.getUserEmail() != null && o.getUserEmail().equals(userEmail))
-            .toList();
-    }
-
-    public ResenaResponse save(ResenaResponse resena) {
-        // CREAR
-        if (resena.getId() == 0) {
-            int lastId = resenas.size() + 1;
-            resena.setId(lastId);
-            resenas.add(resena);
-            return resena;
-        }
-
-        // ACTUALIZAR
-        ResenaResponse resenaEncontrada = findById(resena.getId());
-
-        if (resenaEncontrada == null) {
-            return null;
-        }
-
-        resenaEncontrada.setUserEmail(resena.getUserEmail());
-        resenaEncontrada.setPuntos(resena.getPuntos());
-        resenaEncontrada.setVoto(resena.getVoto());
-        resenaEncontrada.setComentario(resena.getComentario());
-        resenaEncontrada.setTitulo(resena.getTitulo());
-
-        return resenaEncontrada;
-    }
-    public Boolean deleteById(Integer id) {
-        return resenas.removeIf(resena -> resena.getId() == id);
-    }
+    // Buscar la reseña de un usuario para un videojuego
+    Optional<Resena> findByUsuarioIdAndVideojuegoId(
+            Integer usuarioId,
+            Integer videojuegoId);
 }

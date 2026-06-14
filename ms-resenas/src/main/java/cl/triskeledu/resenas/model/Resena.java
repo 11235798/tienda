@@ -1,13 +1,27 @@
 package cl.triskeledu.resenas.model;
 
-import jakarta.persistence.*;
-import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name = "resenas")
+@Table(
+    name = "resenas",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"videojuego_id", "usuario_id"})
+    }
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,30 +34,30 @@ public class Resena {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "juego_sku")
-    private JuegoProyeccion juego;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "videojuego_id", nullable = false)
+    private Videojuego videojuego;
 
-    @Column(name = "user_email", length = 100)
-    private String userEmail;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
 
-    @Column(name = "puntos")
-    private Integer puntos;
+    @Column(name = "calificacion", nullable = false)
+    private Integer calificacion;
 
-    @Lob
-    @Column(name = "comentario")
+    @Column(name = "comentario", columnDefinition = "TEXT")
     private String comentario;
-
-    @OneToMany(mappedBy = "resena", cascade = CascadeType.ALL, orphanRemoval = false)
-    @Builder.Default
-    private List<VotoResena> votos = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Resena)) return false;
-        Resena that = (Resena) o;
-        return id != null && id.equals(that.id);
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Resena)) {
+            return false;
+        }
+        Resena resena = (Resena) o;
+        return id != null && id.equals(resena.getId());
     }
 
     @Override
