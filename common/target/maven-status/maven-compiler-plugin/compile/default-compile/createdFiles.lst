@@ -1,0 +1,14 @@
+cl\triskeledu\common\event\LibroEvent.class
+cl\triskeledu\common\exception\EntityNotFoundException.class
+cl\triskeledu\common\event\LibroCreatedEvent$LibroCreatedEventBuilder.class
+cl\triskeledu\common\event\LibroCreatedEvent.class
+cl\triskeledu\common\exception\ApiError$ApiErrorBuilder.class
+cl\triskeledu\common\exception\DuplicateResourceException.class
+cl\triskeledu\common\event\LibroDeletedEvent$LibroDeletedEventBuilder.class
+cl\triskeledu\common\event\LibroUpdatedEvent$LibroUpdatedEventBuilder.class
+cl\triskeledu\common\exception\ApiError.class
+cl\triskeledu\common\exception\ReferentialIntegrityException.class
+cl\triskeledu\common\CommonAutoConfiguration.class
+cl\triskeledu\common\exception\GlobalExceptionHandler.class
+cl\triskeledu\common\event\LibroDeletedEvent.class
+cl\triskeledu\common\event\LibroUpdatedEvent.class
