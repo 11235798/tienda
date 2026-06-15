@@ -12,7 +12,7 @@ import cl.triskeledu.catalogo.model.CategoriaCatalogo;
 
 @Mapper(componentModel = "spring")
 public interface CategoriaCatMapper {
-    @Mapping(target = "idCat", ignore = true)
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "videojuegos", ignore = true)
     CategoriaCatalogo toEntity(CategoriaCatRequest request);
 
@@ -21,7 +21,7 @@ public interface CategoriaCatMapper {
     List<CategoriaCatResponse> toResponseList
     (List<CategoriaCatalogo> categorias);
 
-    @Mapping(target = "idCat", ignore = true)
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "videojuegos", ignore = true)
     void updateEntity(CategoriaCatRequest request,
         @MappingTarget CategoriaCatalogo categoriaCatalogo);

@@ -8,12 +8,13 @@ import org.springframework.stereotype.Service;
 import cl.triskeledu.compras.dto.VideojuegoComResponse;
 import cl.triskeledu.compras.mapper.VideojuegoComMapper;
 import cl.triskeledu.compras.model.VideojuegoCompras;
+import cl.triskeledu.compras.repository.DetalleComRepository;
 import cl.triskeledu.compras.repository.VideojuegoComRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
-// import cl.triskeledu.common.exception.EntityNotFoundException;
-// import cl.triskeledu.common.exception.ReferentialIntegrityException;
+import cl.triskeledu.common.exception.EntityNotFoundException;
+import cl.triskeledu.common.exception.ReferentialIntegrityException;
 // import cl.triskeledu.recursos.repository.RecursoFisicoRepository;
 // import cl.triskeledu.recursos.client.CatalogoClient;
 
@@ -21,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class VideojuegoComService {
     private final VideojuegoComRepository videojuegoRepository;
-    // private final RecursoFisicoRepository recursoFisicoRepository;
+    private final DetalleComRepository detalleRepository;
     // private final CatalogoClient catalogoClient;
     private final VideojuegoComMapper videojuegoMapper;
 
@@ -41,40 +42,23 @@ public class VideojuegoComService {
     }
 
     @Transactional
-    public VideojuegoComResponse update(Long id, VideojuegoComRequest request) {
-        VideojuegoCompras videojuego = findById(id);
-
-        videojuegoMapper.updateEntity(request, detalle);
-        videojuego.setSku(sku);
-        videojuego.setTitulo(titulo);
-        videojuego.setFormato(formato);
-        videojuego.setPrecioActual(precioActual);
-
-        return videojuegoMapper.toResponse(videojuegoRepository.save(videojuego));
-    }
-
-    @Transactional
     public void deleteBySku(String sku) {
         VideojuegoCompras videojuego = findBySku(sku);
         List<String> tablasAsociadas = new ArrayList<>();
-        /*if (!recursoFisicoRepository.existsByLibroIsbn(libroProyeccion.getIsbn())) tablasAsociadas.add("Recursos Físicos");
-        if (catalogoClient.existsByIsbn(libroProyeccion.getIsbn())) tablasAsociadas.add("Libros en Catálogo");
-        if (!tablasAsociadas.isEmpty()) throw new ReferentialIntegrityException("Libro Proyección", isbn, String.join(", ", tablasAsociadas));*/
+        if (!detalleRepository.existsByVideojuegoSku(videojuego.getSku())) tablasAsociadas.add("Detalle Compras");
+        /*if (catalogoClient.existsByIsbn(libroProyeccion.getIsbn())) tablasAsociadas.add("Videojuegos en Catálogo");*/
+        if (!tablasAsociadas.isEmpty()) throw new ReferentialIntegrityException("Videojuego Compras", sku, String.join(", ", tablasAsociadas));
         videojuegoRepository.delete(videojuego);
     }
 
     public VideojuegoCompras findBySku(String sku) {
         return videojuegoRepository.findBySku(sku)
-        /*.orElseThrow(() -> new EntityNotFoundException
-        ("Videojuego Compras", "Sku", sku))*/;
+        .orElseThrow(() -> new EntityNotFoundException
+        ("Videojuego Compras", "Sku", sku));
     }
 
-    public VideojuegoComResponse findById(Long id) {
-        return videojuegoMapper.toResponse(getVideojuegoById(id));
-    }
-
-    private VideojuegoCompras getVideojuegoById(Long id) {
+    public VideojuegoCompras findById(Long id) {
         return videojuegoRepository.findById(id)
-    //  .orElseThrow(() -> new EntityNotFoundException("Videojuegos", "ID", id));
+        .orElseThrow(() -> new EntityNotFoundException("Videojuego Compras", "id", id));
     }
 }

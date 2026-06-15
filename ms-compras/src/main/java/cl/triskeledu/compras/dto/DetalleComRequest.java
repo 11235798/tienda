@@ -1,7 +1,5 @@
 package cl.triskeledu.compras.dto;
 
-import java.time.LocalDateTime;
-
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

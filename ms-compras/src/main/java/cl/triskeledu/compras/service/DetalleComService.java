@@ -18,15 +18,13 @@ import cl.triskeledu.compras.repository.VideojuegoComRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
-// import java.util.ArrayList;
-
 // import cl.triskeledu.catalogo.client.RecursoClient;
 // import cl.triskeledu.catalogo.dto.LibroRequest;
 // import cl.triskeledu.catalogo.event.LibroEventProducer;
 // import cl.triskeledu.common.event.LibroCreatedEvent;
 // import cl.triskeledu.common.event.LibroDeletedEvent;
 // import cl.triskeledu.common.event.LibroUpdatedEvent;
-// import cl.triskeledu.common.exception.*;
+import cl.triskeledu.common.exception.*;
 // import cl.triskeledu.catalogo.mapper.LibroMapper;
 // import cl.triskeledu.catalogo.model.Categoria;
 // import cl.triskeledu.catalogo.model.Libro;
@@ -51,34 +49,44 @@ public class DetalleComService {
 
     private DetalleCompras getDetalleById(Long id) {
         return detalleRepository.findById(id)
-        /*.orElseThrow(() -> new EntityNotFoundException
-        ("Detalles Compra", "ID", id))*/;
+        .orElseThrow(() -> new EntityNotFoundException
+        ("Detalles Compra", "ID", id));
     }
 
     public List<DetalleComResponse> findByClienteId(Long clienteId) {
-        return detalleMapper.toResponseList(detalleRepository.findByClienteId(clienteId));
+        return detalleMapper.toResponseList
+        (detalleRepository.findByClienteId(clienteId));
     }
 
     public List<DetalleComResponse> findByVideojuegoSku(String videojuegoSku) {
-        return detalleMapper.toResponseList(detalleRepository.findByVideojuegoSku(videojuegoSku));
+        return detalleMapper.toResponseList
+        (detalleRepository.findByVideojuegoSku(videojuegoSku));
+    }
+
+    private void validateSkuUnico(String sku) {
+        detalleRepository.findByVideojuegoSku(sku).ifPresent(r -> {
+            throw new DuplicateResourceException
+            ("Un detalle compras", "SKU", sku);
+        });
     }
 
     @Transactional
     public DetalleComResponse create(DetalleComRequest request) {
+        validateSkuUnico(request.getVideojuegoSku());
         /*if (!catalogoClient.existsByIsbn(request.getIsbn())) {
             throw new EntityNotFoundException
             ("Videojuegos en Catálogo", "Sku", request.getVideojuegoSku());
         } */
 
         String videojuegoSku = (request.getVideojuegoSku())
-        /*.orElseThrow(() -> new EntityNotFoundException(
-            "Videojuegos Compra", "Sku", request.getVideojuegoSku()
-        ))*/;
+        .orElseThrow(() -> new EntityNotFoundException(
+            "Videojuegos Compra", "Sku", request.GetVideojuegoSku()
+        ));
 
         Long clienteId = (request.getClienteId())
-        /*.orElseThrow(() -> new EntityNotFoundException(
+        .orElseThrow(() -> new EntityNotFoundException(
             "Clientes Compra", "Id", request.getClienteId()
-        ))*/;
+        ));
 
         DetalleCompras detalle = new DetalleCompras();
         detalleMapper.updateEntity(request, detalle);
@@ -97,14 +105,14 @@ public class DetalleComService {
         DetalleCompras detalle = getDetalleById(id);
 
         String videojuegoSku = (request.getVideojuegoSku())
-        /*.orElseThrow(() -> new EntityNotFoundException(
+        .orElseThrow(() -> new EntityNotFoundException(
             "Videojuegos Compra", "Sku", request.getVideojuegoSku()
-        ))*/;
+        ));
 
         Long clienteId = (request.getClienteId())
-        /*.orElseThrow(() -> new EntityNotFoundException(
+        .orElseThrow(() -> new EntityNotFoundException(
             "Clientes Compra", "Id", request.getClienteId()
-        ))*/;
+        ));
 
         detalleMapper.updateEntity(request, detalle);
         detalle.setClienteId(clienteId);
@@ -118,11 +126,6 @@ public class DetalleComService {
     @Transactional
     public void deleteById(Long id) {
         DetalleCompras detalle = getDetalleById(id);
-        List<String> tablasAsociadas = new ArrayList<>();
-        /*if (!recurso.getHistorial().isEmpty())      tablasAsociadas.add("Historial de eventos");
-        if (!recurso.getMantenimientos().isEmpty()) tablasAsociadas.add("Mantenimientos");
-        if (!tablasAsociadas.isEmpty())
-            throw new ReferentialIntegrityException("Recursos físicos", id, String.join(", ", tablasAsociadas)); */
         detalleRepository.delete(detalle);
     }
 }

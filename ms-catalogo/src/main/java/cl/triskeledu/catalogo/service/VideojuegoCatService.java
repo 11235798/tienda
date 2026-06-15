@@ -12,7 +12,7 @@ import cl.triskeledu.catalogo.dto.VideojuegoCatResponse;
 // import cl.triskeledu.common.event.VideojuegoCreatedEvent;
 // import cl.triskeledu.common.event.VideojuegoDeletedEvent;
 // import cl.triskeledu.common.event.VideojuegoUpdatedEvent;
-// import cl.triskeledu.common.exception.*;
+import cl.triskeledu.common.exception.*;
 import cl.triskeledu.catalogo.mapper.VideojuegoCatMapper;
 import cl.triskeledu.catalogo.model.CategoriaCatalogo;
 import cl.triskeledu.catalogo.model.VideojuegoCatalogo;
@@ -44,10 +44,10 @@ public class VideojuegoCatService {
 
     @Transactional
     public VideojuegoCatResponse create(VideojuegoCatRequest request) {
-//        validateSkuUnico(request.getIsbn());
+        validateSkuUnico(request.getSkuVid());
         VideojuegoCatalogo videojuego = new VideojuegoCatalogo();
         videojuegoMapper.updateEntity(request, videojuego);
-//        VideojuegoCatRepository.save(videojuego);
+        videojuegoRep.save(videojuego);
 //        VideojuegoCreatedEvent event =
 //            new VideojuegoCreatedEvent(videojuego.getSku(),
 //            videojuego.getTitulo());
@@ -56,24 +56,24 @@ public class VideojuegoCatService {
     }
 
     private void validateSkuUnico(String sku) {
-//        videojuegoRep.findBySku(sku).ifPresent(l -> {
-//            throw new DuplicateResourceException(
-//                "Un videojuego", "sku", sku, l.getTituloVid()
-//            );
-//        });
+        videojuegoRep.findBySku(sku).ifPresent(l -> {
+            throw new DuplicateResourceException(
+                "Un videojuego", "sku", sku, l.getTituloVid()
+            );
+        });
     }
 
     private VideojuegoCatalogo getVideojuegoById(Long id) {
-//        return videojuegoRep.findById(id).orElseThrow(
-//            () -> new EntityNotFoundException(
-//            "Videojuegos", "ID", id));
+        return videojuegoRep.findById(id).orElseThrow(
+            () -> new EntityNotFoundException(
+            "Videojuegos", "ID", id));
     }
 
     private VideojuegoCatalogo getVideojuegoBySku(String sku) {
-//        return videojuegoRep.findBySku(sku).orElseThrow(
-//            () -> new EntityNotFoundException(
-//            "Videojuegos", "sku", id
-//        ));
+        return videojuegoRep.findBySku(sku).orElseThrow(
+            () -> new EntityNotFoundException(
+            "Videojuegos", "sku", sku
+        ));
     }
 
     private boolean checkMismoSku(Long id, String sku) {
@@ -82,10 +82,10 @@ public class VideojuegoCatService {
     }
 
     private CategoriaCatalogo getCategoriaById(Long id) {
-//        return categoriaRep.findById(id).orElseThrow(
-//            () -> new EntityNotFoundException(
-//            "Categorias", "ID", id
-//        ));
+        return categoriaRep.findById(id).orElseThrow(
+            () -> new EntityNotFoundException(
+            "Categorias", "ID", id
+        ));
     }
 
     public boolean existsBySku(String sku) {
@@ -115,10 +115,10 @@ public class VideojuegoCatService {
         if (!videojuego.getCategorias().isEmpty())
             tablasAsociadas.add("Categorias");
         // if (recursoClient.existsBySku(videojuego.getSkuVid()))
-            // tablasAsociadas.add("Recursos Fisicos")
-        // if (!tablasAsociadas.isEmpty())
-        //     throw new ReferentialIntegrityException(
-        // "Videojuegos", id, String.join(", ", tablasAsociadas));
+        //     tablasAsociadas.add("Recursos Fisicos")
+        if (!tablasAsociadas.isEmpty())
+            throw new ReferentialIntegrityException(
+        "Videojuegos", id, String.join(", ", tablasAsociadas));
         videojuegoRep.delete(videojuego);
         // VideojuegoDeletedEvent event =
         // new VideojuegoDeletedEvent(videojuego.getSkuVid());

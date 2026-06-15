@@ -12,19 +12,16 @@ import cl.triskeledu.catalogo.dto.CategoriaCatResponse;
 // import cl.triskeledu.common.event.CategoriaCreatedEvent;
 // import cl.triskeledu.common.event.CategoriaDeletedEvent;
 // import cl.triskeledu.common.event.CategoriaUpdatedEvent;
-// import cl.triskeledu.common.exception.*;
+import cl.triskeledu.common.exception.*;
 import cl.triskeledu.catalogo.mapper.CategoriaCatMapper;
 import cl.triskeledu.catalogo.model.CategoriaCatalogo;
-import cl.triskeledu.catalogo.model.VideojuegoCatalogo;
 import cl.triskeledu.catalogo.repository.CategoriaCatRepository;
-import cl.triskeledu.catalogo.repository.VideojuegoCatRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class CategoriaCatService {
-    private final VideojuegoCatRepository videojuegoRep;
     private final CategoriaCatRepository categoriaRep;
     private final CategoriaCatMapper categoriaMapper;
     // private final CategoriaCatEventProducer categoriaEventProducer;
@@ -55,23 +52,25 @@ public class CategoriaCatService {
     }
 
     private void validateNombreUnico(String nombre) {
-        // categoriaRep.findByNombreCat(nombre).ifPresent(l -> {
-        //     throw new DuplicateResourceException(
-        //     "Una categoria", "nombre", nombre, l.getIdCat());
-        // });
+        categoriaRep.findByNombreCat(nombre).ifPresent(l -> {
+            throw new DuplicateResourceException(
+                "Una categoría", "nombre", nombre, l.getNombreCat()
+            );
+        });
     }
 
     private CategoriaCatalogo getCategoriaById(Long id) {
-        // return categoriaRep.findById(id).orElseThrow(
-        //     () -> new EntityNotFoundException(
-        //         "Categorias", "ID", id));  
+        return categoriaRep.findById(id).orElseThrow(
+            () -> new EntityNotFoundException(
+                "Categorias", "ID", id
+        ));  
     }
 
     private CategoriaCatalogo getCategoriaByNombreCat(String nombre) {
-//        return categoriaRep.findByNombreCat(nombre).orElseThrow(
-//            () -> new EntityNotFoundException(
-//            "Categorias", "nombre", id
-//        ));
+        return categoriaRep.findByNombreCat(nombre).orElseThrow(
+            () -> new EntityNotFoundException(
+            "Categorias", "nombre", nombre
+        ));
     }
 
     private boolean checkMismoNombreCat(Long id, String nombre) {
@@ -102,16 +101,12 @@ public class CategoriaCatService {
     @Transactional
     public void deleteById(Long id) {
         CategoriaCatalogo categoria = getCategoriaById(id);
-        // ¿
-        // List<String> tablasAsociadas = new ArrayList<>();
-        // if (!videojuego.getCategorias().isEmpty())
-        //     tablasAsociadas.add("Categorias");
+        List<String> tablasAsociadas = new ArrayList<>();
         // if (recursoClient.existsByName(categoria.getNombreCat()))
         // tablasAsociadas.add("Recursos Fisicos")
-        // if (!tablasAsociadas.isEmpty())
-        //     throw new ReferentialIntegrityException(
-        // "Categorias", id, String.join(", ", tablasAsociadas));
-        // ?
+        if (!tablasAsociadas.isEmpty())
+            throw new ReferentialIntegrityException(
+        "Categorias", id, String.join(", ", tablasAsociadas));
         categoriaRep.delete(categoria);
         // ¿
         // CategoriaDeletedEvent event =
