@@ -9,21 +9,14 @@ import cl.triskeledu.resenas.model.Resena;
 public class ResenaMapper {
 
     public ResenaResponse toResponse(Resena resena) {
-
-        if (resena == null) {
-            return null;
-        }
-
-        return new ResenaResponse(
-                resena.getId(),
-
-                resena.getVideojuego().getId(),
-                resena.getVideojuego().getTitulo(),
-
-                resena.getUsuario().getId(),
-                resena.getUsuario().getNickname(),
-
-                resena.getCalificacion(),
-                resena.getComentario());
+        return ResenaResponse.builder()
+                .id(resena.getId())
+                .usuarioId(resena.getUsuario().getId())
+                .usuarioNickname(resena.getUsuario().getNickname())
+                .videojuegoId(resena.getVideojuego().getId())
+                .videojuegoTitulo(resena.getVideojuego().getTitulo())
+                .calificacion(resena.getCalificacion())
+                .comentario(resena.getComentario())
+                .build();
     }
 }
