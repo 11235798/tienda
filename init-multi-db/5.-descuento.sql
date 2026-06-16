@@ -5,31 +5,30 @@ DROP TABLE IF EXISTS videojuego_descuento;
 DROP TABLE IF EXISTS videojuegos;
 DROP TABLE IF EXISTS campanas_descuento;
 
-<<<<<<< HEAD
 -- 2. TABLAS MAESTRAS
 CREATE TABLE campanas_descuento (
-    id                  SERIAL       PRIMARY KEY,
-    codigo_promocion    VARCHAR(50)  UNIQUE NOT NULL,
-    nombre_campana      VARCHAR(100) NOT NULL,
-    porcentaje_rebaja   INT          NOT NULL CHECK (porcentaje_rebaja > 0 AND porcentaje_rebaja <= 100),
-    fecha_inicio        TIMESTAMP    NOT NULL,
-    fecha_fin           TIMESTAMP    NOT NULL,
+    id                  SERIAL          PRIMARY KEY,
+    codigo_promocion    VARCHAR(50)     UNIQUE NOT NULL,
+    nombre_campana      VARCHAR(100)    NOT NULL,
+    porcentaje_rebaja   INT             NOT NULL CHECK (porcentaje_rebaja > 0 AND porcentaje_rebaja <= 100),
+    fecha_inicio        TIMESTAMP       NOT NULL,
+    fecha_fin           TIMESTAMP       NOT NULL,
     CHECK (fecha_fin > fecha_inicio)
 );
 
 CREATE TABLE videojuegos (
-    id                  SERIAL       PRIMARY KEY,
-    sku                 VARCHAR(20)  UNIQUE NOT NULL,
-    titulo              VARCHAR(255) NOT NULL,
-    precio_base         INT          NOT NULL CHECK (precio_base >= 0)
+    id          SERIAL       PRIMARY KEY,
+    sku         VARCHAR(20)  UNIQUE NOT NULL,
+    titulo      VARCHAR(255) NOT NULL,
+    precio_base INT          NOT NULL CHECK (precio_base >= 0)
 );
 
 -- 3. TABLA INTERMEDIA (ASIGNACIÓN DE PROMOCIONES)
 CREATE TABLE videojuego_descuento (
-    id                  SERIAL       PRIMARY KEY,
-    videojuego_id       INT          NOT NULL REFERENCES videojuegos(id) ON DELETE CASCADE,
-    campana_id          INT          NOT NULL REFERENCES campanas_descuento(id) ON DELETE CASCADE,
-    estado              VARCHAR(20)  DEFAULT 'Activo' CHECK (estado IN ('Activo', 'Pausado')),
+    id              SERIAL      PRIMARY KEY,
+    videojuego_id   INT         NOT NULL REFERENCES videojuegos(id) ON DELETE CASCADE,
+    campana_id      INT         NOT NULL REFERENCES campanas_descuento(id) ON DELETE CASCADE,
+    estado          VARCHAR(20) DEFAULT 'Activo' CHECK (estado IN ('Activo', 'Pausado')),
     UNIQUE (videojuego_id, campana_id) -- Regla: Un juego no puede estar dos veces en la misma campaña
 );
 
@@ -40,8 +39,8 @@ CREATE INDEX idx_descuentos_campana ON videojuego_descuento(campana_id);
 
 -- 5. DATOS DE PRUEBA
 INSERT INTO campanas_descuento (codigo_promocion, nombre_campana, porcentaje_rebaja, fecha_inicio, fecha_fin) VALUES
-('SUMMER2026',  'Ofertas de Verano',         50, '2026-01-01 00:00:00', '2026-02-28 23:59:59'),
-('HALLOWEEN26', 'Especial de Terror',        30, '2026-10-25 00:00:00', '2026-11-02 23:59:59'),
+('SUMMER2026',  'Ofertas de Verano',          50, '2026-01-01 00:00:00', '2026-02-28 23:59:59'),
+('HALLOWEEN26', 'Especial de Terror',         30, '2026-10-25 00:00:00', '2026-11-02 23:59:59'),
 ('WEEKEND-PUB', 'Fin de Semana de Publisher', 15, '2026-05-15 00:00:00', '2026-05-18 23:59:59');
 
 INSERT INTO videojuegos (sku, titulo, precio_base) VALUES
@@ -63,25 +62,3 @@ INSERT INTO videojuego_descuento (videojuego_id, campana_id, estado) VALUES
 
 -- The Witcher 3 también entra en el fin de semana de publisher, pero la promo fue pausada
 (4, 3, 'Pausado');
-=======
-CREATE TABLE juegos_proyeccion (
-    sku         VARCHAR(50)     UNIQUE  PRIMARY KEY,
-    precio_base INT
-);
-
-CREATE TABLE cupones (
-    codigo          VARCHAR(20) UNIQUE  PRIMARY KEY,
-    porcentaje_dcto INTEGER     CHECK (porcentaje_dcto <= 100),
-    activo          BOOLEAN     DEFAULT TRUE
-);
-
-CREATE TABLE cupones_uso (
-    id              SERIAL      PRIMARY KEY,
-    cupon_codigo    VARCHAR(20) REFERENCES cupones(codigo),
-    aplicado_a_sku  VARCHAR(50) REFERENCES juegos_proyeccion(sku)
-);
-
-INSERT INTO juegos_proyeccion VALUES ('ELDER-001', 59000);
-INSERT INTO cupones VALUES ('OFFER20', 20, TRUE);
-INSERT INTO cupones_uso (cupon_codigo, aplicado_a_sku) VALUES ('OFFER20', 'ELDER-001')
->>>>>>> 30f62b9e17859063129dfba81ce557c497c571e1
