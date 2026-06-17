@@ -27,11 +27,11 @@ public class DetalleCompras {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "cliente_id", nullable = false)
-    private Long clienteId;
+    private ClienteCompras clienteId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "videojuego_sku", nullable = false)
-    private String videojuegoSku;
+    private VideojuegoCompras videojuegoSku;
 
     @Column(name = "cantidad", nullable = false)
     private int cantidad;//CHECK (cantidad > 0),

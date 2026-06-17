@@ -33,7 +33,7 @@ CREATE TABLE videojuego_descuento (
 );
 
 -- 4. ÍNDICES DE RENDIMIENTO (Claves para calcular precios en tiempo real)
-CREATE INDEX idx_campanas_fechas ON campanas_descuento(fecha_inicio, fecha_fin);
+CREATE INDEX idx_campanas_fecha_inicio ON campanas_descuento(fecha_inicio);
 CREATE INDEX idx_descuentos_videojuego ON videojuego_descuento(videojuego_id);
 CREATE INDEX idx_descuentos_campana ON videojuego_descuento(campana_id);
 
