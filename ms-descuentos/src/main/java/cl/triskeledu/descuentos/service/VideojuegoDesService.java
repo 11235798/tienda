@@ -37,26 +37,31 @@ public class VideojuegoDesService {
         return vidDesMapper.toResponse(getVideojuegoDesById(id));
     }
 
-    private VideojuegoDescuento getVideojuegoDesByVidId(Long id) {
+    private List<VideojuegoDescuento> getVideojuegoDesByVidId(Long id) {
         return vidDesRepository.findByVideojuegoId(id)
         .orElseThrow(() -> new EntityNotFoundException("Videojuego Descuento", "id", id));
     }
 
-    public VideojuegoDesResponse findByVideojuegoId(Long id) {
-        return vidDesMapper.toResponse(getVideojuegoDesByVidId(id));
+    public List<VideojuegoDesResponse> findByVideojuegoId(Long id) {
+        return vidDesMapper.toResponseList(getVideojuegoDesByVidId(id));
     }
 
-    private VideojuegoDescuento getVideojuegoDesByCamId(Long id) {
+    private List<VideojuegoDescuento> getVideojuegoDesByCamId(Long id) {
         return vidDesRepository.findByCampanaId(id)
         .orElseThrow(() -> new EntityNotFoundException("Videojuego Descuento", "id", id));
     }
 
-    public VideojuegoDesResponse findByCampanaId(Long id) {
-        return vidDesMapper.toResponse(getVideojuegoDesByCamId(id));
+    public List<VideojuegoDesResponse> findByCampanaId(Long id) {
+        return vidDesMapper.toResponseList(getVideojuegoDesByCamId(id));
+    }
+
+    private List<VideojuegoDescuento> getVideojuegoDesByEstado(String estado) {
+        return vidDesRepository.findByEstado(estado)
+        .orElseThrow(() -> new EntityNotFoundException("Videojuego Descuento", "estado", estado));
     }
 
     public List<VideojuegoDesResponse> findByEstado(String estado) {
-        return vidDesMapper.toResponseList(vidDesRepository.findByEstado(estado));
+        return vidDesMapper.toResponseList(getVideojuegoDesByEstado(estado));
     }
 
     @Transactional
@@ -66,23 +71,36 @@ public class VideojuegoDesService {
             throw new EntityNotFoundException("Libros en Catálogo", "ISBN", request.getIsbn());
         }
         */
-       VideojuegoProyeccion videojuegoPro = vidProRepository
-       .findById(request.getVideojuegoId()).
-       orElseThrow(() -> new EntityNotFoundException
-       ("Videojuegos Proyeccion", "Id", request.getVideojuegoId()));
+        VideojuegoProyeccion videojuegoPro = vidProRepository
+        .findById(request.getVideojuegoId()).
+        orElseThrow(() -> new EntityNotFoundException
+        ("Videojuegos Proyeccion", "Id", request.getVideojuegoId()));
 
-       CampanaDescuento campanaDes = camDesRepository
-       .findById(request.getCampanaId()).
-       orElseThrow(() -> new EntityNotFoundException
-       ("Campaña Descuento", "Id", request.getCampanaId()));
+        CampanaDescuento campanaDes = camDesRepository
+        .findById(request.getCampanaId()).
+        orElseThrow(() -> new EntityNotFoundException
+        ("Campaña Descuento", "Id", request.getCampanaId()));
 
-       VideojuegoDescuento vidDescuento = new VideojuegoDescuento();
-       vidDesMapper.updateEntity(request, vidDescuento);
+        VideojuegoDescuento vidDescuento = new VideojuegoDescuento();
+        vidDesMapper.updateEntity(request, vidDescuento);
 
-       vidDescuento.setCampanaId(campanaDes);
-       vidDescuento.setVideojuegoId(videojuegoPro);
-       vidDescuento.setEstado("Activo");
+        vidDescuento.setCampanaId(campanaDes);
+        vidDescuento.setVideojuegoId(videojuegoPro);
+        vidDescuento.setEstado("Activo");
 
-       return vidDesMapper.toResponse(vidDesRepository.save(vidDescuento));
+        return vidDesMapper.toResponse(vidDesRepository.save(vidDescuento));
+    }
+
+    @Transactional
+    public VideojuegoDesResponse update(Long id, VideojuegoDesRequest request) {
+        VideojuegoDescuento vidDescuento = getVideojuegoDesById(id);
+        vidDesMapper.updateEntity(request, vidDescuento);
+        return vidDesMapper.toResponse(vidDescuento);
+    }
+
+    @Transactional
+    public void deleteById(Long id) {
+        VideojuegoDescuento vidDescuento = getVideojuegoDesById(id);
+        vidDesRepository.delete(vidDescuento);
     }
 }
