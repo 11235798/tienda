@@ -2,13 +2,14 @@ package cl.triskeledu.compras.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class DetalleComRequest {
     // @ManyToOne(fetch = FetchType.LAZY, optional = false)
     // @JoinColumn(name = "cliente_id", nullable = false)
-    @NotBlank(message = "El id del cliente es obligatorio")
+    @NotNull(message = "El id del cliente es obligatorio")
     private Long clienteId;
 
     // @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -17,7 +18,7 @@ public class DetalleComRequest {
     private String videojuegoSku;
 
     // @Column(name = "cantidad", nullable = false)
-    @NotBlank(message = "La cantidad es obligatoria")
+    @NotNull(message = "La cantidad es obligatoria")
     @Min(value = 1, message = "La cantidad debe ser mayor a 0")
     private int cantidad;//CHECK (cantidad > 0),
     

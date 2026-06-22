@@ -17,6 +17,8 @@ public interface VideojuegoDesMapper {
     @Mapping(target = "campanaId",      ignore = true)
     VideojuegoDescuento toEntity(VideojuegoDesRequest request);
 
+    @Mapping(target = "videojuegoId",   ignore = true)
+    @Mapping(target = "campanaId",      ignore = true)
     VideojuegoDesResponse toResponse(VideojuegoDescuento videojuegoDes);
 
     List<VideojuegoDesResponse> toResponseList(List<VideojuegoDescuento> videojuegosDes);

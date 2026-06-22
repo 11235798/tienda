@@ -17,7 +17,7 @@ public interface VideojuegoProyeccionMapper {
 
     VideojuegoProyeccionResponse toResponse(VideojuegoProyeccion videojuego);
 
-    List<VideojuegoProyeccionResponse> toResponseList(List<VideojuegoProyeccion> videojuegos)
+    List<VideojuegoProyeccionResponse> toResponseList(List<VideojuegoProyeccion> videojuegos);
 
     @Mapping(target = "id", ignore = true)
     void updateEntity(VideojuegoProyeccionRequest request, @MappingTarget VideojuegoProyeccion videojuego);

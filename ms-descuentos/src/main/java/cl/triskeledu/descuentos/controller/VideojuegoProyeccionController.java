@@ -32,14 +32,4 @@ public class VideojuegoProyeccionController {
     public ResponseEntity<List<VideojuegoProyeccionResponse>> findAll() {
         return ResponseEntity.ok(vidProService.findAll());
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<VideojuegoProyeccionResponse> findById(@PathVariable @NonNull Long id) {
-        return ResponseEntity.ok(vidProService.findById(id));
-    }
-
-    @GetMapping("/sku/{sku}")
-    public ResponseEntity<VideojuegoProyeccionResponse> findBySku(@PathVariable String sku) {
-        return ResponseEntity.ok(vidProService.findBySku(sku));
-    }
 }

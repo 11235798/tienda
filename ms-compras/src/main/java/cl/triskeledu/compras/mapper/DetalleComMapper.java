@@ -14,17 +14,19 @@ import cl.triskeledu.compras.model.DetalleCompras;
 public interface DetalleComMapper {
     @Mapping(target = "id",             ignore = true)
     @Mapping(target = "fechaCompra",    ignore = true)
-    @Mapping(target = "clienteId",      ignore = true)
-    @Mapping(target = "videojuegoSku",  ignore = true)
+    @Mapping(target = "cliente",      ignore = true)
+    @Mapping(target = "videojuego",  ignore = true)
     DetalleCompras toEntity(DetalleComRequest request);
 
+    @Mapping(target = "clienteId",      ignore = true)
+    @Mapping(target = "videojuegoSku",  ignore = true)
     DetalleComResponse toResponse(DetalleCompras detalle);
 
     List<DetalleComResponse> toResponseList(List<DetalleCompras> detalles);
 
     @Mapping(target = "id",             ignore = true)
     @Mapping(target = "fechaCompra",    ignore = true)
-    @Mapping(target = "clienteId",      ignore = true)
-    @Mapping(target = "videojuegoSku",  ignore = true)
+    @Mapping(target = "cliente",      ignore = true)
+    @Mapping(target = "videojuego",  ignore = true)
     void updateEntity(DetalleComRequest request, @MappingTarget DetalleCompras detalle);
 }

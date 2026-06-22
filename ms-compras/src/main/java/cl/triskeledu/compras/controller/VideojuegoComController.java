@@ -23,14 +23,4 @@ public class VideojuegoComController {
     public ResponseEntity<List<VideojuegoComResponse>> findAll() {
         return ResponseEntity.ok(videojuegoService.findAll());
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<VideojuegoComResponse> findById(@PathVariable @NonNull Long id) {
-        return ResponseEntity.ok(videojuegoService.findById(id));
-    }
-
-    @GetMapping("/sku/{sku}")
-    public ResponseEntity<VideojuegoComResponse> findBySku(@PathVariable String sku) {
-        return ResponseEntity.ok(videojuegoService.findBySku(sku));
-    }
 }

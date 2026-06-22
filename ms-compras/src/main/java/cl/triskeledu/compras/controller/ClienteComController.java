@@ -23,14 +23,4 @@ public class ClienteComController {
     public ResponseEntity<List<ClienteComResponse>> findAll() {
         return ResponseEntity.ok(clienteService.findAll());
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<ClienteComResponse> findById(@PathVariable @NonNull Long id) {
-        return ResponseEntity.ok(clienteService.findById(id));
-    }
-
-    @GetMapping("/rut/{rut}")
-    public ResponseEntity<ClienteComResponse> findByRut(@PathVariable String rut) {
-        return ResponseEntity.ok(clienteService.findByRut(rut));
-    }
 }
