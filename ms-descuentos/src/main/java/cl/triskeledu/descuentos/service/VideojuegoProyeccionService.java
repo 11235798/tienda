@@ -21,9 +21,18 @@ public class VideojuegoProyeccionService {
     private final VideojuegoProyeccionMapper videojuegoMapper;
     private final VideojuegoDesRepository videojuegoDesRepository;
 
-    @Transactional
     public List<VideojuegoProyeccionResponse> findAll() {
         return videojuegoMapper.toResponseList(videojuegoRepository.findAll());
+    }
+
+    public VideojuegoProyeccionResponse findById(Long id) {
+        return videojuegoMapper.toResponse(getVideojuegoById(id));
+    }
+
+    private VideojuegoProyeccion getVideojuegoById(Long id) {
+        return videojuegoRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException
+        ("Videojuegos", "ID", id));
     }
 
     @Transactional

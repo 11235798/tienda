@@ -40,12 +40,12 @@ public class DetalleComController {
     }
 
     @GetMapping("/cliente-id/{id}")
-    public ResponseEntity<ClienteComResponse> findByClienteId(@PathVariable Long id) {
+    public ResponseEntity<List<DetalleComResponse>> findByClienteId(@PathVariable Long id) {
         return ResponseEntity.ok(detalleService.findByClienteId(id));
     }
 
     @GetMapping("/videojuego-sku/{sku}")
-    public ResponseEntity<ClienteComResponse> findByVideojuegoSku(@PathVariable String sku) {
+    public ResponseEntity<List<DetalleComResponse>> findByVideojuegoSku(@PathVariable String sku) {
         return ResponseEntity.ok(detalleService.findByVideojuegoSku(sku));
     }
 

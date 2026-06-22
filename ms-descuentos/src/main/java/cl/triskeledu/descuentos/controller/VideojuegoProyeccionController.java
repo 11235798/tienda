@@ -26,5 +26,20 @@ import cl.triskeledu.descuentos.service.VideojuegoProyeccionService;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/videojuego-proyeccion")
 public class VideojuegoProyeccionController {
+    private final VideojuegoProyeccionService vidProService;
+    
+    @GetMapping
+    public ResponseEntity<List<VideojuegoProyeccionResponse>> findAll() {
+        return ResponseEntity.ok(vidProService.findAll());
+    }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<VideojuegoProyeccionResponse> findById(@PathVariable @NonNull Long id) {
+        return ResponseEntity.ok(vidProService.findById(id));
+    }
+
+    @GetMapping("/sku/{sku}")
+    public ResponseEntity<VideojuegoProyeccionResponse> findBySku(@PathVariable String sku) {
+        return ResponseEntity.ok(vidProService.findBySku(sku));
+    }
 }

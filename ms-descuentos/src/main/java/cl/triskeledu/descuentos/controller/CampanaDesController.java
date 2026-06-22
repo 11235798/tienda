@@ -26,5 +26,10 @@ import cl.triskeledu.descuentos.service.CampanaDesService;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/campana-descuento")
 public class CampanaDesController {
+    private final CampanaDesService camDesService;
 
+    @GetMapping
+    public ResponseEntity<List<CampanaDesResponse>> findAll() {
+        return ResponseEntity.ok(camDesService.findAll());
+    }
 }
