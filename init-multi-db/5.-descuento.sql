@@ -50,15 +50,15 @@ INSERT INTO videojuegos (sku, titulo, precio_base) VALUES
 ('VG-004', 'The Witcher 3',          20000),
 ('VG-005', 'Hollow Knight',          10000);
 
-INSERT INTO videojuego_descuento (videojuego_id, campana_id, estado) VALUES
+INSERT INTO videojuego_descuento (videojuego_sku, campana_id, estado) VALUES
 -- Juegos en la oferta de Verano (50% de descuento)
-(3, 1, 'Activo'), 
-(4, 1, 'Activo'), 
-(5, 1, 'Activo'),
+('VG-003', 1, 'Activo'), 
+('VG-004', 1, 'Activo'), 
+('VG-005', 1, 'Activo'),
 
 -- Juegos en el especial de Terror (30% de descuento)
-(1, 2, 'Activo'),
-(2, 2, 'Activo'),
+('VG-001', 2, 'Activo'),
+('VG-002', 2, 'Activo'),
 
 -- The Witcher 3 también entra en el fin de semana de publisher, pero la promo fue pausada
-(4, 3, 'Pausado');
+('VG-004', 3, 'Pausado');
