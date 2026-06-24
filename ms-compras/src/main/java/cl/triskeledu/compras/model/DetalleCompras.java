@@ -10,7 +10,7 @@ import lombok.*;
     name = "detalle_compras",
     indexes = {
         @Index(name = "idx_compras_videojuego", columnList = "videojuego_id"),
-        @Index(name = "idx_compras_cliente", columnList = "cliente_id"),
+        @Index(name = "idx_compras_cliente", columnList = "cliente_rut"),
         @Index(name = "idx_compras_fecha", columnList = "fecha_compra")
     }
 )
@@ -26,7 +26,7 @@ public class DetalleCompras {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "cliente_id", nullable = false)
+    @JoinColumn(name = "cliente_rut", nullable = false)
     private ClienteCompras cliente;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

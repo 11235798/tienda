@@ -9,8 +9,8 @@ import cl.triskeledu.compras.model.DetalleCompras;
 
 @Repository
 public interface DetalleComRepository extends JpaRepository<DetalleCompras, Long>{
-    List<DetalleCompras> findByClienteId(Long clienteId);
-    boolean existsByClienteId(Long clienteId);
+    List<DetalleCompras> findByClienteRut(String clienteRut);
+    boolean existsByClienteRut(String clienteRut);
 
     List<DetalleCompras> findByVideojuegoSku(String videojuegoSku);
     boolean existsByVideojuegoSku(String videojuegoSku);

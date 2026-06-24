@@ -39,9 +39,9 @@ public class DetalleComController {
         return ResponseEntity.ok(detalleService.findById(id));
     }
 
-    @GetMapping("/cliente-id/{id}")
-    public ResponseEntity<List<DetalleComResponse>> findByClienteId(@PathVariable Long id) {
-        return ResponseEntity.ok(detalleService.findByClienteId(id));
+    @GetMapping("/cliente-rut/{rut}")
+    public ResponseEntity<List<DetalleComResponse>> findByClienteId(@PathVariable String rut) {
+        return ResponseEntity.ok(detalleService.findByClienteRut(rut));
     }
 
     @GetMapping("/videojuego-sku/{sku}")

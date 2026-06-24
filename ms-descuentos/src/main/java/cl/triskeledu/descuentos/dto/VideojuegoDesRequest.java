@@ -2,14 +2,16 @@ package cl.triskeledu.descuentos.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
 public class VideojuegoDesRequest {
-    @NotBlank(message = "El videojuego id es obligatorio")
+    @NotBlank(message = "El videojuego sku es obligatorio")
     // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "id", nullable = false)
-    private Long videojuegoId;
+    // @JoinColumn(name = "sku", nullable = false)
+    @Size(min = 1, max = 20, message = "El videojuego sku debe tener entre 1 y 20 caracteres")
+    private String videojuegoSku;
     // // videojuego_id   INT         NOT NULL REFERENCES videojuegos(id) ON DELETE CASCADE,
     @NotBlank(message = "El campaña id es obligatorio")
     // @ManyToOne(fetch = FetchType.LAZY)

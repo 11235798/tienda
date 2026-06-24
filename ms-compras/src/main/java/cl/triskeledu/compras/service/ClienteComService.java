@@ -13,6 +13,7 @@ import cl.triskeledu.compras.repository.ClienteComRepository;
 import cl.triskeledu.compras.repository.DetalleComRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import cl.triskeledu.compras.client.UsuariosClient;
 
 // import cl.triskeledu.catalogo.client.RecursoClient;
 // import cl.triskeledu.catalogo.dto.LibroRequest;
@@ -31,6 +32,7 @@ public class ClienteComService {
     private final ClienteComRepository clienteRepository;
     private final DetalleComRepository detalleRepository;
     private final ClienteComMapper clienteMapper;
+    private final UsuariosClient usuariosClient;
 
     @Transactional
     public List<ClienteComResponse> findAll() {
@@ -50,9 +52,12 @@ public class ClienteComService {
     public void deleteByRut(String rut) {
         ClienteCompras cliente = findByRut(rut);
         List<String> tablasAsociadas = new ArrayList<>();
-        if (!detalleRepository.existsByClienteId(cliente.getId())) tablasAsociadas.add("Detalle Compras");
-        /*if (catalogoClient.existsByIsbn(libroProyeccion.getIsbn())) tablasAsociadas.add("Libros en Catálogo");*/
-        if (!tablasAsociadas.isEmpty()) throw new ReferentialIntegrityException("Cliente Compras", rut, String.join(", ", tablasAsociadas));
+        if (detalleRepository.existsByClienteRut(cliente.getRut()))
+            tablasAsociadas.add("Detalle Compras");
+        if (usuariosClient.findByRut(cliente.getRut()) != null)
+            tablasAsociadas.add("Usuarios Existentes (no proyección");
+        if (!tablasAsociadas.isEmpty()) throw new ReferentialIntegrityException
+        ("Cliente Compras", rut, String.join(", ", tablasAsociadas));
         clienteRepository.delete(cliente);
     }
 

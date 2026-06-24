@@ -10,7 +10,7 @@ public class VideojuegoDesResponse {
     // // id              SERIAL      PRIMARY KEY,
     // @ManyToOne(fetch = FetchType.LAZY)
     // @JoinColumn(name = "id", nullable = false)
-    private Long videojuegoId;
+    private String videojuegoSku;
     // // videojuego_id   INT         NOT NULL REFERENCES videojuegos(id) ON DELETE CASCADE,
     // @ManyToOne(fetch = FetchType.LAZY)
     // @JoinColumn(name = "id", nullable = false)

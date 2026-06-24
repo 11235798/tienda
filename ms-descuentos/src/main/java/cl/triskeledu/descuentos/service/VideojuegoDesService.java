@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import cl.triskeledu.common.exception.*;
+import cl.triskeledu.descuentos.client.CatalogoClient;
 import cl.triskeledu.descuentos.dto.VideojuegoDesRequest;
 import cl.triskeledu.descuentos.dto.VideojuegoDesResponse;
 import cl.triskeledu.descuentos.mapper.VideojuegoDesMapper;
@@ -23,6 +24,7 @@ public class VideojuegoDesService {
     private final VideojuegoDesMapper vidDesMapper;
     private final VideojuegoProyeccionRepository vidProRepository;
     private final CampanaDesRepository camDesRepository;
+    private final CatalogoClient catalogoClient;
 
     public List<VideojuegoDesResponse> findAll() {
         return vidDesMapper.toResponseList(vidDesRepository.findAll());
@@ -37,13 +39,13 @@ public class VideojuegoDesService {
         return vidDesMapper.toResponse(getVideojuegoDesById(id));
     }
 
-    private List<VideojuegoDescuento> getVideojuegoDesByVidId(Long id) {
-        return vidDesRepository.findByVideojuegoId(id)
-        .orElseThrow(() -> new EntityNotFoundException("Videojuego Descuento", "id", id));
+    private List<VideojuegoDescuento> getVideojuegoDesByVidSku(String sku) {
+        return vidDesRepository.findByVideojuegoSku(sku)
+        .orElseThrow(() -> new EntityNotFoundException("Videojuego Descuento", "sku", sku));
     }
 
-    public List<VideojuegoDesResponse> findByVideojuegoId(Long id) {
-        return vidDesMapper.toResponseList(getVideojuegoDesByVidId(id));
+    public List<VideojuegoDesResponse> findByVideojuegoSku(String sku) {
+        return vidDesMapper.toResponseList(getVideojuegoDesByVidSku(sku));
     }
 
     private List<VideojuegoDescuento> getVideojuegoDesByCamId(Long id) {
@@ -66,15 +68,14 @@ public class VideojuegoDesService {
 
     @Transactional
     public VideojuegoDesResponse create (VideojuegoDesRequest request) {
-        /*
-        if (!catalogoClient.existsByIsbn(request.getIsbn())) {
-            throw new EntityNotFoundException("Libros en Catálogo", "ISBN", request.getIsbn());
+        if (catalogoClient.findBySku(request.getVideojuegoSku()) == null) {
+            throw new EntityNotFoundException("Videojuegos en Catálogo", "sku", request.getVideojuegoSku());
         }
-        */
+
         VideojuegoProyeccion videojuegoPro = vidProRepository
-        .findById(request.getVideojuegoId()).
+        .findBySku(request.getVideojuegoSku()).
         orElseThrow(() -> new EntityNotFoundException
-        ("Videojuegos Proyeccion", "Id", request.getVideojuegoId()));
+        ("Videojuegos Proyeccion", "sku", request.getVideojuegoSku()));
 
         CampanaDescuento campanaDes = camDesRepository
         .findById(request.getCampanaId()).
@@ -85,7 +86,7 @@ public class VideojuegoDesService {
         vidDesMapper.updateEntity(request, vidDescuento);
 
         vidDescuento.setCampanaId(campanaDes);
-        vidDescuento.setVideojuegoId(videojuegoPro);
+        vidDescuento.setVideojuegoSku(videojuegoPro);
         vidDescuento.setEstado("Activo");
 
         return vidDesMapper.toResponse(vidDesRepository.save(vidDescuento));

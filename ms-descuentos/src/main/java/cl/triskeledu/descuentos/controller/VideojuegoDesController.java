@@ -38,9 +38,9 @@ public class VideojuegoDesController {
         return ResponseEntity.ok(vidDesService.findById(id));
     }
 
-    @GetMapping("/videojuego-id/{videojuegoId}")
-    public ResponseEntity<List<VideojuegoDesResponse>> findByVideojuegoId(@PathVariable Long vidId) {
-        return ResponseEntity.ok(vidDesService.findByVideojuegoId(vidId));
+    @GetMapping("/videojuego-sku/{videojuegosku}")
+    public ResponseEntity<List<VideojuegoDesResponse>> findByVideojuegoSku(@PathVariable String vidSku) {
+        return ResponseEntity.ok(vidDesService.findByVideojuegoSku(vidSku));
     }
 
     @GetMapping("/campana-id/{campanaId}")

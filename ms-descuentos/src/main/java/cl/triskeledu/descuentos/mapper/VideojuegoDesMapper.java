@@ -13,18 +13,18 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface VideojuegoDesMapper {
     @Mapping(target = "id",             ignore = true)
-    @Mapping(target = "videojuegoId",   ignore = true)
+    @Mapping(target = "videojuegoSku",  ignore = true)
     @Mapping(target = "campanaId",      ignore = true)
     VideojuegoDescuento toEntity(VideojuegoDesRequest request);
 
-    @Mapping(target = "videojuegoId",   ignore = true)
+    @Mapping(target = "videojuegoSku",   ignore = true)
     @Mapping(target = "campanaId",      ignore = true)
     VideojuegoDesResponse toResponse(VideojuegoDescuento videojuegoDes);
 
     List<VideojuegoDesResponse> toResponseList(List<VideojuegoDescuento> videojuegosDes);
 
     @Mapping(target = "id",             ignore = true)
-    @Mapping(target = "videojuegoId",   ignore = true)
+    @Mapping(target = "videojuegoSku",   ignore = true)
     @Mapping(target = "campanaId",      ignore = true)
     void updateEntity(VideojuegoDesRequest request, @MappingTarget VideojuegoDescuento videojuegoDes);
 }

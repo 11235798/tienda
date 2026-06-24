@@ -26,10 +26,10 @@ CREATE TABLE videojuegos (
 -- 3. TABLA INTERMEDIA (ASIGNACIÓN DE PROMOCIONES)
 CREATE TABLE videojuego_descuento (
     id              SERIAL      PRIMARY KEY,
-    videojuego_id   INT         NOT NULL REFERENCES videojuegos(id) ON DELETE CASCADE,
+    videojuego_sku  VARCHAR(20) NOT NULL REFERENCES videojuegos(sku) ON DELETE CASCADE,
     campana_id      INT         NOT NULL REFERENCES campanas_descuento(id) ON DELETE CASCADE,
     estado          VARCHAR(20) DEFAULT 'Activo' CHECK (estado IN ('Activo', 'Pausado')),
-    UNIQUE (videojuego_id, campana_id) -- Regla: Un juego no puede estar dos veces en la misma campaña
+    UNIQUE (videojuego_sku, campana_id) -- Regla: Un juego no puede estar dos veces en la misma campaña
 );
 
 -- 4. ÍNDICES DE RENDIMIENTO (Claves para calcular precios en tiempo real)

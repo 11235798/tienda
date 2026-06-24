@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cl.triskeledu.common.exception.*;
+import cl.triskeledu.descuentos.client.CatalogoClient;
 import cl.triskeledu.descuentos.dto.VideojuegoProyeccionResponse;
 import cl.triskeledu.descuentos.mapper.VideojuegoProyeccionMapper;
 import cl.triskeledu.descuentos.model.VideojuegoProyeccion;
@@ -20,6 +21,7 @@ public class VideojuegoProyeccionService {
     private final VideojuegoProyeccionRepository videojuegoRepository;
     private final VideojuegoProyeccionMapper videojuegoMapper;
     private final VideojuegoDesRepository videojuegoDesRepository;
+    private final CatalogoClient catalogoClient;
 
     public List<VideojuegoProyeccionResponse> findAll() {
         return videojuegoMapper.toResponseList(videojuegoRepository.findAll());
@@ -54,9 +56,9 @@ public class VideojuegoProyeccionService {
     public void deleteBySku(String sku) {
         VideojuegoProyeccion videojuego = findBySku(sku);
         List<String> tablasAsociadas = new ArrayList<>();
-        if (!videojuegoDesRepository.existsByVideojuegoId(videojuego.getId()))
+        if (!videojuegoDesRepository.existsByVideojuegoSku(videojuego.getSku()))
         {tablasAsociadas.add("Videojuego Descuento");}
-        //if (catalogoClient.existsByIsbn(libroProyeccion.getIsbn())) tablasAsociadas.add("Libros en Catálogo");
+        if (catalogoClient.findBySku(videojuego.getSku()) != null) tablasAsociadas.add("Videojuegos en Catálogo");
         if (!tablasAsociadas.isEmpty()) throw new
         ReferentialIntegrityException("Videojuego Proyección", sku, String.join(", ", tablasAsociadas));
         videojuegoRepository.delete(videojuego);

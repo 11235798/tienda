@@ -8,12 +8,12 @@ import lombok.*;
     name = "videojuego_descuento",
     uniqueConstraints = {
         @UniqueConstraint(name = "uk_videojuego_descuento_videojuego_campana",
-        columnNames = {"videojuego_id",
+        columnNames = {"videojuego_sku",
             "campana_id"})
     },
     indexes = {
         @Index(name = "idx_descuentos_videojuego",
-        columnList = "videojuego_id"),
+        columnList = "videojuego_sku"),
         @Index(name = "idx_descuentos_campana",
         columnList = "campana_id")
 // idx_descuentos_videojuego ON videojuego_descuento(videojuego_id);
@@ -31,8 +31,8 @@ public class VideojuegoDescuento {
     private Long id;
     // id              SERIAL      PRIMARY KEY,
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", nullable = false)
-    private VideojuegoProyeccion videojuegoId;
+    @JoinColumn(name = "sku", nullable = false)
+    private VideojuegoProyeccion videojuegoSku;
     // videojuego_id   INT         NOT NULL REFERENCES videojuegos(id) ON DELETE CASCADE,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id", nullable = false)

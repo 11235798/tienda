@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import cl.triskeledu.compras.client.CatalogoClient;
+import cl.triskeledu.compras.client.UsuariosClient;
 import cl.triskeledu.compras.dto.DetalleComRequest;
 import cl.triskeledu.compras.dto.DetalleComResponse;
 import cl.triskeledu.compras.mapper.DetalleComMapper;
@@ -38,6 +40,8 @@ public class DetalleComService {
     private final DetalleComMapper detalleMapper;
     private final VideojuegoComRepository videojuegoRepository;
     private final ClienteComRepository clienteRepository;
+    private final CatalogoClient catalogoClient;
+    private final UsuariosClient usuariosClient;
 
     public List<DetalleComResponse> findAll() {
         return detalleMapper.toResponseList(detalleRepository.findAll());
@@ -53,9 +57,9 @@ public class DetalleComService {
         ("Detalles Compra", "ID", id));
     }
 
-    public List<DetalleComResponse> findByClienteId(Long clienteId) {
+    public List<DetalleComResponse> findByClienteRut(String clienteRut) {
         return detalleMapper.toResponseList
-        (detalleRepository.findByClienteId(clienteId));
+        (detalleRepository.findByClienteRut(clienteRut));
     }
 
     public List<DetalleComResponse> findByVideojuegoSku(String videojuegoSku) {
@@ -68,13 +72,6 @@ public class DetalleComService {
             throw new DuplicateResourceException("Un videojuego", "SKU", sku, r.getVideojuego().getTitulo());
         });
     }
-    /*
-    private void validateSkuUnico(String sku) {
-        detalleRepository.findByVideojuegoSku(sku).stream().findFirst().ifPresent(r -> {
-            throw new DuplicateResourceException("Un Recurso físico", "SKU", sku, r.getTipoRecurso());
-    });
-}
-    */
 
     @Transactional
     public DetalleComResponse create(DetalleComRequest request) {
@@ -83,15 +80,18 @@ public class DetalleComService {
             throw new EntityNotFoundException
             ("Videojuegos en Catálogo", "Sku", request.getVideojuegoSku());
         } */
+        catalogoClient.findBySku(request.getVideojuegoSku());
+        usuariosClient.findByRut(request.getClienteRut());
 
-        VideojuegoCompras videojuego = videojuegoRepository.findBySku(request.getVideojuegoSku())
+        VideojuegoCompras videojuego = videojuegoRepository
+        .findBySku(request.getVideojuegoSku())
         .orElseThrow(() -> new EntityNotFoundException(
             "Videojuegos Compra", "Sku", request.getVideojuegoSku()
         ));
 
-        ClienteCompras cliente = clienteRepository.findById(request.getClienteId())
+        ClienteCompras cliente = clienteRepository.findByRut(request.getClienteRut())
         .orElseThrow(() -> new EntityNotFoundException(
-            "Clientes Compra", "Id", request.getClienteId()
+            "Clientes Compra", "rut", request.getClienteRut()
         ));
 
         DetalleCompras detalle = new DetalleCompras();
@@ -115,9 +115,9 @@ public class DetalleComService {
             "Videojuegos Compra", "Sku", request.getVideojuegoSku()
         ));
 
-        ClienteCompras cliente = clienteRepository.findById(request.getClienteId())
+        ClienteCompras cliente = clienteRepository.findByRut(request.getClienteRut())
         .orElseThrow(() -> new EntityNotFoundException(
-            "Clientes Compra", "Id", request.getClienteId()
+            "Clientes Compra", "rut", request.getClienteRut()
         ));
 
         detalleMapper.updateEntity(request, detalle);
@@ -132,6 +132,16 @@ public class DetalleComService {
     @Transactional
     public void deleteById(Long id) {
         DetalleCompras detalle = getDetalleById(id);
+        
+        List<String> tablasAsociadas = new ArrayList<>();
+        
+        if (detalleRepository.existsByClienteRut(detalle.getCliente().getRut()))
+            tablasAsociadas.add("Cliente Compras");
+        if (detalleRepository.existsByVideojuegoSku(detalle.getVideojuego().getSku()))
+            tablasAsociadas.add("Videojuego Compras");
+        if (!tablasAsociadas.isEmpty()) throw new ReferentialIntegrityException
+        ("Detalle Compras", id, String.join(", ", tablasAsociadas));
+
         detalleRepository.delete(detalle);
     }
 }
