@@ -1,8 +1,7 @@
-package cl.triskeledu.recomendaciones.dto;
+package cl.triskeledu.recomendaciones.kafka.events;
 
 import java.math.BigDecimal;
 
-import cl.triskeledu.recomendaciones.model.EstadoRecomendacion;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,17 +13,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RecomendacionResponse {
+public class RecomendacionCreadaEvent {
 
-    private Integer id;
-
+    private Integer recomendacionId;
     private Integer usuarioId;
-    private String nicknameUsuario;
-
     private Integer videojuegoId;
-    private String tituloVideojuego;
-
     private BigDecimal porcentajeAfinidad;
-    private EstadoRecomendacion estado;
-
 }

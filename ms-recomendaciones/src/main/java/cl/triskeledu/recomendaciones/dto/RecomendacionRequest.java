@@ -14,17 +14,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RecomendacionResponse {
-
-    private Integer id;
+public class RecomendacionRequest {
 
     private Integer usuarioId;
-    private String nicknameUsuario;
-
     private Integer videojuegoId;
-    private String tituloVideojuego;
-
     private BigDecimal porcentajeAfinidad;
     private EstadoRecomendacion estado;
 
 }
+

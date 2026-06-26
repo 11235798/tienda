@@ -1,55 +1,53 @@
 package cl.triskeledu.recomendaciones.model;
 
-import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
-import java.util.List;
+import java.math.BigDecimal;
 import java.util.Objects;
 
+import jakarta.persistence.*;
+import lombok.*;
+
 @Entity
-@Table(name = "recomendaciones")
+@Table(
+    name = "recomendaciones",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "uk_recomendacion_usuario_videojuego", columnNames = {"usuario_id", "videojuego_id"})
+    }
+)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EntityListeners(AuditingEntityListener.class)
 public class Recomendacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
     @Column(name = "usuario_id", nullable = false)
-    private Long usuarioId;
+    private Integer usuarioId;
 
-    @Column(name = "algoritmo_version", length = 50)
-    private String algoritmoVersion;
+    @Column(name = "videojuego_id", nullable = false)
+    private Integer videojuegoId;
+
+    @Column(name = "porcentaje_afinidad", nullable = false, precision = 5, scale = 2)
+    private BigDecimal porcentajeAfinidad;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "estado", nullable = false)
+    @Column(name = "estado", nullable = false, length = 20)
     private EstadoRecomendacion estado;
-
-    @OneToMany(mappedBy = "recomendacion", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductoRecomendado> productos;
-
-    @CreatedDate
-    @Column(name = "fecha_generacion", nullable = false, updatable = false)
-    private LocalDateTime fechaGeneracion;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Recomendacion)) return false;
         Recomendacion that = (Recomendacion) o;
-        return Objects.equals(id, that.id);
+        return id != null && Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return getClass().hashCode();
     }
 }
