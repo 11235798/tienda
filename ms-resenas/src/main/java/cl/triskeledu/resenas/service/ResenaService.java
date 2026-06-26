@@ -4,30 +4,45 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import cl.triskeledu.resenas.client.UsuarioClient;
+import cl.triskeledu.resenas.client.CatalogoClient;
 import cl.triskeledu.resenas.dto.ResenaRequest;
 import cl.triskeledu.resenas.dto.ResenaResponse;
+import cl.triskeledu.resenas.dto.UsuarioResponse;
+import cl.triskeledu.resenas.dto.VideojuegoResponse;
+import cl.triskeledu.resenas.kafka.KafkaProducer;
+import cl.triskeledu.resenas.kafka.events.ResenaActualizadaEvent;
+import cl.triskeledu.resenas.kafka.events.ResenaCreadaEvent;
+import cl.triskeledu.resenas.kafka.events.ResenaEliminadaEvent;
 import cl.triskeledu.resenas.mapper.ResenaMapper;
 import cl.triskeledu.resenas.model.Resena;
-import cl.triskeledu.resenas.model.Usuario;
-import cl.triskeledu.resenas.model.Videojuego;
 import cl.triskeledu.resenas.repository.ResenasRepository;
-import cl.triskeledu.resenas.repository.UsuarioRepository;
-import cl.triskeledu.resenas.repository.VideojuegoRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class ResenaService {
 
-    private final ResenasRepository resenasRepository;
-    private final UsuarioRepository usuarioRepository;
-    private final VideojuegoRepository videojuegoRepository;
+    private final ResenasRepository resenasRepository;  
     private final ResenaMapper resenaMapper;
+    private final UsuarioClient usuarioClient;
+    private final CatalogoClient videojuegoClient;
+    private final KafkaProducer kafkaProducer;
 
     public List<ResenaResponse> obtenerTodas() {
         return resenasRepository.findAll()
                 .stream()
-                .map(resenaMapper::toResponse)
+                .map(resena -> {
+
+    UsuarioResponse usuario =
+            usuarioClient.obtenerUsuario(resena.getUsuarioId());
+
+    VideojuegoResponse videojuego =
+            videojuegoClient.obtenerVideojuego(resena.getVideojuegoId());
+
+    return resenaMapper.toResponse(resena, usuario, videojuego);
+
+})
                 .toList();
     }
 
@@ -35,64 +50,116 @@ public class ResenaService {
         Resena resena = resenasRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reseña no encontrada"));
 
-        return resenaMapper.toResponse(resena);
+        UsuarioResponse usuario =
+                usuarioClient.obtenerUsuario(resena.getUsuarioId());
+
+        VideojuegoResponse videojuego =
+                videojuegoClient.obtenerVideojuego(resena.getVideojuegoId());
+
+        return resenaMapper.toResponse(resena, usuario, videojuego);
     }
 
     public List<ResenaResponse> obtenerPorUsuario(Integer usuarioId) {
         return resenasRepository.findByUsuarioId(usuarioId)
                 .stream()
-                .map(resenaMapper::toResponse)
+                .map(resena -> {
+
+    UsuarioResponse usuario =
+            usuarioClient.obtenerUsuario(resena.getUsuarioId());
+
+    VideojuegoResponse videojuego =
+            videojuegoClient.obtenerVideojuego(resena.getVideojuegoId());
+
+    return resenaMapper.toResponse(resena, usuario, videojuego);
+
+})
                 .toList();
     }
 
     public List<ResenaResponse> obtenerPorVideojuego(Integer videojuegoId) {
         return resenasRepository.findByVideojuegoId(videojuegoId)
                 .stream()
-                .map(resenaMapper::toResponse)
+                .map(resena -> {
+
+    UsuarioResponse usuario =
+            usuarioClient.obtenerUsuario(resena.getUsuarioId());
+
+    VideojuegoResponse videojuego =
+            videojuegoClient.obtenerVideojuego(resena.getVideojuegoId());
+
+    return resenaMapper.toResponse(resena, usuario, videojuego);
+
+})
                 .toList();
     }
 
     public ResenaResponse guardar(ResenaRequest request) {
 
-        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
-                .orElseThrow(() -> new RuntimeException("Usuario no existe"));
+    UsuarioResponse usuario = usuarioClient.obtenerUsuario(request.getUsuarioId());
 
-        Videojuego videojuego = videojuegoRepository.findById(request.getVideojuegoId())
-                .orElseThrow(() -> new RuntimeException("Videojuego no existe"));
+    VideojuegoResponse videojuego = videojuegoClient.obtenerVideojuego(request.getVideojuegoId());
 
-        Resena resenaGuardada = resenasRepository
-                .findByUsuarioIdAndVideojuegoId(
-                        request.getUsuarioId(),
-                        request.getVideojuegoId())
-                .map(resenaExistente -> {
+    Resena resenaGuardada = resenasRepository
+            .findByUsuarioIdAndVideojuegoId(
+                    request.getUsuarioId(),
+                    request.getVideojuegoId())
+            .map(resenaExistente -> {
 
-                    resenaExistente.setCalificacion(request.getCalificacion());
-                    resenaExistente.setComentario(request.getComentario());
+                resenaExistente.setCalificacion(request.getCalificacion());
+                resenaExistente.setComentario(request.getComentario());
 
-                    return resenasRepository.save(resenaExistente);
+                Resena actualizada = resenasRepository.save(resenaExistente);
 
-                })
-                .orElseGet(() -> {
+                kafkaProducer.enviarResenaActualizada(
+                        ResenaActualizadaEvent.builder()
+                                .id(actualizada.getId())
+                                .usuarioId(actualizada.getUsuarioId())
+                                .videojuegoId(actualizada.getVideojuegoId())
+                                .calificacion(actualizada.getCalificacion())
+                                .comentario(actualizada.getComentario())
+                                .build());
 
-                    Resena nueva = Resena.builder()
-                            .usuario(usuario)
-                            .videojuego(videojuego)
-                            .calificacion(request.getCalificacion())
-                            .comentario(request.getComentario())
-                            .build();
+                return actualizada;
 
-                    return resenasRepository.save(nueva);
-                });
+            })
+            .orElseGet(() -> {
 
-        return resenaMapper.toResponse(resenaGuardada);
-    }
+                Resena nueva = Resena.builder()
+                        .usuarioId(request.getUsuarioId())
+                        .videojuegoId(request.getVideojuegoId())
+                        .calificacion(request.getCalificacion())
+                        .comentario(request.getComentario())
+                        .build();
+
+                Resena creada = resenasRepository.save(nueva);
+
+                kafkaProducer.enviarResenaCreada(
+                        ResenaCreadaEvent.builder()
+                                .id(creada.getId())
+                                .usuarioId(creada.getUsuarioId())
+                                .videojuegoId(creada.getVideojuegoId())
+                                .calificacion(creada.getCalificacion())
+                                .comentario(creada.getComentario())
+                                .build());
+
+                return creada;
+            });
+
+    return resenaMapper.toResponse(resenaGuardada, usuario, videojuego);
+}
 
     public void eliminar(Integer id) {
 
-        if (!resenasRepository.existsById(id)) {
-            throw new RuntimeException("Reseña no encontrada");
-        }
+    Resena resena = resenasRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Reseña no encontrada"));
 
-        resenasRepository.deleteById(id);
-    }
+    kafkaProducer.enviarResenaEliminada(
+            ResenaEliminadaEvent.builder()
+                    .resenaId(resena.getId())
+                    .usuarioId(resena.getUsuarioId())
+                    .videojuegoId(resena.getVideojuegoId())
+                    .build());
+
+    resenasRepository.delete(resena);
+}
 }

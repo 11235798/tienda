@@ -1,4 +1,4 @@
-package cl.triskeledu.resenas.dto;
+package cl.triskeledu.resenas.kafka.events;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,20 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResenaResponse {
+@Builder
+public class ResenaActualizadaEvent {
 
     private Integer id;
-
-    private Integer videojuegoId;
-    private String videojuegoTitulo;
-
     private Integer usuarioId;
-    private String usuarioNickname;
-
+    private Integer videojuegoId;
     private Integer calificacion;
-
     private String comentario;
 }
