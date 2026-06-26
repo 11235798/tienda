@@ -1,4 +1,4 @@
-\c db_catalogo;
+\c catalogo;
 
 -- 1. ELIMINACIÓN EN JERARQUÍA INVERSA
 DROP TABLE IF EXISTS videojuego_categoria;
@@ -37,15 +37,15 @@ INSERT INTO categorias (nombre) VALUES
 ('Battle Royale'), ('Plataformas'), ('Ritmo'), ('Supervivencia'), ('Aventura'), ('Acción'), ('RPG'), ('Deportes');
 
 INSERT INTO videojuegos (sku, titulo, desarrolladora, anio_lanzamiento, plataforma) VALUES
-('VG-9001', 'Free Fire',                  'Garena',          2017, 'Móvil'),
-('VG-9002', 'Fortnite',                   'Epic Games',      2017, 'Multiplataforma'),
-('VG-9003', 'Geometry Dash',              'RobTop Games',    2013, 'Móvil / PC'),
-('VG-9004', 'Hungry Shark Evolution',     'Ubisoft',         2012, 'Móvil'),
-('VG-9005', "Assassin's Creed Valhalla", 'Ubisoft',         2020, 'Multiplataforma'),
-('VG-9006', 'The Legend of Zelda: BOTW',  'Nintendo',        2017, 'Nintendo Switch'),
-('VG-9007', 'EA Sports FC 24',            'Electronic Arts', 2023, 'Multiplataforma'),
-('VG-9008', 'Minecraft',                  'Mojang',          2011, 'Multiplataforma'),
-('VG-9009', 'Elden Ring',                 'FromSoftware',    2022, 'Multiplataforma');
+('VG-9001', 'Free Fire',                    'Garena',          2017, 'Móvil'),
+('VG-9002', 'Fortnite',                     'Epic Games',      2017, 'Multiplataforma'),
+('VG-9003', 'Geometry Dash',                'RobTop Games',    2013, 'Móvil / PC'),
+('VG-9004', 'Hungry Shark Evolution',       'Ubisoft',         2012, 'Móvil'),
+('VG-9005', 'Assassin_s Creed Valhalla',    'Ubisoft',         2020, 'Multiplataforma'),
+('VG-9006', 'The Legend of Zelda: BOTW',    'Nintendo',        2017, 'Nintendo Switch'),
+('VG-9007', 'EA Sports FC 24',              'Electronic Arts', 2023, 'Multiplataforma'),
+('VG-9008', 'Minecraft',                    'Mojang',          2011, 'Multiplataforma'),
+('VG-9009', 'Elden Ring',                   'FromSoftware',    2022, 'Multiplataforma');
 
 INSERT INTO videojuego_categoria (videojuego_id, categoria_id) VALUES
 -- Free Fire: Battle Royale, Supervivencia, Acción

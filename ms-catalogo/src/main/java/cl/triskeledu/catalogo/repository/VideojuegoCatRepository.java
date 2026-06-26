@@ -9,7 +9,7 @@ import java.util.Optional;
 @Repository
 public interface VideojuegoCatRepository extends JpaRepository<VideojuegoCatalogo, Long> {
     
-    Optional<VideojuegoCatalogo> findBySku(String sku);
+    Optional<VideojuegoCatalogo> findBySkuVid(String sku);
 
-    boolean existsBySku(String sku);
+    boolean existsBySkuVid(String sku);
 }

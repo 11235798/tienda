@@ -15,7 +15,7 @@ rmdir /s /q C:\tienda-test\ms-usuarios\target
 
 rmdir /s /q C:\tienda-test\ms-catalogo\target
 
-rmdir /s /q C:\tienda-test\ms-inventario\target
+:: rmdir /s /q C:\tienda-test\ms-inventario\target
 
 rmdir /s /q C:\tienda-test\ms-compras\target
 

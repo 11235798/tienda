@@ -56,7 +56,7 @@ public class VideojuegoCatService {
     }
 
     private void validateSkuUnico(String sku) {
-        videojuegoRep.findBySku(sku).ifPresent(l -> {
+        videojuegoRep.findBySkuVid(sku).ifPresent(l -> {
             throw new DuplicateResourceException(
                 "Un videojuego", "sku", sku, l.getTituloVid()
             );
@@ -70,7 +70,7 @@ public class VideojuegoCatService {
     }
 
     private VideojuegoCatalogo getVideojuegoBySku(String sku) {
-        return videojuegoRep.findBySku(sku).orElseThrow(
+        return videojuegoRep.findBySkuVid(sku).orElseThrow(
             () -> new EntityNotFoundException(
             "Videojuegos", "sku", sku
         ));
@@ -89,7 +89,7 @@ public class VideojuegoCatService {
     }
 
     public boolean existsBySku(String sku) {
-        return videojuegoRep.existsBySku(sku);
+        return videojuegoRep.existsBySkuVid(sku);
     }
 
     @Transactional

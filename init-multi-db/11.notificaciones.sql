@@ -1,4 +1,4 @@
-\c db_notificaciones
+\c notificaciones
 
 DROP TABLE IF EXISTS historial_notificaciones;
 DROP TABLE IF EXISTS plantillas;

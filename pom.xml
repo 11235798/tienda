@@ -20,7 +20,7 @@
         <module>eureka</module>      <!-- Servidor Eureka -->
         <module>ms-usuarios</module>      <!-- Microservicio usuarios -->
         <module>ms-catalogo</module>      <!-- Microservicio catalogo -->
-        <module>ms-inventario</module>      <!-- Microservicio inventario -->
+        <!-- <module>ms-inventario</module> -->      <!-- Microservicio inventario -->
         <module>ms-compras</module>      <!-- Microservicio compras -->
         <module>ms-pagos</module>      <!-- Microservicio pagos -->
         <module>ms-pedidos</module>      <!-- Microservicio pedidos -->
@@ -29,7 +29,7 @@
         <module>ms-notificaciones</module>      <!-- Microservicio notificaciones -->
         <module>ms-descuentos</module>      <!-- Microservicio descuentos -->
         <!-- [GATEWAY-INI] Nuevo módulo: API Gateway como punto de entrada único para todos los microservicios -->
-        <module>api-gateway</module>      <!-- API Gateway (puerto 9000) - enruta y balancea peticiones -->
+        <!-- <module>api-gateway</module> -->      <!-- API Gateway (puerto 9000) - enruta y balancea peticiones -->
         <!-- [GATEWAY-FIN] -->
         <!-- CGV: Agrega aqui mas modulos segun sea necesario -->
     </modules>
