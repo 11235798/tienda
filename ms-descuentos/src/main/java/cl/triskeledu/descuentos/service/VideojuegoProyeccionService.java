@@ -14,7 +14,9 @@ import cl.triskeledu.descuentos.repository.VideojuegoProyeccionRepository;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class VideojuegoProyeccionService {
@@ -24,10 +26,12 @@ public class VideojuegoProyeccionService {
 //    private final CatalogoClient catalogoClient;
 
     public List<VideojuegoProyeccionResponse> findAll() {
+        log.debug("Iniciando búsqueda de todos los videojuegos en proyección");
         return videojuegoMapper.toResponseList(videojuegoRepository.findAll());
     }
 
     public VideojuegoProyeccionResponse findById(Long id) {
+        log.debug("Iniciando búsqueda de videojuego con id '{}'", id);
         return videojuegoMapper.toResponse(getVideojuegoById(id));
     }
 
@@ -39,6 +43,7 @@ public class VideojuegoProyeccionService {
 
     @Transactional
     public void save(String sku, String titulo, int precioBase) {
+        log.debug("Iniciando creación de videojuego con sku '{}'", sku);
         VideojuegoProyeccion videojuego = new VideojuegoProyeccion();
         videojuego.setSku(sku);
         videojuego.setTitulo(titulo);
@@ -47,6 +52,7 @@ public class VideojuegoProyeccionService {
     }
 
     public VideojuegoProyeccion findBySku(String sku) {
+        log.debug("Iniciando búsqueda de videojuego con sku '{}'", sku);
         return videojuegoRepository.findBySku(sku)
         .orElseThrow(() -> new EntityNotFoundException
         ("Videojuego proyeccion", "sku", sku));
@@ -54,6 +60,7 @@ public class VideojuegoProyeccionService {
 
     @Transactional
     public void deleteBySku(String sku) {
+        log.debug("Iniciando eliminación de videojuego con sku '{}'", sku);
         VideojuegoProyeccion videojuego = findBySku(sku);
         List<String> tablasAsociadas = new ArrayList<>();
         if (!videojuegoDesRepository.existsByVideojuego_Sku(videojuego.getSku()))

@@ -16,7 +16,9 @@ import cl.triskeledu.descuentos.repository.VideojuegoDesRepository;
 import cl.triskeledu.descuentos.repository.VideojuegoProyeccionRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class VideojuegoDesService {
@@ -27,10 +29,12 @@ public class VideojuegoDesService {
     //private final CatalogoClient catalogoClient;
 
     public List<VideojuegoDesResponse> findAll() {
+        log.debug("Iniciando búsqueda de todos los descuentos de videojuegos");
         return vidDesMapper.toResponseList(vidDesRepository.findAll());
     }
 
     private VideojuegoDescuento getVideojuegoDesById(Long id) {
+        log.debug("Iniciando búsqueda de descuento con id '{}'", id);
         return vidDesRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Videojuego Descuento", "id", id));
     }
@@ -40,6 +44,7 @@ public class VideojuegoDesService {
     }
 
     private List<VideojuegoDescuento> getVideojuegoDesByVidSku(String sku) {
+        log.debug("Iniciando búsqueda de descuentos del videojuego con sku '{}'", sku);
         return vidDesRepository.findByVideojuego_Sku(sku)
         .orElseThrow(() -> new EntityNotFoundException("Videojuego Descuento", "sku", sku));
     }
@@ -49,6 +54,7 @@ public class VideojuegoDesService {
     }
 
     private List<VideojuegoDescuento> getVideojuegoDesByCamId(Long id) {
+        log.debug("Iniciando búsqueda de descuentos de la campaña con id '{}'", id);
         return vidDesRepository.findByCampana_Id(id)
         .orElseThrow(() -> new EntityNotFoundException("Videojuego Descuento", "id", id));
     }
@@ -58,6 +64,7 @@ public class VideojuegoDesService {
     }
 
     private List<VideojuegoDescuento> getVideojuegoDesByEstado(String estado) {
+        log.debug("Iniciando búsqueda de descuentos con estado '{}'", estado);
         return vidDesRepository.findByEstado(estado)
         .orElseThrow(() -> new EntityNotFoundException("Videojuego Descuento", "estado", estado));
     }
@@ -68,6 +75,7 @@ public class VideojuegoDesService {
 
     @Transactional
     public VideojuegoDesResponse create (VideojuegoDesRequest request) {
+        log.debug("Iniciando creación de descuento de videojuegos");
         // if (catalogoClient.findBySku(request.getVideojuegoSku()) == null) {
         //     throw new EntityNotFoundException("Videojuegos en Catálogo", "sku", request.getVideojuegoSku());
         // }
@@ -94,6 +102,7 @@ public class VideojuegoDesService {
 
     @Transactional
     public VideojuegoDesResponse update(Long id, VideojuegoDesRequest request) {
+        log.debug("Iniciando actualización de descuento con id '{}'", id);
         VideojuegoDescuento vidDescuento = getVideojuegoDesById(id);
         vidDesMapper.updateEntity(request, vidDescuento);
         return vidDesMapper.toResponse(vidDescuento);
@@ -101,6 +110,7 @@ public class VideojuegoDesService {
 
     @Transactional
     public void deleteById(Long id) {
+        log.debug("Iniciando eliminación de descuento con id '{}'", id);
         VideojuegoDescuento vidDescuento = getVideojuegoDesById(id);
         vidDesRepository.delete(vidDescuento);
     }

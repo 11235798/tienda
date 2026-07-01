@@ -32,7 +32,9 @@ import cl.triskeledu.common.exception.*;
 // import cl.triskeledu.catalogo.model.Libro;
 // import cl.triskeledu.catalogo.repository.CategoriaRepository;
 // import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DetalleComService {
@@ -44,10 +46,12 @@ public class DetalleComService {
     //private final UsuariosClient usuariosClient;
 
     public List<DetalleComResponse> findAll() {
+        log.debug("Iniciando búsqueda de todos los detalles");
         return detalleMapper.toResponseList(detalleRepository.findAll());
     }
 
     public DetalleComResponse findById(Long id) {
+        log.debug("Iniciando búsqueda de detalle con id '{}'", id);
         return detalleMapper.toResponse(getDetalleById(id));
     }
 
@@ -58,16 +62,19 @@ public class DetalleComService {
     }
 
     public List<DetalleComResponse> findByClienteRut(String clienteRut) {
+        log.debug("Iniciando búsqueda de todos los detalles del cliente con rut '{}'", clienteRut);
         return detalleMapper.toResponseList
         (detalleRepository.findByClienteRut(clienteRut));
     }
 
     public List<DetalleComResponse> findByVideojuegoSku(String videojuegoSku) {
+        log.debug("Iniciando búsqueda de todos los detalles del videojuego con sku '{}'", videojuegoSku);
         return detalleMapper.toResponseList
         (detalleRepository.findByVideojuegoSku(videojuegoSku));
     }
 
     private void validateSkuUnico(String sku) {
+        log.debug("Validando que el sku '{}' de videojuego sea único", sku);
         detalleRepository.findByVideojuegoSku(sku).stream().findFirst().ifPresent(r -> {
             throw new DuplicateResourceException("Un videojuego", "SKU", sku, r.getVideojuego().getTitulo());
         });
@@ -75,6 +82,7 @@ public class DetalleComService {
 
     @Transactional
     public DetalleComResponse create(DetalleComRequest request) {
+        log.debug("Iniciando creación de detalle de compras");
         validateSkuUnico(request.getVideojuegoSku());
         /*if (!catalogoClient.existsByIsbn(request.getIsbn())) {
             throw new EntityNotFoundException
@@ -108,6 +116,7 @@ public class DetalleComService {
 
     @Transactional
     public DetalleComResponse update(Long id, DetalleComRequest request) {
+        log.debug("Iniciando actualización del detalle de compras con id '{}'", id);
         DetalleCompras detalle = getDetalleById(id);
 
         VideojuegoCompras videojuego = videojuegoRepository.findBySku(request.getVideojuegoSku())
@@ -131,6 +140,7 @@ public class DetalleComService {
 
     @Transactional
     public void deleteById(Long id) {
+        log.debug("Iniciando eliminación del detalle de compras con id '{}'", id);
         DetalleCompras detalle = getDetalleById(id);
         
         List<String> tablasAsociadas = new ArrayList<>();

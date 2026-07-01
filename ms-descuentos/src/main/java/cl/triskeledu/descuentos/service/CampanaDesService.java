@@ -13,7 +13,9 @@ import cl.triskeledu.descuentos.repository.CampanaDesRepository;
 import cl.triskeledu.descuentos.repository.VideojuegoDesRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CampanaDesService {
@@ -22,10 +24,12 @@ public class CampanaDesService {
     private final VideojuegoDesRepository videojuegoDesRepository;
 
     public List<CampanaDesResponse> findAll() {
+        log.debug("Iniciando búsqueda de todas las campañas");
         return campanaMapper.toResponseList(campanaRepository.findAll());
     }
 
     private CampanaDescuento getCampanaById(Long id) {
+        log.debug("Iniciando búsqueda de campaña con id '{}'", id);
         return campanaRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Campañas", "id", id));
     }
@@ -35,6 +39,7 @@ public class CampanaDesService {
     }
 
     private CampanaDescuento getCampanaByCodigo(String codigoPromocion) {
+        log.debug("Iniciando búsqueda de campaña con código '{}'", codigoPromocion);
         return campanaRepository.findByCodigoPromocion(codigoPromocion)
         .orElseThrow(() -> new EntityNotFoundException("Campañas", "codigo promocion", codigoPromocion));
     }
@@ -44,6 +49,7 @@ public class CampanaDesService {
     }
 
     private void validateCodigoUnico(String codigoPromocion) {
+        log.debug("Validando que el código '{}' sea único", codigoPromocion);
         campanaRepository.findByCodigoPromocion(codigoPromocion).ifPresent(l -> 
         {throw new DuplicateResourceException
         ("Una campaña", "codigo promocion", codigoPromocion, l.getNombreCampana());
@@ -52,6 +58,7 @@ public class CampanaDesService {
 
     @Transactional
     public CampanaDesResponse create(CampanaDesRequest request) {
+        log.debug("Iniciando creación de campaña de descuento");
         validateCodigoUnico(request.getCodigoPromocion());
         CampanaDescuento campana = new CampanaDescuento();
         campanaMapper.updateEntity(request, campana);
@@ -62,16 +69,19 @@ public class CampanaDesService {
     }
 
     private boolean checkMismoCodigo(Long id, String codigoPromocion) {
+        log.debug("Checkeando si el código de promoción '{}' es el mismo que el de la campaña con id '{}'", codigoPromocion, id);
         CampanaDescuento campana = getCampanaById(id);
         return codigoPromocion.equals(campana.getCodigoPromocion());
     }
 
     public boolean existsByCodigo(String codigoPromocion) {
+        log.debug("Verificando si el código '{}' existe");
         return campanaRepository.existsByCodigoPromocion(codigoPromocion);
     }
 
     @Transactional
     public CampanaDesResponse update(Long id, CampanaDesRequest request) {
+        log.debug("Iniciando actualización de campaña con id '{}'", id);
         if (!checkMismoCodigo(id, request.getCodigoPromocion())) validateCodigoUnico(request.getCodigoPromocion());
         CampanaDescuento campana = new CampanaDescuento();
         campanaMapper.updateEntity(request, campana);
@@ -83,6 +93,7 @@ public class CampanaDesService {
 
     @Transactional
     public void deleteById(Long id) {
+        log.debug("Iniciando eliminación de campaña con id '{}'", id);
         CampanaDescuento campana = getCampanaById(id);
         List<String> tablasAsociadas = new ArrayList<>();
         if (videojuegoDesRepository.existsByCampana_Id(campana.getId())) tablasAsociadas.add("Recursos Físicos");

@@ -17,7 +17,9 @@ import cl.triskeledu.common.exception.EntityNotFoundException;
 import cl.triskeledu.common.exception.ReferentialIntegrityException;
 // import cl.triskeledu.recursos.repository.RecursoFisicoRepository;
 //import cl.triskeledu.compras.client.CatalogoClient;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class VideojuegoComService {
@@ -28,11 +30,13 @@ public class VideojuegoComService {
 
     @Transactional
     public List<VideojuegoComResponse> findAll() {
+        log.debug("Iniciando búsqueda de todos los videojuegos en proyección");
         return videojuegoMapper.toResponseList(videojuegoRepository.findAll());
     }
 
     @Transactional
     public void save(String sku, String titulo, String formato, int precioActual) {
+        log.debug("Iniciando creación de videojuego");
         VideojuegoCompras videojuego = new VideojuegoCompras();
         videojuego.setSku(sku);
         videojuego.setTitulo(titulo);
@@ -43,6 +47,7 @@ public class VideojuegoComService {
 
     @Transactional
     public void deleteBySku(String sku) {
+        log.debug("Iniciando eliminación del videojuego con sku '{}'", sku);
         VideojuegoCompras videojuego = findBySku(sku);
         List<String> tablasAsociadas = new ArrayList<>();
         if (detalleRepository.existsByVideojuegoSku(videojuego.getSku()))
@@ -67,12 +72,14 @@ public class VideojuegoComService {
     */
 
     public VideojuegoCompras findBySku(String sku) {
+        log.debug("Iniciando búsqueda de videojuego con sku '{}'", sku);
         return videojuegoRepository.findBySku(sku)
         .orElseThrow(() -> new EntityNotFoundException
         ("Videojuego Compras", "Sku", sku));
     }
 
     public VideojuegoCompras findById(Long id) {
+        log.debug("Iniciando búsqueda de videojuego con id '{}'", id);
         return videojuegoRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Videojuego Compras", "id", id));
     }

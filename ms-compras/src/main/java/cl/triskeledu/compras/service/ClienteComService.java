@@ -25,7 +25,9 @@ import cl.triskeledu.common.exception.*;
 // import cl.triskeledu.catalogo.mapper.LibroMapper;
 // import cl.triskeledu.catalogo.model.Categoria;
 // import cl.triskeledu.catalogo.repository.CategoriaRepository;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ClienteComService {
@@ -36,11 +38,13 @@ public class ClienteComService {
 
     @Transactional
     public List<ClienteComResponse> findAll() {
+        log.debug("Iniciando búsqueda de todos los clientes en proyección");
         return clienteMapper.toResponseList(clienteRepository.findAll());
     }
 
     @Transactional
     public void save(String rut, String nombre, String email) {
+        log.debug("Iniciando creación de cliente con rut '{}'", rut);
         ClienteCompras cliente = new ClienteCompras();
         cliente.setRut(rut);
         cliente.setNombre(nombre);
@@ -50,6 +54,7 @@ public class ClienteComService {
 
     @Transactional
     public void deleteByRut(String rut) {
+        log.debug("Iniciando eliminación de cliente con rut '{}'", rut);
         ClienteCompras cliente = findByRut(rut);
         List<String> tablasAsociadas = new ArrayList<>();
         if (detalleRepository.existsByClienteRut(cliente.getRut()))
@@ -62,12 +67,14 @@ public class ClienteComService {
     }
 
     public ClienteCompras findByRut(String rut) {
+        log.debug("Iniciando búsqueda de cliente con rut '{}'", rut);
         return clienteRepository.findByRut(rut)
         .orElseThrow(() -> new EntityNotFoundException
         ("Cliente Compras", "Rut", rut));
     }
 
     public ClienteCompras findById(Long id) {
+        log.debug("Iniciando búsqueda de cliente con id '{}'", id);
         return clienteRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException
         ("Cliente Compras", "ID", id));
