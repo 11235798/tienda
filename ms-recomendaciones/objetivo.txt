@@ -1,2 +1,0 @@
-¿Qué tiene que hacer este microservicio?
-listar todas las recomendaciones, buscar recomendaciones por su id, buscar recomendaciones por usuario, asignar nuevas recomendaciones (asegurándose de que no se le asigne a un usuario un videojuegoque ya tiene asignado de antes), editar el porcentaje de afinidad de las recomendaciones y eliminar recomendaciones

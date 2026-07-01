@@ -15,19 +15,9 @@ rmdir /s /q C:\tienda-test\ms-usuarios\target
 
 rmdir /s /q C:\tienda-test\ms-catalogo\target
 
-:: rmdir /s /q C:\tienda-test\ms-inventario\target
-
 rmdir /s /q C:\tienda-test\ms-compras\target
 
-rmdir /s /q C:\tienda-test\ms-pagos\target
-
-rmdir /s /q C:\tienda-test\ms-pedidos\target
-
-rmdir /s /q C:\tienda-test\ms-recomendaciones\target
-
 rmdir /s /q C:\tienda-test\ms-resenas\target
-
-rmdir /s /q C:\tienda-test\ms-notificaciones\target
 
 rmdir /s /q C:\tienda-test\ms-descuentos\target
 
