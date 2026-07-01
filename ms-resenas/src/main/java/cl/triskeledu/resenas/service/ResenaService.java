@@ -14,7 +14,9 @@ import cl.triskeledu.resenas.repository.ResenasRepository;
 import cl.triskeledu.resenas.repository.UsuarioRepository;
 import cl.triskeledu.resenas.repository.VideojuegoRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ResenaService {
@@ -25,6 +27,7 @@ public class ResenaService {
     private final ResenaMapper resenaMapper;
 
     public List<ResenaResponse> obtenerTodas() {
+        log.debug("Iniciando búsqueda de todas las reseñas.");
         return resenasRepository.findAll()
                 .stream()
                 .map(resenaMapper::toResponse)
@@ -32,13 +35,15 @@ public class ResenaService {
     }
 
     public ResenaResponse obtenerPorId(Integer id) {
+        log.debug("Iniciando búsqueda de la reseña con id '{}'.",id);
         Resena resena = resenasRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reseña no encontrada"));
-
+        
         return resenaMapper.toResponse(resena);
     }
 
     public List<ResenaResponse> obtenerPorUsuario(Integer usuarioId) {
+        log.debug("Iniciando búsqueda del usuario con id '{}'.",usuarioId);
         return resenasRepository.findByUsuarioId(usuarioId)
                 .stream()
                 .map(resenaMapper::toResponse)
@@ -46,6 +51,7 @@ public class ResenaService {
     }
 
     public List<ResenaResponse> obtenerPorVideojuego(Integer videojuegoId) {
+        log.debug("Iniciando búsqueda de todas las reseñas del videojuego con el id '{}'.",videojuegoId);
         return resenasRepository.findByVideojuegoId(videojuegoId)
                 .stream()
                 .map(resenaMapper::toResponse)
@@ -68,6 +74,7 @@ public class ResenaService {
 
                     resenaExistente.setCalificacion(request.getCalificacion());
                     resenaExistente.setComentario(request.getComentario());
+                    log.debug("Modificando reseña existente.");
 
                     return resenasRepository.save(resenaExistente);
 
@@ -80,6 +87,7 @@ public class ResenaService {
                             .calificacion(request.getCalificacion())
                             .comentario(request.getComentario())
                             .build();
+                    log.debug("Creando nueva reseña.");
 
                     return resenasRepository.save(nueva);
                 });
@@ -88,11 +96,10 @@ public class ResenaService {
     }
 
     public void eliminar(Integer id) {
-
+        log.debug("Borrando reseña con id '{}'",id);
         if (!resenasRepository.existsById(id)) {
             throw new RuntimeException("Reseña no encontrada");
         }
-
         resenasRepository.deleteById(id);
     }
 }
