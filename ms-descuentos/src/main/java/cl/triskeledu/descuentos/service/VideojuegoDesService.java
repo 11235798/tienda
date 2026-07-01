@@ -40,7 +40,7 @@ public class VideojuegoDesService {
     }
 
     private List<VideojuegoDescuento> getVideojuegoDesByVidSku(String sku) {
-        return vidDesRepository.findByVideojuegoSku(sku)
+        return vidDesRepository.findByVideojuego_Sku(sku)
         .orElseThrow(() -> new EntityNotFoundException("Videojuego Descuento", "sku", sku));
     }
 
@@ -49,7 +49,7 @@ public class VideojuegoDesService {
     }
 
     private List<VideojuegoDescuento> getVideojuegoDesByCamId(Long id) {
-        return vidDesRepository.findByCampanaId(id)
+        return vidDesRepository.findByCampana_Id(id)
         .orElseThrow(() -> new EntityNotFoundException("Videojuego Descuento", "id", id));
     }
 
@@ -85,8 +85,8 @@ public class VideojuegoDesService {
         VideojuegoDescuento vidDescuento = new VideojuegoDescuento();
         vidDesMapper.updateEntity(request, vidDescuento);
 
-        vidDescuento.setCampanaId(campanaDes);
-        vidDescuento.setVideojuegoSku(videojuegoPro);
+        vidDescuento.setCampana(campanaDes);
+        vidDescuento.setVideojuego(videojuegoPro);
         vidDescuento.setEstado("Activo");
 
         return vidDesMapper.toResponse(vidDesRepository.save(vidDescuento));

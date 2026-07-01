@@ -85,7 +85,7 @@ public class CampanaDesService {
     public void deleteById(Long id) {
         CampanaDescuento campana = getCampanaById(id);
         List<String> tablasAsociadas = new ArrayList<>();
-        if (videojuegoDesRepository.existsByCampanaId(campana.getId())) tablasAsociadas.add("Recursos Físicos");
+        if (videojuegoDesRepository.existsByCampana_Id(campana.getId())) tablasAsociadas.add("Recursos Físicos");
         if (!tablasAsociadas.isEmpty())
             throw new ReferentialIntegrityException("Campaña descuento", id, String.join(", ", tablasAsociadas));
     }

@@ -16,8 +16,6 @@ import lombok.*;
         columnList = "videojuego_sku"),
         @Index(name = "idx_descuentos_campana",
         columnList = "campana_id")
-// idx_descuentos_videojuego ON videojuego_descuento(videojuego_id);
-// idx_descuentos_campana ON videojuego_descuento(campana_id);
     }
 )
 @Getter
@@ -29,17 +27,16 @@ public class VideojuegoDescuento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    // id              SERIAL      PRIMARY KEY,
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sku", nullable = false)
-    private VideojuegoProyeccion videojuegoSku;
-    // videojuego_id   INT         NOT NULL REFERENCES videojuegos(id) ON DELETE CASCADE,
+    private VideojuegoProyeccion videojuego;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "campana_id", nullable = false)
-    private CampanaDescuento campanaId;
-    // campana_id      INT         NOT NULL REFERENCES campanas_descuento(id) ON DELETE CASCADE,
+    private CampanaDescuento campana;
+
     @Column(name = "estado")
     private String estado;
-    // estado          VARCHAR(20) DEFAULT 'Activo' CHECK (estado IN ('Activo', 'Pausado')),
-    // UNIQUE (videojuego_id, campana_id)
+
 }

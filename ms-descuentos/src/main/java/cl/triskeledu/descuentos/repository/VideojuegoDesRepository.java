@@ -11,13 +11,13 @@ import cl.triskeledu.descuentos.model.VideojuegoDescuento;
 
 @Repository
 public interface VideojuegoDesRepository extends JpaRepository<VideojuegoDescuento, Long> {
-    Optional<List<VideojuegoDescuento>> findByVideojuegoSku(String sku);
+    Optional<List<VideojuegoDescuento>> findByVideojuego_Sku(String sku);
     
-    Optional<List<VideojuegoDescuento>> findByCampanaId(Long camId);
+    Optional<List<VideojuegoDescuento>> findByCampana_Id(Long camId);
     
-    boolean existsByVideojuegoSku(String sku);
+    boolean existsByVideojuego_Sku(String sku);
 
-    boolean existsByCampanaId(Long id);
+    boolean existsByCampana_Id(Long id);
 
     Optional<List<VideojuegoDescuento>> findByEstado(String estado);
 }

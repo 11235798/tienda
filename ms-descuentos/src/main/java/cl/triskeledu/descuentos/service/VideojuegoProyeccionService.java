@@ -56,7 +56,7 @@ public class VideojuegoProyeccionService {
     public void deleteBySku(String sku) {
         VideojuegoProyeccion videojuego = findBySku(sku);
         List<String> tablasAsociadas = new ArrayList<>();
-        if (!videojuegoDesRepository.existsByVideojuegoSku(videojuego.getSku()))
+        if (!videojuegoDesRepository.existsByVideojuego_Sku(videojuego.getSku()))
         {tablasAsociadas.add("Videojuego Descuento");}
         // if (catalogoClient.findBySku(videojuego.getSku()) != null) tablasAsociadas.add("Videojuegos en Catálogo");
         if (!tablasAsociadas.isEmpty()) throw new
