@@ -2,56 +2,70 @@ package cl.triskeledu.usuarios.controller;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import cl.triskeledu.usuarios.dto.UsuariosResenas;
-import cl.triskeledu.usuarios.service.UsuariosService;
+import cl.triskeledu.usuarios.dto.UsuarioRequest;
+import cl.triskeledu.usuarios.dto.UsuarioResponse;
+import cl.triskeledu.usuarios.service.UsuarioService;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequestMapping("/api/usuarios")
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/Usuarios")
 public class UsuarioController {
-private final UsuariosService usuariosService;
-// Se marca como 'final' para garantizar que no cambie tras la creación
- // Obtener todas las compras
+
+    private final UsuarioService usuarioService;
+
     @GetMapping
-    public List<UsuariosResenas> findAll() {
-        return usuariosService.findAll();
+    public ResponseEntity<List<UsuarioResponse>> listarUsuarios() {
+
+        return ResponseEntity.ok(usuarioService.listarUsuarios());
+
     }
 
-    // Buscar por ID
     @GetMapping("/{id}")
-    public UsuariosResenas findById(@PathVariable Long id) {
-        return usuariosService.findById(id);
+    public ResponseEntity<UsuarioResponse> buscarPorId(@PathVariable Integer id) {
+
+        return ResponseEntity.ok(usuarioService.buscarPorId(id));
+
     }
 
-    // Crear compra
+    @GetMapping("/email/{email}")
+    public ResponseEntity<UsuarioResponse> buscarPorEmail(@PathVariable String email) {
+
+        return ResponseEntity.ok(usuarioService.buscarPorEmail(email));
+
+    }
+
     @PostMapping
-    public UsuariosResenas create(@RequestBody UsuariosResenas usuario) {
-        return usuariosService.save(usuario);
+    public ResponseEntity<UsuarioResponse> crearUsuario(
+            @RequestBody UsuarioRequest request) {
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(usuarioService.crearUsuario(request));
+
     }
 
-    // Actualizar compra
     @PutMapping("/{id}")
-    public UsuariosResenas update(
-            @PathVariable Long id,
-            @RequestBody UsuariosResenas usuario) {
-        usuario.setUsuarioId(id); // Asegura que el ID del path se use para
-        return usuariosService.save(usuario);
+    public ResponseEntity<UsuarioResponse> actualizarUsuario(
+            @PathVariable Integer id,
+            @RequestBody UsuarioRequest request) {
+
+        return ResponseEntity.ok(
+                usuarioService.actualizarUsuario(id, request));
+
     }
 
-    // Eliminar compra
     @DeleteMapping("/{id}")
-    public Boolean deleteById(@PathVariable Long id) {
-        return usuariosService.deleteById(id);
-    }
-}
+    public ResponseEntity<Void> eliminarUsuario(@PathVariable Integer id) {
 
+        usuarioService.eliminarUsuario(id);
+
+        return ResponseEntity.noContent().build();
+
+    }
+
+}

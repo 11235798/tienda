@@ -32,11 +32,13 @@ public class Resena {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "videojuego_id", nullable = false)
-    private Integer videojuegoId;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
 
-    @Column(name = "usuario_id", nullable = false)
-    private Integer usuarioId;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "videojuego_id", nullable = false)
+    private Videojuego videojuego;
 
     @Column(name = "calificacion", nullable = false)
     private Integer calificacion;

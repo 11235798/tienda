@@ -1,47 +1,91 @@
 package cl.triskeledu.usuarios.service;
 
-
-import java.time.LocalDateTime;
 import java.util.List;
 
-import cl.triskeledu.usuarios.dto.UsuariosResenas;
-import cl.triskeledu.usuarios.repository.UsuariosRepository;
+import org.springframework.stereotype.Service;
 
-public class UsuariosService {
-private final UsuariosRepository usuarioRepository;
+import cl.triskeledu.usuarios.dto.UsuarioRequest;
+import cl.triskeledu.usuarios.dto.UsuarioResponse;
+import cl.triskeledu.usuarios.model.Usuario;
+import cl.triskeledu.usuarios.mapper.UsuarioMapper;
+import cl.triskeledu.usuarios.repository.UsuarioRepository;
 
-    // Constructor para inyección de dependencias (Recomendado en Spring Boot)
-    public UsuariosService(UsuariosRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class UsuarioService {
+
+    private final UsuarioRepository usuarioRepository;
+    private final UsuarioMapper usuarioMapper;
+
+    public List<UsuarioResponse> listarUsuarios() {
+
+        return usuarioMapper.toResponseList(usuarioRepository.findAll());
+
     }
 
-    // Obtener todos
-    public List<UsuariosResenas> findAll() {
-        return usuarioRepository.findAll();
+    public UsuarioResponse buscarPorId(Integer id) {
+
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Usuario no encontrado."));
+
+        return usuarioMapper.toResponse(usuario);
+
     }
 
-    // Buscar por ID de usuario
-    public UsuariosResenas findById(Long id) {
-        return usuarioRepository.findByUsuarioId(id);
-    }
-    // Guardar (Recibe el Request anidado y lo mapea al formato del repositorio)
-    public UsuariosResenas save(UsuariosResenas request) {
-        
-            UsuariosResenas consolidado = new UsuariosResenas();
-        
-        // --- Mapeo de Cuenta ---
-        consolidado.setUsername(request.getUsername());
-        consolidado.setEmail(request.getEmail());
-        consolidado.setActivo(true); // Por defecto activo al registrar
-        consolidado.setFechaCreacion(LocalDateTime.now());
-        // Nota: La contraseña (request.getPassword()) normalmente se encripta aquí antes de guardar en BD real
+    public UsuarioResponse buscarPorEmail(String email) {
 
-        return usuarioRepository.save(consolidado);
-    }
-  
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException("Usuario no encontrado."));
 
-    // Eliminar
-    public Boolean deleteById(Long id) {
-        return usuarioRepository.deleteByUsuarioId(id);
+        return usuarioMapper.toResponse(usuario);
+
     }
+
+    public UsuarioResponse crearUsuario(UsuarioRequest request) {
+
+        if (usuarioRepository.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("El email ya existe.");
+        }
+
+        if (usuarioRepository.existsByNickname(request.getNickname())) {
+            throw new RuntimeException("El nickname ya existe.");
+        }
+
+        Usuario usuario = usuarioMapper.toEntity(request);
+
+        usuario = usuarioRepository.save(usuario);
+
+        return usuarioMapper.toResponse(usuario);
+
+    }
+
+    public UsuarioResponse actualizarUsuario(Integer id, UsuarioRequest request) {
+
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Usuario no encontrado."));
+
+        usuario.setNickname(request.getNickname());
+        usuario.setNivelCuenta(request.getNivelCuenta());
+
+        usuario = usuarioRepository.save(usuario);
+
+        return usuarioMapper.toResponse(usuario);
+
+    }
+
+    public void eliminarUsuario(Integer id) {
+
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Usuario no encontrado."));
+
+        usuarioRepository.delete(usuario);
+
+    }
+
 }
