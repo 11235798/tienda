@@ -4,8 +4,6 @@ server:
     include-stacktrace: never
 
 spring:
-  kafka:
-    bootstrap-servers: localhost:9092
   application:
     name: ms-resenas
   datasource:

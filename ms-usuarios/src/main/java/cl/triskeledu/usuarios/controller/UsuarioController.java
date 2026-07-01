@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import cl.triskeledu.usuarios.dto.UsuarioRequest;
 import cl.triskeledu.usuarios.dto.UsuarioResponse;
-import cl.triskeledu.usuarios.service.UsuarioService;
+import cl.triskeledu.usuarios.service.UsuariosService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UsuarioController {
 
-    private final UsuarioService usuarioService;
+    private final UsuariosService usuarioService;
 
     @GetMapping
     public ResponseEntity<List<UsuarioResponse>> listarUsuarios() {

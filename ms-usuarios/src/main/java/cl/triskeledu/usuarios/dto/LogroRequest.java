@@ -1,7 +1,7 @@
 package cl.triskeledu.usuarios.dto;
 
 import lombok.*; 
-import com.example.usuarios.entity.Rareza; 
+import cl.triskeledu.usuarios.model.Rareza; 
 
 @Getter 
 @Setter 
