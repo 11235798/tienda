@@ -8,6 +8,6 @@ import cl.triskeledu.compras.dto.ClienteComResponse;
 
 @FeignClient(name = "ms-usuarios")
 public interface UsuariosClient {
-    @GetMapping("api/v1/usuarios/rut/{rut}")
-    ClienteComResponse findByRut(@PathVariable String rut);
+    // @GetMapping("api/v1/usuarios/rut/{rut}")
+    // ClienteComResponse findByRut(@PathVariable String rut);
 }

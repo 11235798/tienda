@@ -80,8 +80,8 @@ public class DetalleComService {
             throw new EntityNotFoundException
             ("Videojuegos en Catálogo", "Sku", request.getVideojuegoSku());
         } */
-        catalogoClient.findBySku(request.getVideojuegoSku());
-        usuariosClient.findByRut(request.getClienteRut());
+        // catalogoClient.findBySku(request.getVideojuegoSku());
+        // usuariosClient.findByRut(request.getClienteRut());
 
         VideojuegoCompras videojuego = videojuegoRepository
         .findBySku(request.getVideojuegoSku())

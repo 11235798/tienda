@@ -54,8 +54,8 @@ public class ClienteComService {
         List<String> tablasAsociadas = new ArrayList<>();
         if (detalleRepository.existsByClienteRut(cliente.getRut()))
             tablasAsociadas.add("Detalle Compras");
-        if (usuariosClient.findByRut(cliente.getRut()) != null)
-            tablasAsociadas.add("Usuarios Existentes (no proyección");
+        // if (usuariosClient.findByRut(cliente.getRut()) != null)
+        //     tablasAsociadas.add("Usuarios Existentes (no proyección");
         if (!tablasAsociadas.isEmpty()) throw new ReferentialIntegrityException
         ("Cliente Compras", rut, String.join(", ", tablasAsociadas));
         clienteRepository.delete(cliente);

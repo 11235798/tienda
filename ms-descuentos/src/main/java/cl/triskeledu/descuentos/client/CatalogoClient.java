@@ -8,6 +8,6 @@ import cl.triskeledu.descuentos.dto.VideojuegoProyeccionResponse;
 
 @FeignClient(name = "ms-catalogo")
 public interface CatalogoClient {
-    @GetMapping("api/v1/videojuegos/sku/{sku}")
-    VideojuegoProyeccionResponse findBySku(@PathVariable String sku);
+    // @GetMapping("api/v1/videojuegos/sku/{sku}")
+    // VideojuegoProyeccionResponse findBySku(@PathVariable String sku);
 }

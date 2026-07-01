@@ -47,8 +47,8 @@ public class VideojuegoComService {
         List<String> tablasAsociadas = new ArrayList<>();
         if (detalleRepository.existsByVideojuegoSku(videojuego.getSku()))
             tablasAsociadas.add("Detalle Compras");
-        if (catalogoClient.findBySku(videojuego.getSku()) != null)
-            tablasAsociadas.add("Videojuegos en Catálogo");
+        // if (catalogoClient.findBySku(videojuego.getSku()) != null)
+        //     tablasAsociadas.add("Videojuegos en Catálogo");
         if (!tablasAsociadas.isEmpty()) throw new ReferentialIntegrityException
         ("Videojuego Compras", sku, String.join(", ", tablasAsociadas));
         videojuegoRepository.delete(videojuego);

@@ -68,9 +68,9 @@ public class VideojuegoDesService {
 
     @Transactional
     public VideojuegoDesResponse create (VideojuegoDesRequest request) {
-        if (catalogoClient.findBySku(request.getVideojuegoSku()) == null) {
-            throw new EntityNotFoundException("Videojuegos en Catálogo", "sku", request.getVideojuegoSku());
-        }
+        // if (catalogoClient.findBySku(request.getVideojuegoSku()) == null) {
+        //     throw new EntityNotFoundException("Videojuegos en Catálogo", "sku", request.getVideojuegoSku());
+        // }
 
         VideojuegoProyeccion videojuegoPro = vidProRepository
         .findBySku(request.getVideojuegoSku()).
