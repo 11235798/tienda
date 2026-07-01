@@ -13,7 +13,7 @@ import cl.triskeledu.compras.repository.ClienteComRepository;
 import cl.triskeledu.compras.repository.DetalleComRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import cl.triskeledu.compras.client.UsuariosClient;
+//import cl.triskeledu.compras.client.UsuariosClient;
 
 // import cl.triskeledu.catalogo.client.RecursoClient;
 // import cl.triskeledu.catalogo.dto.LibroRequest;
@@ -32,7 +32,7 @@ public class ClienteComService {
     private final ClienteComRepository clienteRepository;
     private final DetalleComRepository detalleRepository;
     private final ClienteComMapper clienteMapper;
-    private final UsuariosClient usuariosClient;
+    //private final UsuariosClient usuariosClient;
 
     @Transactional
     public List<ClienteComResponse> findAll() {

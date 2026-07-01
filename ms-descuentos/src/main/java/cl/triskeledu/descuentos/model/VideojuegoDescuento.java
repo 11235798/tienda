@@ -35,7 +35,7 @@ public class VideojuegoDescuento {
     private VideojuegoProyeccion videojuegoSku;
     // videojuego_id   INT         NOT NULL REFERENCES videojuegos(id) ON DELETE CASCADE,
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "campana_id", nullable = false)
     private CampanaDescuento campanaId;
     // campana_id      INT         NOT NULL REFERENCES campanas_descuento(id) ON DELETE CASCADE,
     @Column(name = "estado")

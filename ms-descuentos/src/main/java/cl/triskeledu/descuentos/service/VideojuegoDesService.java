@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import cl.triskeledu.common.exception.*;
-import cl.triskeledu.descuentos.client.CatalogoClient;
+//import cl.triskeledu.descuentos.client.CatalogoClient;
 import cl.triskeledu.descuentos.dto.VideojuegoDesRequest;
 import cl.triskeledu.descuentos.dto.VideojuegoDesResponse;
 import cl.triskeledu.descuentos.mapper.VideojuegoDesMapper;
@@ -24,7 +24,7 @@ public class VideojuegoDesService {
     private final VideojuegoDesMapper vidDesMapper;
     private final VideojuegoProyeccionRepository vidProRepository;
     private final CampanaDesRepository camDesRepository;
-    private final CatalogoClient catalogoClient;
+    //private final CatalogoClient catalogoClient;
 
     public List<VideojuegoDesResponse> findAll() {
         return vidDesMapper.toResponseList(vidDesRepository.findAll());

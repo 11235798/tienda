@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import cl.triskeledu.compras.client.CatalogoClient;
-import cl.triskeledu.compras.client.UsuariosClient;
+//import cl.triskeledu.compras.client.CatalogoClient;
+//import cl.triskeledu.compras.client.UsuariosClient;
 import cl.triskeledu.compras.dto.DetalleComRequest;
 import cl.triskeledu.compras.dto.DetalleComResponse;
 import cl.triskeledu.compras.mapper.DetalleComMapper;
@@ -40,8 +40,8 @@ public class DetalleComService {
     private final DetalleComMapper detalleMapper;
     private final VideojuegoComRepository videojuegoRepository;
     private final ClienteComRepository clienteRepository;
-    private final CatalogoClient catalogoClient;
-    private final UsuariosClient usuariosClient;
+    //private final CatalogoClient catalogoClient;
+    //private final UsuariosClient usuariosClient;
 
     public List<DetalleComResponse> findAll() {
         return detalleMapper.toResponseList(detalleRepository.findAll());

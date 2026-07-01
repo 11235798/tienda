@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cl.triskeledu.common.exception.*;
-import cl.triskeledu.descuentos.client.CatalogoClient;
+//import cl.triskeledu.descuentos.client.CatalogoClient;
 import cl.triskeledu.descuentos.dto.VideojuegoProyeccionResponse;
 import cl.triskeledu.descuentos.mapper.VideojuegoProyeccionMapper;
 import cl.triskeledu.descuentos.model.VideojuegoProyeccion;
@@ -21,7 +21,7 @@ public class VideojuegoProyeccionService {
     private final VideojuegoProyeccionRepository videojuegoRepository;
     private final VideojuegoProyeccionMapper videojuegoMapper;
     private final VideojuegoDesRepository videojuegoDesRepository;
-    private final CatalogoClient catalogoClient;
+//    private final CatalogoClient catalogoClient;
 
     public List<VideojuegoProyeccionResponse> findAll() {
         return videojuegoMapper.toResponseList(videojuegoRepository.findAll());

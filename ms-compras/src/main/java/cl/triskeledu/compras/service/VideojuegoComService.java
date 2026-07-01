@@ -16,14 +16,14 @@ import lombok.RequiredArgsConstructor;
 import cl.triskeledu.common.exception.EntityNotFoundException;
 import cl.triskeledu.common.exception.ReferentialIntegrityException;
 // import cl.triskeledu.recursos.repository.RecursoFisicoRepository;
-import cl.triskeledu.compras.client.CatalogoClient;
+//import cl.triskeledu.compras.client.CatalogoClient;
 
 @Service
 @RequiredArgsConstructor
 public class VideojuegoComService {
     private final VideojuegoComRepository videojuegoRepository;
     private final DetalleComRepository detalleRepository;
-    private final CatalogoClient catalogoClient;
+    //private final CatalogoClient catalogoClient;
     private final VideojuegoComMapper videojuegoMapper;
 
     @Transactional

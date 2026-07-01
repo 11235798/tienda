@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS campanas_descuento;
 
 -- 2. TABLAS MAESTRAS
 CREATE TABLE campanas_descuento (
-    id                  SERIAL          PRIMARY KEY,
+    campana_id          SERIAL          PRIMARY KEY,
     codigo_promocion    VARCHAR(50)     UNIQUE NOT NULL,
     nombre_campana      VARCHAR(100)    NOT NULL,
     porcentaje_rebaja   INT             NOT NULL CHECK (porcentaje_rebaja > 0 AND porcentaje_rebaja <= 100),
@@ -27,7 +27,7 @@ CREATE TABLE videojuegos (
 CREATE TABLE videojuego_descuento (
     id              SERIAL      PRIMARY KEY,
     videojuego_sku  VARCHAR(20) NOT NULL REFERENCES videojuegos(sku) ON DELETE CASCADE,
-    campana_id      INT         NOT NULL REFERENCES campanas_descuento(id) ON DELETE CASCADE,
+    campana_id      INT         NOT NULL REFERENCES campanas_descuento(campana_id) ON DELETE CASCADE,
     estado          VARCHAR(20) DEFAULT 'Activo' CHECK (estado IN ('Activo', 'Pausado')),
     UNIQUE (videojuego_sku, campana_id) -- Regla: Un juego no puede estar dos veces en la misma campaña
 );
