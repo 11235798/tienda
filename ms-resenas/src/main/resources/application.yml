@@ -10,7 +10,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5433/resenas
     username: postgres
-    password: Duoc.2026
+    password: 123
   jpa:
     hibernate:
       ddl-auto: update
