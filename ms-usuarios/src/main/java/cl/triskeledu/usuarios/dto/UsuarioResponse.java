@@ -1,7 +1,6 @@
 package cl.triskeledu.usuarios.dto;
 
 import lombok.*; 
-import java.time.*;
 
 @Getter 
 @Setter 
@@ -9,12 +8,9 @@ import java.time.*;
 @AllArgsConstructor 
 @Builder 
 public class UsuarioResponse{
-    private Integer id;
+    private Long id;
     private String nickname;
     private String email;
-    private Integer nivelCuenta;
-    private String password;
     private String rol;
     private Boolean activo;
-    private LocalDateTime fechaRegistro;
 }

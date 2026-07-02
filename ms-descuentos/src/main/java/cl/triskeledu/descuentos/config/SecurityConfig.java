@@ -59,29 +59,29 @@ public class SecurityConfig {
 
                 // Lectura de recursos y proyecciones: cualquier rol autenticado
                 .requestMatchers(HttpMethod.GET, "/api/v1/videojuego-descuento/**")
-                    .hasAnyRole("Administrador", "Bibliotecario", "Cliente")
+                    .hasAnyRole("Administrador", "Vendedor", "Cliente")
                 .requestMatchers(HttpMethod.GET, "/api/v1/libros-proyeccion/**")
-                    .hasAnyRole("Administrador", "Bibliotecario", "Cliente")
+                    .hasAnyRole("Administrador", "Vendedor", "Cliente")
 
-                // Escritura de recursos: solo Administrador y Bibliotecario
+                // Escritura de recursos: solo Administrador y Vendedor
                 .requestMatchers(HttpMethod.POST, "/api/v1/videojuego-descuento/**")
-                    .hasAnyRole("Administrador", "Bibliotecario")
+                    .hasAnyRole("Administrador", "Vendedor")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/videojuego-descuento/**")
-                    .hasAnyRole("Administrador", "Bibliotecario")
+                    .hasAnyRole("Administrador", "Vendedor")
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/videojuego-descuento/**")
-                    .hasAnyRole("Administrador", "Bibliotecario")
+                    .hasAnyRole("Administrador", "Vendedor")
 
                 // Lectura de recursos y proyecciones: cualquier rol autenticado
                 .requestMatchers(HttpMethod.GET, "/api/v1/videojuego-descuento/**")
-                    .hasAnyRole("Administrador", "Bibliotecario", "Cliente")
+                    .hasAnyRole("Administrador", "Vendedor", "Cliente")
 
-                // Escritura de recursos: solo Administrador y Bibliotecario
+                // Escritura de recursos: solo Administrador y Vendedor
                 .requestMatchers(HttpMethod.POST, "/api/v1/campana-descuento/**")
-                    .hasAnyRole("Administrador", "Bibliotecario")
+                    .hasAnyRole("Administrador", "Vendedor")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/campana-descuento/**")
-                    .hasAnyRole("Administrador", "Bibliotecario")
+                    .hasAnyRole("Administrador", "Vendedor")
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/campana-descuento/**")
-                    .hasAnyRole("Administrador", "Bibliotecario")
+                    .hasAnyRole("Administrador", "Vendedor")
 
                 .anyRequest().authenticated()
             )
