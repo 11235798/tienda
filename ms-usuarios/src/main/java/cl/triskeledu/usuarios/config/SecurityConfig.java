@@ -69,7 +69,7 @@ public class SecurityConfig {
 
                 // Endpoints de usuarios por rol
                 .requestMatchers(HttpMethod.GET, "/api/v2/usuarios/**")
-                    .hasAnyRole("Administrador", "Bibliotecario")
+                    .hasAnyRole("Administrador", "Vendedor")
                 .requestMatchers(HttpMethod.POST, "/api/v2/usuarios/**")
                     .hasRole("Administrador")
                 .requestMatchers(HttpMethod.PUT, "/api/v2/usuarios/**")
