@@ -10,6 +10,8 @@ CREATE TABLE usuarios (
     id                  SERIAL       PRIMARY KEY,
     nickname            VARCHAR(100) UNIQUE NOT NULL,
     email               VARCHAR(150) UNIQUE NOT NULL,
+    password            VARCHAR(255) NOT NULL,
+    rol                 VARCHAR(50)  DEFAULT 'USER' CHECK (rol IN ('USER', 'ADMIN')),
     nivel_cuenta        INT          DEFAULT 1 CHECK (nivel_cuenta > 0),
     fecha_registro      TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
 );
@@ -39,10 +41,13 @@ CREATE INDEX idx_desbloqueos_usuario ON usuario_logros(usuario_id);
 CREATE INDEX idx_desbloqueos_fecha ON usuario_logros(fecha_desbloqueo DESC);
 
 -- 5. DATOS DE PRUEBA
-INSERT INTO usuarios (nickname, email, nivel_cuenta) VALUES
-('Alex_Pro',     'alex@email.com',   42),
-('SniperWolf',   'sniper@email.com', 15),
-('RhythmGod',    'rhythm@email.com', 89);
+INSERT INTO usuarios (nickname, email, password, rol, nivel_cuenta) VALUES
+--Hacer todas las contraceñas Duoc@2026
+('Lorebum1',     'lo.stephens@duocuc.cl', 'Duoc@2026', 'ADMIN', 10),
+('D3000bkn',  'dam.arcos@duocuc.cl', 'Duoc@2026', 'ADMIN', 5),
+('Alex_Pro',     'alex@email.com',   'hashed_password_1', 'USER', 42),
+('SniperWolf',   'sniper@email.com', 'hashed_password_2', 'USER', 15),
+('RhythmGod',    'rhythm@email.com', 'hashed_password_3', 'USER', 89);
 
 INSERT INTO logros (codigo_logro, juego_asociado, titulo, rareza, xp_otorgada) VALUES
 ('FF-BOOYAH-01', 'Free Fire',      'Primer Booyah!',             'Común',     500),
