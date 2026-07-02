@@ -30,4 +30,8 @@ public class ClienteCompras {
 
     @Column(name = "email", length = 150, unique = true, nullable = false)
     private String email;
+
+    //rol                 VARCHAR(50)     NOT NULL
+    @Column(name = "rol", length = 50, nullable = false)
+    private String rol;
 }

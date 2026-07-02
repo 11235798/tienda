@@ -43,12 +43,13 @@ public class ClienteComService {
     }
 
     @Transactional
-    public void save(String rut, String nombre, String email) {
+    public void save(String rut, String nombre, String email, String rol) {
         log.debug("Iniciando creación de cliente con rut '{}'", rut);
         ClienteCompras cliente = new ClienteCompras();
         cliente.setRut(rut);
         cliente.setNombre(nombre);
         cliente.setEmail(email);
+        cliente.setRol(rol);
         clienteRepository.save(cliente);
     }
 

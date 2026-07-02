@@ -8,4 +8,5 @@ public class ClienteComResponse {
     private String rut;
     private String nombre;
     private String email;
+    private String rol;
 }

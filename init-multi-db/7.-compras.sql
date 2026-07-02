@@ -7,28 +7,29 @@ DROP TABLE IF EXISTS clientes;
 
 -- 2. TABLAS MAESTRAS
 CREATE TABLE clientes (
-    id                SERIAL        PRIMARY KEY,
-    rut               VARCHAR(15)   UNIQUE NOT NULL,
-    nombre            VARCHAR(100)  NOT NULL,
-    email             VARCHAR(150)  UNIQUE NOT NULL
+    id                  SERIAL          PRIMARY KEY,
+    rut                 VARCHAR(15)     UNIQUE NOT NULL,
+    nombre              VARCHAR(100)    NOT NULL,
+    email               VARCHAR(150)    UNIQUE NOT NULL,
+    rol                 VARCHAR(50)     NOT NULL
 );
 
 CREATE TABLE videojuegos (
-    id                SERIAL        PRIMARY KEY,
-    sku               VARCHAR(20)   UNIQUE NOT NULL,
-    titulo            VARCHAR(255)  NOT NULL,
-    formato           VARCHAR(50)   NOT NULL CHECK (formato IN ('Físico', 'Digital')),
-    precio_actual     INT           NOT NULL CHECK (precio_actual >= 0)
+    id                  SERIAL          PRIMARY KEY,
+    sku                 VARCHAR(20)     UNIQUE NOT NULL,
+    titulo              VARCHAR(255)    NOT NULL,
+    formato             VARCHAR(50)     NOT NULL CHECK (formato IN ('Físico', 'Digital')),
+    precio_actual       INT             NOT NULL CHECK (precio_actual >= 0)
 );
 
 -- 3. TABLA INTERMEDIA (REGISTRO DE ÓRDENES / COMPRAS)
 CREATE TABLE detalle_compras (
-    id                SERIAL        PRIMARY KEY,
-    cliente_rut       VARCHAR(15)   NOT NULL REFERENCES clientes(rut) ON DELETE RESTRICT,
-    videojuego_sku    VARCHAR(20)   NOT NULL REFERENCES videojuegos(sku) ON DELETE RESTRICT,
-    cantidad          INT           NOT NULL CHECK (cantidad > 0),
-    precio_historico  INT           NOT NULL CHECK (precio_historico >= 0), -- Congela el precio al momento de comprar
-    fecha_compra      TIMESTAMP     DEFAULT CURRENT_TIMESTAMP
+    id                SERIAL            PRIMARY KEY,
+    cliente_rut         VARCHAR(15)     NOT NULL REFERENCES clientes(rut) ON DELETE RESTRICT,
+    videojuego_sku      VARCHAR(20)     NOT NULL REFERENCES videojuegos(sku) ON DELETE RESTRICT,
+    cantidad            INT             NOT NULL CHECK (cantidad > 0),
+    precio_historico    INT             NOT NULL CHECK (precio_historico >= 0), -- Congela el precio al momento de comprar
+    fecha_compra        TIMESTAMP       DEFAULT CURRENT_TIMESTAMP
     -- Nota: Tampoco hay UNIQUE(cliente_id, videojuego_id) porque un cliente puede volver a comprar el mismo juego (ej. para regalo).
 );
 
@@ -39,10 +40,10 @@ CREATE INDEX idx_compras_videojuego ON detalle_compras(videojuego_sku);
 CREATE INDEX idx_compras_fecha      ON detalle_compras(fecha_compra);
 
 -- 5. DATOS DE PRUEBA
-INSERT INTO clientes (rut, nombre, email) VALUES
-('11222333-4', 'Carlos Gamer', 'carlos@email.com'), 
-('22333444-5', 'Ana Player',   'ana@email.com'), 
-('33444555-6', 'Luis Retro',   'luis@email.com');
+INSERT INTO clientes (rut, nombre, email, rol) VALUES
+('11222333-4', 'Carlos Gamer', 'carlos@email.com', 'ADMIN'), 
+('22333444-5', 'Ana Player',   'ana@email.com', 'USER'), 
+('33444555-6', 'Luis Retro',   'luis@email.com', 'USER');
 
 INSERT INTO videojuegos (sku, titulo, formato, precio_actual) VALUES
 ('VG-FIS-001', 'The Legend of Zelda: BOTW',  'Físico',  45000),
