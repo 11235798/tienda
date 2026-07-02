@@ -13,5 +13,7 @@ public class UsuarioResponse{
     private String nickname;
     private String email;
     private Integer nivelCuenta;
+    private String password;
+    private String rol;
     private LocalDateTime fechaRegistro;
 }

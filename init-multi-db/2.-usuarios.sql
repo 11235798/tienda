@@ -43,11 +43,11 @@ CREATE INDEX idx_desbloqueos_fecha ON usuario_logros(fecha_desbloqueo DESC);
 -- 5. DATOS DE PRUEBA
 INSERT INTO usuarios (nickname, email, password, rol, nivel_cuenta) VALUES
 --Hacer todas las contraceñas Duoc@2026
-('Lorebum1',     'lo.stephens@duocuc.cl', 'Duoc@2026', 'ADMIN', 10),
-('D3000bkn',  'dam.arcos@duocuc.cl', 'Duoc@2026', 'ADMIN', 5),
-('Alex_Pro',     'alex@email.com',   'hashed_password_1', 'USER', 42),
-('SniperWolf',   'sniper@email.com', 'hashed_password_2', 'USER', 15),
-('RhythmGod',    'rhythm@email.com', 'hashed_password_3', 'USER', 89);
+('Lorebum1',     'lo.stephens@duocuc.cl', '$2b$10$1hnbaMR7iTsdn3D0gG5Q8eUw5aSh9O2at2e4u1iAlzdhD6m4dzVZO', 'ADMIN', 10),
+('D3000bkn',  'dam.arcos@duocuc.cl', '$2b$10$1hnbaMR7iTsdn3D0gG5Q8eUw5aSh9O2at2e4u1iAlzdhD6m4dzVZO', 'ADMIN', 5),
+('Alex_Pro',     'alex@email.com',   '$2b$10$1hnbaMR7iTsdn3D0gG5Q8eUw5aSh9O2at2e4u1iAlzdhD6m4dzVZO', 'USER', 42),
+('SniperWolf',   'sniper@email.com', '$2b$10$1hnbaMR7iTsdn3D0gG5Q8eUw5aSh9O2at2e4u1iAlzdhD6m4dzVZO', 'USER', 15),
+('RhythmGod',    'rhythm@email.com', '$2b$10$1hnbaMR7iTsdn3D0gG5Q8eUw5aSh9O2at2e4u1iAlzdhD6m4dzVZO', 'USER', 89);
 
 INSERT INTO logros (codigo_logro, juego_asociado, titulo, rareza, xp_otorgada) VALUES
 ('FF-BOOYAH-01', 'Free Fire',      'Primer Booyah!',             'Común',     500),

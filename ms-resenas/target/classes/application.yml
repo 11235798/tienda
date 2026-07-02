@@ -17,6 +17,18 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+# [JJWT-INI]
+# ── Configuración JWT ──────────────────────────────────────────
+# Esta clave secreta DEBE ser idéntica en todos los microservicios
+# para que los tokens generados por ms-usuarios sean válidos en
+# ms-catalogo y ms-recursos.
+# Para dar el valor al "secret" trasformaremos la frase clave (inventada) 
+# "tokenSecretKeyBiblioteca2026TriskeleduSecurity" a formato Base64
+jwt:
+  secret: "dG9rZW5TZWNyZXRLZXlCaWJsaW90ZWNhMjAyNlRyaXNrZWxlZHVTZWN1cml0eQ=="
+  expiration-ms: 3600000   # 1 hora en milisegundos
+# [JJWT-FIN]
+
 eureka:
   client:
     register-with-eureka: true

@@ -33,6 +33,12 @@ public class Usuario {
     @Column(name="nivel_cuenta")
     private Integer nivelCuenta;
 
+    @Column(name="password", nullable=false, length=255)
+    private String password;
+
+    @Column(name="rol", nullable=false, length=50)
+    private String rol;
+
     @CreatedDate
     @Column(name="fecha_registro", nullable=false)
     private LocalDateTime fechaRegistro;
