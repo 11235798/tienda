@@ -41,6 +41,15 @@ jwt:
   expiration-ms: 3600000
 # [JJWT-FIN]
 
+# [SWAGGER-INI] 
+# Configuración de SpringDoc/Swagger UI
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+# [SWAGGER-FIN] 
+
 server:
   port: 9002
   error:
