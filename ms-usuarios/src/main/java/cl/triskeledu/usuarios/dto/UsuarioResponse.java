@@ -15,5 +15,6 @@ public class UsuarioResponse{
     private Integer nivelCuenta;
     private String password;
     private String rol;
+    private Boolean activo;
     private LocalDateTime fechaRegistro;
 }
