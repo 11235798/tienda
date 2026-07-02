@@ -63,6 +63,18 @@ public class SecurityConfig {
 
             // 3. Reglas de autorización por endpoint
             .authorizeHttpRequests(auth -> auth
+                // [SWAGGER-INI]
+                // PERMITIR RUTAS PÚBLICAS DE SWAGGER / SPRINGDOC
+                .requestMatchers(
+                    "/v3/api-docs/**",
+                    "/v3/api-docs.yaml",
+                    "/swagger-ui/**",
+                    "/swagger-ui.html",
+                    "/swagger-resources/**",
+                    "/webjars/**",
+                    "/favicon.ico"
+                ).permitAll()
+                // [SWAGGER-FIN]
                 // Endpoints públicos (sin token)
                 .requestMatchers("/api/v2/auth/**").permitAll()
                 .requestMatchers("/actuator/**").permitAll()

@@ -100,6 +100,17 @@ public class JwtTokenProvider {
         return getClaims(token).get("nombre", String.class);
     }
 
+    // [SWAGGER-INI]
+    /**
+     * Extrae la fecha de expiración del token.
+     * Utilizado por el servicio de logout para saber cuándo
+     * un token en la blacklist puede ser limpiado.
+     */
+    public Date getExpirationFromToken(String token) {
+        return getClaims(token).getExpiration();
+    }
+    // [SWAGGER-FIN]
+
     // ─── Métodos privados ────────────────────────────────────────────────────
 
     /**

@@ -42,13 +42,27 @@
     <!-- Dependencias necesarias para este microservicio -->
     <dependencies>
 
+        <!--  [HATEOAS-INI]  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-hateoas</artifactId>
+        </dependency>
+        <!--  [HATEOAS-FIN]  -->
+
+        <!-- [SWAGGER-INI] -->
+        <!-- Springdoc OpenAPI: generacion automatica de documentacion Swagger UI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        </dependency>
+        <!-- [SWAGGER-FIN] -->
 
         <!-- Libreria comun compartida -->
         <dependency>
             <groupId>cl.triskeledu</groupId>
             <artifactId>cl-triskeledu-common</artifactId>
         </dependency>
-        
+
         <!-- Spring Web: Controladores REST -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
