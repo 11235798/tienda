@@ -12,6 +12,7 @@ CREATE TABLE usuarios (
     email               VARCHAR(150) UNIQUE NOT NULL,
     password            VARCHAR(255) NOT NULL,
     rol                 VARCHAR(50)  DEFAULT 'USER' CHECK (rol IN ('USER', 'ADMIN')),
+    activo              BOOLEAN      DEFAULT TRUE,
     nivel_cuenta        INT          DEFAULT 1 CHECK (nivel_cuenta > 0),
     fecha_registro      TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
 );

@@ -39,6 +39,9 @@ public class Usuario {
     @Column(name="rol", nullable=false, length=50)
     private String rol;
 
+    @Column(name="activo", nullable=false)
+    private Boolean activo;
+
     @CreatedDate
     @Column(name="fecha_registro", nullable=false)
     private LocalDateTime fechaRegistro;
