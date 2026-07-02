@@ -32,4 +32,32 @@ public class CampanaDesController {
     public ResponseEntity<List<CampanaDesResponse>> findAll() {
         return ResponseEntity.ok(camDesService.findAll());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CampanaDesResponse> findById(@PathVariable @NonNull Long id) {
+        return ResponseEntity.ok(camDesService.findById(id));
+    }
+
+    @GetMapping("/codigo/{codigo}")
+    public ResponseEntity<CampanaDesResponse> findByCodigo(@PathVariable String codigo) {
+        return ResponseEntity.ok(camDesService.findByCodigo(codigo));
+    }
+
+    @PostMapping
+    public ResponseEntity<CampanaDesResponse> create(@Valid @RequestBody CampanaDesRequest request) {
+        CampanaDesResponse creada = camDesService.create(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(creada);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CampanaDesResponse> update(@PathVariable @NonNull Long id,
+    @Valid @RequestBody CampanaDesRequest request) {
+        return ResponseEntity.ok(camDesService.update(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable @NonNull Long id) {
+        camDesService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

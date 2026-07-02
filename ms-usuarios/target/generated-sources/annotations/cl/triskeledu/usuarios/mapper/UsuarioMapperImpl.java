@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-07-02T17:06:19-0400",
+    date = "2026-07-02T18:03:30-0400",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.100.v20260624-0231, environment: Java 21.0.11 (Eclipse Adoptium)"
 )
 @Component
@@ -24,8 +24,8 @@ public class UsuarioMapperImpl implements UsuarioMapper {
 
         Usuario.UsuarioBuilder usuario = Usuario.builder();
 
-        usuario.nickname( request.getNickname() );
         usuario.email( request.getEmail() );
+        usuario.nickname( request.getNickname() );
         usuario.password( request.getPassword() );
         usuario.rol( request.getRol() );
 
@@ -40,13 +40,13 @@ public class UsuarioMapperImpl implements UsuarioMapper {
 
         UsuarioResponse.UsuarioResponseBuilder usuarioResponse = UsuarioResponse.builder();
 
+        usuarioResponse.activo( usuario.getActivo() );
+        usuarioResponse.email( usuario.getEmail() );
         if ( usuario.getId() != null ) {
             usuarioResponse.id( usuario.getId().longValue() );
         }
         usuarioResponse.nickname( usuario.getNickname() );
-        usuarioResponse.email( usuario.getEmail() );
         usuarioResponse.rol( usuario.getRol() );
-        usuarioResponse.activo( usuario.getActivo() );
 
         return usuarioResponse.build();
     }
@@ -71,8 +71,8 @@ public class UsuarioMapperImpl implements UsuarioMapper {
             return;
         }
 
-        usuario.setNickname( request.getNickname() );
         usuario.setEmail( request.getEmail() );
+        usuario.setNickname( request.getNickname() );
         usuario.setPassword( request.getPassword() );
         usuario.setRol( request.getRol() );
     }
