@@ -76,27 +76,27 @@ public class SecurityConfig {
 
                 // Lectura de videojuegos: cualquier rol autenticado
                 .requestMatchers(HttpMethod.GET, "/api/v1/videojuegos/**")
-                    .hasAnyRole("ADMIN", "USER")
+                    .hasAnyRole("Administrador", "Vendedor", "Cliente")
 
                 // Escritura de videojuegos: solo ADMIN
                 .requestMatchers(HttpMethod.POST, "/api/v1/videojuegos/**")
-                    .hasAnyRole("ADMIN")
+                    .hasAnyRole("Administrador", "Vendedor")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/videojuegos/**")
-                    .hasAnyRole("ADMIN")
+                    .hasAnyRole("Administrador", "Vendedor")
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/videojuegos/**")
-                    .hasAnyRole("ADMIN")
+                    .hasAnyRole("Administrador", "Vendedor")
 
                 // Lectura de categorias: cualquier rol autenticado
                 .requestMatchers(HttpMethod.GET, "/api/v1/categorias/**")
-                    .hasAnyRole("ADMIN", "USER")
+                    .hasAnyRole("Administrador", "Vendedor", "Cliente")
 
                 // Escritura de videojuegos: solo ADMIN
                 .requestMatchers(HttpMethod.POST, "/api/v1/categorias/**")
-                    .hasAnyRole("ADMIN")
+                    .hasAnyRole("Administrador", "Vendedor")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/categorias/**")
-                    .hasAnyRole("ADMIN")
+                    .hasAnyRole("Administrador", "Vendedor")
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/categorias/**")
-                    .hasAnyRole("ADMIN")
+                    .hasAnyRole("Administrador", "Vendedor")
 
                 .anyRequest().authenticated()
             )

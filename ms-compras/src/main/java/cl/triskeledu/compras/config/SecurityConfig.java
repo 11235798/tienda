@@ -68,19 +68,19 @@ public class SecurityConfig {
 
                 // Lectura de recursos y proyecciones: cualquier rol autenticado
                 .requestMatchers(HttpMethod.GET, "/api/v1/detalles/**")
-                    .hasAnyRole("ADMIN", "USER")
+                    .hasAnyRole("Administrador", "Vendedor", "Cliente")
                 .requestMatchers(HttpMethod.GET, "/api/v1/videojuegos-proyeccion/**")
-                    .hasAnyRole("ADMIN", "USER")
+                    .hasAnyRole("Administrador", "Vendedor", "Cliente")
                 .requestMatchers(HttpMethod.GET, "/api/v1/clientes-proyeccion/**")
-                    .hasAnyRole("ADMIN", "USER")
+                    .hasAnyRole("Administrador", "Vendedor", "Cliente")
 
                 // Escritura de recursos: solo Administrador y Bibliotecario
                 .requestMatchers(HttpMethod.POST, "/api/v1/detalles/**")
-                    .hasAnyRole("ADMIN")
+                    .hasAnyRole("Administrador", "Vendedor")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/detalles/**")
-                    .hasAnyRole("ADMIN")
+                    .hasAnyRole("Administrador", "Vendedor")
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/detalles/**")
-                    .hasAnyRole("ADMIN")
+                    .hasAnyRole("Administrador", "Vendedor")
 
                 .anyRequest().authenticated()
             )
