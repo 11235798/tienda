@@ -63,7 +63,7 @@ logging:
     org.apache.kafka.clients.consumer: DEBUG   # Para ver si se suscriben los topics
 
 server:
-  port: 9004
+  port: 0
   error:
     include-stacktrace: never
 
