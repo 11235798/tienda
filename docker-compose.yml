@@ -79,14 +79,14 @@ services:
   # -- Descubrimiento: Eureka Server ---------------------------
   eureka-server:
     build: ./eureka
-    image: biblioteca-eureka-server
+    image: tienda-eureka-server
     container_name: eureka-server
     ports:
       - "8761:8761"
     environment:
       SPRING_PROFILES_ACTIVE: dev
     networks:
-      - biblioteca-network
+      - tienda-network
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:8761/actuator/health | grep -q '\"status\":\"UP\"' || exit 1"]
       interval: 10s
@@ -97,7 +97,7 @@ services:
   # -- Enrutamiento: API Gateway -------------------------------
   api-gateway:
     build: ./api-gateway
-    image: biblioteca-api-gateway
+    image: tienda-api-gateway
     container_name: api-gateway
     ports:
       - "9000:9000"
@@ -109,7 +109,7 @@ services:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
     networks:
-      - biblioteca-network
+      - tienda-network
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:9000/actuator/health | grep -q '\"status\":\"UP\"' || exit 1"]
       interval: 10s
@@ -134,14 +134,14 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SERVER_PORT: 9005
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-rdbms:5432/usuarios
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-rdbms:5433/usuarios
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: "123"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-broker:29092
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
     networks:
-      - biblioteca-network
+      - tienda-network
 
   # -- Microservicio: Catalogo de Libros -----------------------
   ms-catalogo:
@@ -160,14 +160,14 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SERVER_PORT: 9001
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-rdbms:5432/catalogo
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-rdbms:5433/catalogo
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: "123"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-broker:29092
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
     networks:
-      - biblioteca-network
+      - tienda-network
 
   # -- Microservicio: Recursos Fisicos -------------------------
   ms-compras:
@@ -186,14 +186,14 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SERVER_PORT: 9002
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-rdbms:5432/recursos
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-rdbms:5433/compras
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: "123"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-broker:29092
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
     networks:
-      - biblioteca-network
+      - tienda-network
 
   # -- Microservicio: Recursos Fisicos -------------------------
   ms-descuentos:
@@ -212,14 +212,14 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SERVER_PORT: 9003
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-rdbms:5432/recursos
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-rdbms:5433/descuentos
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: "123"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-broker:29092
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
     networks:
-      - biblioteca-network
+      - tienda-network
 
   # -- Microservicio: Recursos Fisicos -------------------------
   ms-resenas:
@@ -238,14 +238,14 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SERVER_PORT: 9004
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-rdbms:5432/recursos
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-rdbms:5433/resenas
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: "123"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-broker:29092
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
     networks:
-      - biblioteca-network
+      - tienda-network
 
 # ============================================================
 # Red compartida con nombre fijo (independiente del nombre
@@ -253,4 +253,4 @@ services:
 # ============================================================
 networks:
   biblioteca-network:
-    name: biblioteca-network
+    name: tienda-network
