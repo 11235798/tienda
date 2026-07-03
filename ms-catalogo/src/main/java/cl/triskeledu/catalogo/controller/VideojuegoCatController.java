@@ -18,65 +18,133 @@ import cl.triskeledu.catalogo.dto.VideojuegoCatRequest;
 import cl.triskeledu.catalogo.dto.VideojuegoCatResponse;
 import cl.triskeledu.catalogo.service.VideojuegoCatService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/videojuegos")
+@Tag(name = "Videojuegos", description = "API para la gestión del catálogo de videojuegos")
 public class VideojuegoCatController {
     private final VideojuegoCatService videojuegoSer;
 
+    @Operation(summary = "Obtener todos los videojuegos", description = "Retorna la lista completa de videojuegos del catálogo")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Lista obtenida exitosamente",
+            content = @Content(array = @ArraySchema(schema = @Schema(implementation = VideojuegoCatResponse.class))))
+    })
     @GetMapping
     public ResponseEntity<List<VideojuegoCatResponse>> findAll() {
         return ResponseEntity.ok(videojuegoSer.findAll());
     }
 
+    @Operation(summary = "Obtener videojuego por ID", description = "Retorna un videojuego según su identificador único")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Videojuego encontrado",
+            content = @Content(schema = @Schema(implementation = VideojuegoCatResponse.class))),
+        @ApiResponse(responseCode = "404", description = "Videojuego no encontrado", content = @Content)
+    })
     @GetMapping("/{id}")
-    public ResponseEntity<VideojuegoCatResponse> 
-    findById(@PathVariable @NonNull Long id) {
+    public ResponseEntity<VideojuegoCatResponse> findById(
+            @Parameter(description = "ID del videojuego", required = true, example = "1")
+            @PathVariable @NonNull Long id) {
         return ResponseEntity.ok(videojuegoSer.findById(id));
     }
 
+    @Operation(summary = "Obtener videojuego por sku", description = "Retorna un videojuego según su código sku")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Videojuego encontrado",
+            content = @Content(schema = @Schema(implementation = VideojuegoCatResponse.class))),
+        @ApiResponse(responseCode = "404", description = "Videojuego no encontrado", content = @Content)
+    })
     @GetMapping("/sku/{sku}")
-    public ResponseEntity<VideojuegoCatResponse>
-    findBySku(@PathVariable String sku) {
+    public ResponseEntity<VideojuegoCatResponse> findBySku(
+            @Parameter(description = "Sku del libro", required = true, example = "VG-9000")
+            @PathVariable String sku) {
         return ResponseEntity.ok(videojuegoSer.findBySku(sku));
     }
 
+    @Operation(summary = "Crear un nuevo videojuego", description = "Registra un nuevo videojuego en el catálogo")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Videojuego creado exitosamente",
+            content = @Content(schema = @Schema(implementation = VideojuegoCatResponse.class))),
+        @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos", content = @Content)
+    })
     @PostMapping
-    public ResponseEntity<VideojuegoCatResponse>
-    create(@Valid @RequestBody VideojuegoCatRequest request) {
+    public ResponseEntity<VideojuegoCatResponse> create(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                description = "Datos del videojuego a crear", required = true,
+                content = @Content(schema = @Schema(implementation = VideojuegoCatRequest.class)))
+            @Valid @RequestBody VideojuegoCatRequest request) {
         VideojuegoCatResponse creado = videojuegoSer.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(creado);
     }
 
+    @Operation(summary = "Actualizar un videojuego", description = "Actualiza los datos de un videojuego existente")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Videojuego actualizado exitosamente",
+            content = @Content(schema = @Schema(implementation = VideojuegoCatResponse.class))),
+        @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos", content = @Content),
+        @ApiResponse(responseCode = "404", description = "Videojuego no encontrado", content = @Content)
+    })
     @PutMapping("/{id}")
-    public ResponseEntity<VideojuegoCatResponse>
-    update(@PathVariable @NonNull Long id,
-        @Valid @RequestBody VideojuegoCatRequest request) {
+    public ResponseEntity<VideojuegoCatResponse> update(
+            @Parameter(description = "ID del videojuego a actualizar", required = true, example = "1")
+            @PathVariable @NonNull Long id,
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                description = "Nuevos datos del videojuego", required = true,
+                content = @Content(schema = @Schema(implementation = VideojuegoCatRequest.class)))
+            @Valid @RequestBody VideojuegoCatRequest request) {
         return ResponseEntity.ok(videojuegoSer.update(id, request));
     }
 
+    @Operation(summary = "Eliminar un videojuego", description = "Elimina un videojuego del catálogo por su ID")
+    @ApiResponses({
+        @ApiResponse(responseCode = "204", description = "Videojuego eliminado exitosamente", content = @Content),
+        @ApiResponse(responseCode = "404", description = "Videojuego no encontrado", content = @Content)
+    })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void>
-    deleteById(@PathVariable @NonNull Long id) {
+    public ResponseEntity<Void> deleteById(
+            @Parameter(description = "ID del videojuego a eliminar", required = true, example = "1")
+            @PathVariable @NonNull Long id) {
         videojuegoSer.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Agregar categoría a un videojuego", description = "Asocia una categoría existente a un videojuego")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Categoría asociada exitosamente", content = @Content),
+        @ApiResponse(responseCode = "404", description = "Videojuego o categoría no encontrados", content = @Content)
+    })
     @PostMapping
     ("/videojuego/{videojuego_id}/categoria/{categoria_id}")
-    public void addCategoriaAVideojuego
-    (@PathVariable Long videojuego_id,
-        @PathVariable Long categoria_id) {
+    public void addCategoriaAVideojuego(
+            @Parameter(description = "ID del videojuego", required = true, example = "1")
+            @PathVariable Long videojuego_id,
+            @Parameter(description = "ID de la categoría", required = true, example = "3")
+            @PathVariable Long categoria_id) {
         videojuegoSer.addCategoriaAVideojuego
         (videojuego_id, categoria_id);
     }
 
+    @Operation(summary = "Verificar existencia por sku", description = "Comprueba si ya existe un videojuego registrado con el sku indicado")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Verificación realizada exitosamente",
+            content = @Content(schema = @Schema(implementation = Boolean.class)))
+    })
     @GetMapping("/existe/sku/{sku}")
-    public ResponseEntity<Boolean>
-    existBySku(@PathVariable String sku) {
+    public ResponseEntity<Boolean> existBySku(
+            @Parameter(description = "Sku a verificar", required = true, example = "VG-9000")
+            @PathVariable String sku) {
         return ResponseEntity.ok(videojuegoSer.existsBySku(sku));
     }
 }
