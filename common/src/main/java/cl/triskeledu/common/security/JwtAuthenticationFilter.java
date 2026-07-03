@@ -37,6 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final TokenBlacklistService tokenBlacklistService;
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_PREFIX = "Bearer ";
@@ -53,6 +54,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             // 2. Validar y autenticar solo si existe un token
             if (StringUtils.hasText(token) && jwtTokenProvider.validarToken(token)) {
+
+                // CORRECCIÓN: Si está en la lista negra, limpia contexto, responde 401 y corta la ejecución
+                if (tokenBlacklistService.isBlacklisted(token)) {
+                    log.debug("Token rechazado: se encuentra en la blacklist (logout)");
+                    SecurityContextHolder.clearContext();
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    return; 
+                }
 
                 // 3. Extraer claims del token
                 String email = jwtTokenProvider.getEmailFromToken(token);
