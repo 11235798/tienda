@@ -15,7 +15,7 @@ echo.
 
 rem Paso 2: Compilar todos los JARs con Maven
 echo [2/5] COMPILANDO PROYECTO JAVA CON MAVEN...
-echo       (common, eureka, api-gateway, ms-usuarios, ms-catalogo, ms-recursos)
+echo       (common, eureka, api-gateway, ms-usuarios, ms-catalogo, ms-compras, ms-descuentos, ms-resenas) 
 echo.
 call mvn clean package -DskipTests -q
 if %ERRORLEVEL% NEQ 0 (
@@ -68,7 +68,7 @@ echo       [OK] API Gateway esta activo y saludable.
 echo.
 
 rem 3. Iniciar Microservicios y Kafka UI
-echo       Iniciando microservicios (ms-usuarios, ms-catalogo, ms-recursos)...
+echo       Iniciando microservicios (ms-usuarios, ms-catalogo, ms-compras, ms-descuentos, ms-resenas)...
 docker compose up -d ms-usuarios ms-catalogo ms-recursos kafka-ui
 echo.
 echo       Esperando 15 segundos a que los microservicios se registren en Eureka...
@@ -89,9 +89,9 @@ echo   PostgreSQL:     localhost:5433
 echo   -----------------------------------------------
 echo.
 echo   Pruebas con Postman:
-echo   Importar: postman\3-Biblioteca-API.postman_collection_dockers.json
+echo   Importar: postman\3-Tienda-API.postman_collection_dockers.json
 echo   1. Ejecutar "Login - Administrador"
-echo   2. Probar endpoints de Libros, Usuarios, Recursos
+echo   2. Probar endpoints de Catalogo, Usuarios, Compras, Descuentos, Resenas
 echo.
 echo   Para detener todo: docker compose down -v
 echo ====================================================
