@@ -59,7 +59,7 @@ set CONTAINER_NAME=ms-catalogo-%PORT%
 echo       Levantando contenedor %CONTAINER_NAME% en puerto %PORT%...
 docker run -d ^
     --name %CONTAINER_NAME% ^
-    --network biblioteca-network ^
+    --network tienda-network ^
     -e SPRING_PROFILES_ACTIVE=dev ^
     -e SERVER_PORT=%PORT% ^
     -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-rdbms:5432/catalogo ^
@@ -69,7 +69,7 @@ docker run -d ^
     -e EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka ^
     -e EUREKA_INSTANCE_PREFER_IP_ADDRESS=true ^
     -p %PORT%:%PORT% ^
-    biblioteca-ms-catalogo
+    tienda-ms-catalogo
 
 if %ERRORLEVEL% NEQ 0 (
     echo.
