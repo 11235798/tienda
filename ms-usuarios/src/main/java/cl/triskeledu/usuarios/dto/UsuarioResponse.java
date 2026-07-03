@@ -1,5 +1,7 @@
 package cl.triskeledu.usuarios.dto;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import lombok.*; 
 
 @Getter 
@@ -7,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor 
 @AllArgsConstructor 
 @Builder 
-public class UsuarioResponse{
+public class UsuarioResponse extends RepresentationModel<UsuarioResponse> {
     private Long id;
     private String nickname;
     private String email;
