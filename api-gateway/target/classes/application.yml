@@ -66,34 +66,105 @@ spring:
         # CRUD de libros del catálogo. Requiere autenticación JWT.
         # Ejemplo: GET http://localhost:9000/api/v1/libros
         # Se enruta a: ms-catalogo (puerto 9002 por defecto)
-        - id: ms-catalogo
+        - id: ms-catalogo-categorias
           uri: lb://ms-catalogo
           predicates:
-            - Path=/api/v1/libros/**
+            - Path=/api/v1/categorias/**
+        
+        # ----------------------------------------------------------
+        # RUTA 4: Catálogo de libros (ms-catalogo)
+        # ----------------------------------------------------------
+        # CRUD de libros del catálogo. Requiere autenticación JWT.
+        # Ejemplo: GET http://localhost:9000/api/v1/libros
+        # Se enruta a: ms-catalogo (puerto 9002 por defecto)
+        - id: ms-catalogo-videojuegos
+          uri: lb://ms-catalogo
+          predicates:
+            - Path=/api/v1/videojuegos/**
 
         # ----------------------------------------------------------
-        # RUTA 4: Recursos físicos (ms-recursos)
+        # RUTA 5: Recursos físicos (ms-recursos)
         # ----------------------------------------------------------
         # CRUD de recursos físicos (copias de libros, DVDs, etc.)
         # Requiere autenticación JWT.
         # Ejemplo: GET http://localhost:9000/api/v1/recursos
         # Se enruta a: ms-recursos (puerto 9003 por defecto)
-        - id: ms-recursos
-          uri: lb://ms-recursos
+        - id: ms-compras-detalles
+          uri: lb://ms-compras
           predicates:
-            - Path=/api/v1/recursos/**
+            - Path=/api/v1/detalles/**
 
         # ----------------------------------------------------------
-        # RUTA 5: Proyecciones de libros (ms-recursos)
+        # RUTA 5: Recursos físicos (ms-recursos)
+        # ----------------------------------------------------------
+        # CRUD de recursos físicos (copias de libros, DVDs, etc.)
+        # Requiere autenticación JWT.
+        # Ejemplo: GET http://localhost:9000/api/v1/recursos
+        # Se enruta a: ms-recursos (puerto 9003 por defecto)
+        - id: ms-compras-clientes-proyeccion
+          uri: lb://ms-compras
+          predicates:
+            - Path=/api/v1/clientes-proyeccion/**
+
+        # ----------------------------------------------------------
+        # RUTA 5: Recursos físicos (ms-recursos)
+        # ----------------------------------------------------------
+        # CRUD de recursos físicos (copias de libros, DVDs, etc.)
+        # Requiere autenticación JWT.
+        # Ejemplo: GET http://localhost:9000/api/v1/recursos
+        # Se enruta a: ms-recursos (puerto 9003 por defecto)
+        - id: ms-compras-videojuegos-proyeccion
+          uri: lb://ms-compras
+          predicates:
+            - Path=/api/v1/videojuegos-proyeccion/**
+        
+        # ----------------------------------------------------------
+        # RUTA 5: Recursos físicos (ms-recursos)
+        # ----------------------------------------------------------
+        # CRUD de recursos físicos (copias de libros, DVDs, etc.)
+        # Requiere autenticación JWT.
+        # Ejemplo: GET http://localhost:9000/api/v1/recursos
+        # Se enruta a: ms-recursos (puerto 9003 por defecto)
+        - id: ms-descuentos-campana
+          uri: lb://ms-descuentos
+          predicates:
+            - Path=/api/v1/campana-descuento/**
+        
+        # ----------------------------------------------------------
+        # RUTA 5: Recursos físicos (ms-recursos)
+        # ----------------------------------------------------------
+        # CRUD de recursos físicos (copias de libros, DVDs, etc.)
+        # Requiere autenticación JWT.
+        # Ejemplo: GET http://localhost:9000/api/v1/recursos
+        # Se enruta a: ms-recursos (puerto 9003 por defecto)
+        - id: ms-descuentos-videojuego
+          uri: lb://ms-descuentos
+          predicates:
+            - Path=/api/v1/videojuego-descuento/**
+        
+        # ----------------------------------------------------------
+        # RUTA 5: Recursos físicos (ms-recursos)
+        # ----------------------------------------------------------
+        # CRUD de recursos físicos (copias de libros, DVDs, etc.)
+        # Requiere autenticación JWT.
+        # Ejemplo: GET http://localhost:9000/api/v1/recursos
+        # Se enruta a: ms-recursos (puerto 9003 por defecto)
+        - id: ms-descuentos-videojuego-proyeccion
+          uri: lb://ms-descuentos
+          predicates:
+            - Path=/api/v1/videojuego-proyeccion/**
+
+        # ----------------------------------------------------------
+        # RUTA 6: Proyecciones de libros (ms-recursos)
         # ----------------------------------------------------------
         # Vista de proyección de libros desde el servicio de recursos.
         # Requiere autenticación JWT.
         # Ejemplo: GET http://localhost:9000/api/v1/libros-proyeccion
         # Se enruta a: ms-recursos (puerto 9003 por defecto)
-        - id: ms-recursos-proyeccion
-          uri: lb://ms-recursos
+        - id: ms-resenas
+          uri: lb://ms-resenas
           predicates:
-            - Path=/api/v1/libros-proyeccion/**
+            - Path=/api/v1/resenas/**
 
       # ============================================================
       # Configuración global de filtros por defecto

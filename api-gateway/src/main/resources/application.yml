@@ -117,6 +117,42 @@ spring:
           uri: lb://ms-compras
           predicates:
             - Path=/api/v1/videojuegos-proyeccion/**
+        
+        # ----------------------------------------------------------
+        # RUTA 5: Recursos físicos (ms-recursos)
+        # ----------------------------------------------------------
+        # CRUD de recursos físicos (copias de libros, DVDs, etc.)
+        # Requiere autenticación JWT.
+        # Ejemplo: GET http://localhost:9000/api/v1/recursos
+        # Se enruta a: ms-recursos (puerto 9003 por defecto)
+        - id: ms-descuentos-campana
+          uri: lb://ms-descuentos
+          predicates:
+            - Path=/api/v1/campana-descuento/**
+        
+        # ----------------------------------------------------------
+        # RUTA 5: Recursos físicos (ms-recursos)
+        # ----------------------------------------------------------
+        # CRUD de recursos físicos (copias de libros, DVDs, etc.)
+        # Requiere autenticación JWT.
+        # Ejemplo: GET http://localhost:9000/api/v1/recursos
+        # Se enruta a: ms-recursos (puerto 9003 por defecto)
+        - id: ms-descuentos-videojuego
+          uri: lb://ms-descuentos
+          predicates:
+            - Path=/api/v1/videojuego-descuento/**
+        
+        # ----------------------------------------------------------
+        # RUTA 5: Recursos físicos (ms-recursos)
+        # ----------------------------------------------------------
+        # CRUD de recursos físicos (copias de libros, DVDs, etc.)
+        # Requiere autenticación JWT.
+        # Ejemplo: GET http://localhost:9000/api/v1/recursos
+        # Se enruta a: ms-recursos (puerto 9003 por defecto)
+        - id: ms-descuentos-videojuego-proyeccion
+          uri: lb://ms-descuentos
+          predicates:
+            - Path=/api/v1/videojuego-proyeccion/**
 
         # ----------------------------------------------------------
         # RUTA 6: Proyecciones de libros (ms-recursos)
