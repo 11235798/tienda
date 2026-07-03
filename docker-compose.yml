@@ -26,7 +26,7 @@ services:
     volumes:
       - ./init-multi-db:/docker-entrypoint-initdb.d
     networks:
-      - biblioteca-network
+      - tienda-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
@@ -53,7 +53,7 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qk"
     networks:
-      - biblioteca-network
+      - tienda-network
     healthcheck:
       test: ["CMD-SHELL", "kafka-broker-api-versions --bootstrap-server localhost:9092 > /dev/null 2>&1"]
       interval: 10s
@@ -74,7 +74,7 @@ services:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-broker:29092
     networks:
-      - biblioteca-network
+      - tienda-network
 
   # -- Descubrimiento: Eureka Server ---------------------------
   eureka-server:
@@ -252,5 +252,5 @@ services:
 # de la carpeta del proyecto)
 # ============================================================
 networks:
-  biblioteca-network:
+  tienda-network:
     name: tienda-network

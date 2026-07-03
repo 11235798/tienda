@@ -32,7 +32,8 @@ echo.
 
 rem Paso 3: Levantar Base de Datos y Mensajeria
 echo [3/5] INICIANDO POSTGRES Y KAFKA...
-docker compose up -d postgres kafka
+docker compose up -d postgres 
+: kafka
 echo.
 echo       Esperando a que PostgreSQL este completamente activo (healthy)...
 powershell -Command "while ((docker inspect --format '{{.State.Health.Status}}' postgres-rdbms 2>$null) -ne 'healthy') { Start-Sleep -Seconds 2 }"

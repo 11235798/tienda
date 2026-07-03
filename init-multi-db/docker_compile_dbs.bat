@@ -4,3 +4,6 @@ docker exec postgres-rdbms psql -U postgres -d main_postgres_db -f /docker-entry
 docker exec postgres-rdbms psql -U postgres -d main_postgres_db -f /docker-entrypoint-initdb.d/5.-descuento.sql
 docker exec postgres-rdbms psql -U postgres -d main_postgres_db -f /docker-entrypoint-initdb.d/7.-compras.sql
 docker exec postgres-rdbms psql -U postgres -d main_postgres_db -f /docker-entrypoint-initdb.d/9.resenas.sql
+
+: según Gemini (opción 1):
+: docker exec -i postgres-rdbms psql -U postgres -d main_postgres_db < 01-init.sql
