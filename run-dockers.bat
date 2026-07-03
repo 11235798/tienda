@@ -70,7 +70,7 @@ echo.
 
 rem 3. Iniciar Microservicios y Kafka UI
 echo       Iniciando microservicios (ms-usuarios, ms-catalogo, ms-compras, ms-descuentos, ms-resenas)...
-docker compose up -d ms-usuarios ms-catalogo ms-recursos kafka-ui
+docker compose up -d ms-usuarios ms-catalogo ms-compras ms-descuentos ms-resenas kafka-ui
 echo.
 echo       Esperando 15 segundos a que los microservicios se registren en Eureka...
 powershell -Command "Start-Sleep -Seconds 15"
