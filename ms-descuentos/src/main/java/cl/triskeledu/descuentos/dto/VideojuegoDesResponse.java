@@ -1,9 +1,13 @@
 package cl.triskeledu.descuentos.dto;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class VideojuegoDesResponse {
+@EqualsAndHashCode(callSuper = false)
+public class VideojuegoDesResponse extends RepresentationModel<VideojuegoDesResponse> {
     // @Id
     // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

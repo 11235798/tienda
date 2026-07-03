@@ -1,13 +1,17 @@
 package cl.triskeledu.compras.dto;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import java.time.LocalDateTime;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class DetalleComResponse {
+@EqualsAndHashCode(callSuper = false)
+public class DetalleComResponse extends RepresentationModel<DetalleComResponse>{
     private Long id;
-    private Long clienteRut;
+    private String clienteRut;
     private String videojuegoSku;
     private int cantidad;
     private int precioHistorico;
