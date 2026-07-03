@@ -2,6 +2,10 @@ package cl.triskeledu.catalogo.controller;
 
 import java.util.List;
 
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -36,6 +40,47 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Videojuegos", description = "API para la gestión del catálogo de videojuegos")
 public class VideojuegoCatController {
     private final VideojuegoCatService videojuegoSer;
+
+    // ─── Métodos auxiliares HATEOAS ───────────────────────────────────────────
+
+    /**
+     * Agrega al VideojuegoCatResponse los links de navegación estándar:
+     *   - self             → GET  /api/v1/videojuegos/{id}
+     *   - update           → PUT  /api/v1/videojuegos/{id}
+     *   - delete           → DELETE /api/v1/videojuegos/{id}
+     *   - agregar-categoria→ POST /api/v1/videojuegos/videojuego/{id}/categoria/{categoriaId}
+     *   - all              → GET  /api/v1/libros
+     *
+     * WebMvcLinkBuilder.linkTo(methodOn(...)) construye la URL real a partir del
+     * propio controlador, evitando strings manuales que se desincronizarían si
+     * cambia el @RequestMapping.
+     */
+    private VideojuegoCatResponse addLinks(VideojuegoCatResponse juego) {
+        Long id = juego.getIdVid();
+
+        juego.add(linkTo(methodOn(VideojuegoCatController.class).findById(id)).withSelfRel());
+
+        juego.add(linkTo(methodOn(VideojuegoCatController.class).update(id, null))
+                .withRel("update").withTitle("PUT - Actualizar videojuego"));
+
+        juego.add(linkTo(methodOn(VideojuegoCatController.class).deleteById(id))
+                .withRel("delete").withTitle("DELETE - Eliminar videojuego"));
+
+        // Para el link de categoría no existe un método exacto con param fijo,
+        // se construye el template manualmente para mostrar que acepta {categoriaId}.
+        Link categoriaLink = Link.of(
+                linkTo(VideojuegoCatController.class).toUri() + "/videojuego/" + id + "/categoria/{categoriaId}",
+                "agregar-categoria"
+        ).withTitle("POST - Asociar categoría al videojuego");
+        juego.add(categoriaLink);
+
+        juego.add(linkTo(methodOn(VideojuegoCatController.class).findAll())
+                .withRel("all").withTitle("GET - Listado de libros"));
+
+        return juego;
+    }
+
+    // ─── Endpoints ────────────────────────────────────────────────────────────
 
     @Operation(summary = "Obtener todos los videojuegos", description = "Retorna la lista completa de videojuegos del catálogo")
     @ApiResponses({
