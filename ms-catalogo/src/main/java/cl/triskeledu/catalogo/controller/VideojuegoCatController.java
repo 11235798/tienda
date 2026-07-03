@@ -39,6 +39,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/videojuegos")
 @Tag(name = "Videojuegos", description = "API para la gestión del catálogo de videojuegos")
 public class VideojuegoCatController {
+
     private final VideojuegoCatService videojuegoSer;
 
     // ─── Métodos auxiliares HATEOAS ───────────────────────────────────────────
@@ -88,8 +89,19 @@ public class VideojuegoCatController {
             content = @Content(array = @ArraySchema(schema = @Schema(implementation = VideojuegoCatResponse.class))))
     })
     @GetMapping
-    public ResponseEntity<List<VideojuegoCatResponse>> findAll() {
-        return ResponseEntity.ok(videojuegoSer.findAll());
+    public ResponseEntity<CollectionModel<VideojuegoCatResponse>> findAll() {
+        List<VideojuegoCatResponse> juegos = videojuegoSer.findAll();
+
+        // Agrega links a cada elemento de la lista
+        juegos.forEach(this::addLinks);
+
+        // CollectionModel envuelve la lista y le agrega un link "self" al colección completa
+        CollectionModel<VideojuegoCatResponse> collection = CollectionModel.of(
+                juegos,
+                linkTo(methodOn(VideojuegoCatController.class).findAll()).withSelfRel()
+        );
+
+        return ResponseEntity.ok(collection);
     }
 
     @Operation(summary = "Obtener videojuego por ID", description = "Retorna un videojuego según su identificador único")
@@ -102,7 +114,7 @@ public class VideojuegoCatController {
     public ResponseEntity<VideojuegoCatResponse> findById(
             @Parameter(description = "ID del videojuego", required = true, example = "1")
             @PathVariable @NonNull Long id) {
-        return ResponseEntity.ok(videojuegoSer.findById(id));
+        return ResponseEntity.ok(addLinks(videojuegoSer.findById(id)));
     }
 
     @Operation(summary = "Obtener videojuego por sku", description = "Retorna un videojuego según su código sku")
@@ -115,7 +127,8 @@ public class VideojuegoCatController {
     public ResponseEntity<VideojuegoCatResponse> findBySku(
             @Parameter(description = "Sku del libro", required = true, example = "VG-9000")
             @PathVariable String sku) {
-        return ResponseEntity.ok(videojuegoSer.findBySku(sku));
+        // findBySku también devuelve un videojuego único: merece sus links de navegación
+        return ResponseEntity.ok(addLinks(videojuegoSer.findBySku(sku)));
     }
 
     @Operation(summary = "Crear un nuevo videojuego", description = "Registra un nuevo videojuego en el catálogo")
@@ -130,7 +143,7 @@ public class VideojuegoCatController {
                 description = "Datos del videojuego a crear", required = true,
                 content = @Content(schema = @Schema(implementation = VideojuegoCatRequest.class)))
             @Valid @RequestBody VideojuegoCatRequest request) {
-        VideojuegoCatResponse creado = videojuegoSer.create(request);
+        VideojuegoCatResponse creado = addLinks(videojuegoSer.create(request));
         return ResponseEntity.status(HttpStatus.CREATED).body(creado);
     }
 
@@ -149,7 +162,7 @@ public class VideojuegoCatController {
                 description = "Nuevos datos del videojuego", required = true,
                 content = @Content(schema = @Schema(implementation = VideojuegoCatRequest.class)))
             @Valid @RequestBody VideojuegoCatRequest request) {
-        return ResponseEntity.ok(videojuegoSer.update(id, request));
+        return ResponseEntity.ok(addLinks(videojuegoSer.update(id, request)));
     }
 
     @Operation(summary = "Eliminar un videojuego", description = "Elimina un videojuego del catálogo por su ID")
@@ -177,8 +190,7 @@ public class VideojuegoCatController {
             @PathVariable Long videojuego_id,
             @Parameter(description = "ID de la categoría", required = true, example = "3")
             @PathVariable Long categoria_id) {
-        videojuegoSer.addCategoriaAVideojuego
-        (videojuego_id, categoria_id);
+        videojuegoSer.addCategoriaAVideojuego(videojuego_id, categoria_id);
     }
 
     @Operation(summary = "Verificar existencia por sku", description = "Comprueba si ya existe un videojuego registrado con el sku indicado")
