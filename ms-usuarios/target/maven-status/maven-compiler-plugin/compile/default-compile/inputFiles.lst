@@ -1,18 +1,17 @@
-E:\desarrollo fullstack I\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\model\JpaAuditingConfig.java
-E:\desarrollo fullstack I\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\controller\UsuarioController.java
-E:\desarrollo fullstack I\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\model\Rareza.java
-E:\desarrollo fullstack I\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\model\Logro.java
-E:\desarrollo fullstack I\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\dto\LogroRequest.java
-E:\desarrollo fullstack I\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\dto\LogroResponse.java
-E:\desarrollo fullstack I\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\dto\UsuarioLogroRequest.java
-E:\desarrollo fullstack I\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\dto\UsuarioRequest.java
-E:\desarrollo fullstack I\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\model\Usuario.java
-E:\desarrollo fullstack I\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\mapper\UsuarioMapper.java
-E:\desarrollo fullstack I\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\dto\UsuarioResponse.java
-E:\desarrollo fullstack I\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\TiendaUsuariosApplication.java
-E:\desarrollo fullstack I\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\service\UsuariosService.java
-E:\desarrollo fullstack I\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\model\UsuarioLogro.java
-E:\desarrollo fullstack I\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\repository\UsuarioRepository.java
-E:\desarrollo fullstack I\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\dto\UsuarioLogroResponse.java
-E:\desarrollo fullstack I\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\mapper\LogroMapper.java
-E:\desarrollo fullstack I\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\mapper\UsuarioLogroMapper.java
+C:\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\model\CredencialUsuario.java
+C:\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\model\JpaAuditingConfig.java
+C:\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\dto\LoginResponse.java
+C:\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\dto\UsuarioResponse.java
+C:\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\dto\RegisterRequest.java
+C:\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\mapper\UsuarioMapper.java
+C:\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\config\SecurityConfig.java
+C:\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\service\AuthService.java
+C:\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\model\PerfilUsuario.java
+C:\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\service\UsuarioService.java
+C:\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\repository\UsuarioRepository.java
+C:\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\model\Usuario.java
+C:\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\dto\UsuarioRequest.java
+C:\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\TiendaUsuariosApplication.java
+C:\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\controller\AuthController.java
+C:\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\controller\UsuarioController.java
+C:\tienda\ms-usuarios\src\main\java\cl\triskeledu\usuarios\dto\LoginRequest.java
