@@ -120,7 +120,7 @@ services:
   # -- Microservicio: Usuarios / Autenticacion -----------------
   ms-usuarios:
     build: ./ms-usuarios
-    image: biblioteca-ms-usuarios
+    image: tienda-ms-usuarios
     container_name: ms-usuarios
     depends_on:
       eureka-server:
@@ -133,7 +133,7 @@ services:
         condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      SERVER_PORT: 9001
+      SERVER_PORT: 9005
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-rdbms:5432/usuarios
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: "123"
@@ -146,7 +146,7 @@ services:
   # -- Microservicio: Catalogo de Libros -----------------------
   ms-catalogo:
     build: ./ms-catalogo
-    image: biblioteca-ms-catalogo
+    image: tienda-ms-catalogo
     container_name: ms-catalogo
     depends_on:
       eureka-server:
@@ -159,7 +159,7 @@ services:
         condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      SERVER_PORT: 9002
+      SERVER_PORT: 9001
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-rdbms:5432/catalogo
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: "123"
@@ -170,10 +170,36 @@ services:
       - biblioteca-network
 
   # -- Microservicio: Recursos Fisicos -------------------------
-  ms-recursos:
-    build: ./ms-recursos
-    image: biblioteca-ms-recursos
-    container_name: ms-recursos
+  ms-compras:
+    build: ./ms-compras
+    image: tienda-ms-compras
+    container_name: ms-compras
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      api-gateway:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SERVER_PORT: 9002
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-rdbms:5432/recursos
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: "123"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-broker:29092
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+    networks:
+      - biblioteca-network
+
+  # -- Microservicio: Recursos Fisicos -------------------------
+  ms-descuentos:
+    build: ./ms-descuentos
+    image: tienda-ms-descuentos
+    container_name: ms-descuentos
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -186,6 +212,32 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SERVER_PORT: 9003
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-rdbms:5432/recursos
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: "123"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-broker:29092
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+    networks:
+      - biblioteca-network
+
+  # -- Microservicio: Recursos Fisicos -------------------------
+  ms-resenas:
+    build: ./ms-resenas
+    image: tienda-ms-resenas
+    container_name: ms-resenas
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      api-gateway:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SERVER_PORT: 9004
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-rdbms:5432/recursos
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: "123"
