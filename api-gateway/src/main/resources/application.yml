@@ -43,7 +43,7 @@ spring:
         # ----------------------------------------------------------
         # Endpoints públicos de login, registro y logout.
         # Ejemplo: POST http://localhost:9000/api/v1/auth/login
-        # Se enruta a: ms-usuarios (puerto 9001 por defecto)
+        # Se enruta a: ms-usuarios (puerto 9005 por defecto)
         - id: ms-usuarios-auth
           uri: lb://ms-usuarios
           predicates:
@@ -54,7 +54,7 @@ spring:
         # ----------------------------------------------------------
         # CRUD de usuarios. Requiere autenticación JWT.
         # Ejemplo: GET http://localhost:9000/api/v1/usuarios
-        # Se enruta a: ms-usuarios (puerto 9001 por defecto)
+        # Se enruta a: ms-usuarios (puerto 9005 por defecto)
         - id: ms-usuarios
           uri: lb://ms-usuarios
           predicates:
@@ -65,7 +65,7 @@ spring:
         # ----------------------------------------------------------
         # CRUD de libros del catálogo. Requiere autenticación JWT.
         # Ejemplo: GET http://localhost:9000/api/v1/libros
-        # Se enruta a: ms-catalogo (puerto 9002 por defecto)
+        # Se enruta a: ms-catalogo (puerto 9001 por defecto)
         - id: ms-catalogo-categorias
           uri: lb://ms-catalogo
           predicates:
@@ -76,7 +76,7 @@ spring:
         # ----------------------------------------------------------
         # CRUD de libros del catálogo. Requiere autenticación JWT.
         # Ejemplo: GET http://localhost:9000/api/v1/libros
-        # Se enruta a: ms-catalogo (puerto 9002 por defecto)
+        # Se enruta a: ms-catalogo (puerto 9001 por defecto)
         - id: ms-catalogo-videojuegos
           uri: lb://ms-catalogo
           predicates:
@@ -88,7 +88,7 @@ spring:
         # CRUD de recursos físicos (copias de libros, DVDs, etc.)
         # Requiere autenticación JWT.
         # Ejemplo: GET http://localhost:9000/api/v1/recursos
-        # Se enruta a: ms-recursos (puerto 9003 por defecto)
+        # Se enruta a: ms-recursos (puerto 9002 por defecto)
         - id: ms-compras-detalles
           uri: lb://ms-compras
           predicates:
@@ -100,7 +100,7 @@ spring:
         # CRUD de recursos físicos (copias de libros, DVDs, etc.)
         # Requiere autenticación JWT.
         # Ejemplo: GET http://localhost:9000/api/v1/recursos
-        # Se enruta a: ms-recursos (puerto 9003 por defecto)
+        # Se enruta a: ms-recursos (puerto 9002 por defecto)
         - id: ms-compras-clientes-proyeccion
           uri: lb://ms-compras
           predicates:
@@ -112,7 +112,7 @@ spring:
         # CRUD de recursos físicos (copias de libros, DVDs, etc.)
         # Requiere autenticación JWT.
         # Ejemplo: GET http://localhost:9000/api/v1/recursos
-        # Se enruta a: ms-recursos (puerto 9003 por defecto)
+        # Se enruta a: ms-recursos (puerto 9002 por defecto)
         - id: ms-compras-videojuegos-proyeccion
           uri: lb://ms-compras
           predicates:
@@ -160,7 +160,7 @@ spring:
         # Vista de proyección de libros desde el servicio de recursos.
         # Requiere autenticación JWT.
         # Ejemplo: GET http://localhost:9000/api/v1/libros-proyeccion
-        # Se enruta a: ms-recursos (puerto 9003 por defecto)
+        # Se enruta a: ms-recursos (puerto 9004 por defecto)
         - id: ms-resenas
           uri: lb://ms-resenas
           predicates:
