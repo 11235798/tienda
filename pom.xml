@@ -24,7 +24,7 @@
         <module>ms-resenas</module>      <!-- Microservicio resenas -->
         <module>ms-descuentos</module>      <!-- Microservicio descuentos -->
         <!-- [GATEWAY-INI] Nuevo módulo: API Gateway como punto de entrada único para todos los microservicios -->
-        <!-- <module>api-gateway</module> -->      <!-- API Gateway (puerto 9000) - enruta y balancea peticiones -->
+        <module>api-gateway</module>      <!-- API Gateway (puerto 9000) - enruta y balancea peticiones -->
         <!-- [GATEWAY-FIN] -->
         <!-- CGV: Agrega aqui mas modulos segun sea necesario -->
     </modules>
