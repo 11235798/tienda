@@ -9,17 +9,17 @@ rmdir /s /q %USERPROFILE%\.m2
 
 REM Paso 2: Eliminar carpetas target de los proyectos
 echo Eliminando carpetas target ...
-rmdir /s /q C:\tienda-test\eureka\target
+rmdir /s /q C:\tienda\eureka\target
 
-rmdir /s /q C:\tienda-test\ms-usuarios\target
+rmdir /s /q C:\tienda\ms-usuarios\target
 
-rmdir /s /q C:\tienda-test\ms-catalogo\target
+rmdir /s /q C:\tienda\ms-catalogo\target
 
-rmdir /s /q C:\tienda-test\ms-compras\target
+rmdir /s /q C:\tienda\ms-compras\target
 
-rmdir /s /q C:\tienda-test\ms-resenas\target
+rmdir /s /q C:\tienda\ms-resenas\target
 
-rmdir /s /q C:\tienda-test\ms-descuentos\target
+rmdir /s /q C:\tienda\ms-descuentos\target
 
 REM Paso 3: Instalar todas las dependencias forzadamente
 echo Descargando dependencias nuevamente con Maven ...

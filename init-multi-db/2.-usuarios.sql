@@ -37,7 +37,7 @@ CREATE INDEX idx_perfil_usuario_email ON perfil_usuarios(usuario_email);
 
 -- 3. DATOS DE PRUEBA
 INSERT INTO usuarios (nickname, email, password, rol) VALUES
---Todas las contraseñas son duoc@2026
+--Todas las contraseñas son Biblio@2026
 ('Ana',      'ana@administrador.cl',     '$2b$10$1hnbaMR7iTsdn3D0gG5Q8eUw5aSh9O2at2e4u1iAlzdhD6m4dzVZO',  'Administrador'),
 ('Andrés',   'andres@administrador.cl',  '$2b$10$1hnbaMR7iTsdn3D0gG5Q8eUw5aSh9O2at2e4u1iAlzdhD6m4dzVZO',  'Administrador'),
 ('Adrián',   'adrian@administrador.cl',  '$2b$10$1hnbaMR7iTsdn3D0gG5Q8eUw5aSh9O2at2e4u1iAlzdhD6m4dzVZO',  'Administrador'),
