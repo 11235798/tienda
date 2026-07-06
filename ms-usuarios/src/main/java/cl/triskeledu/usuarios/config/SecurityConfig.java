@@ -18,20 +18,20 @@ import lombok.RequiredArgsConstructor;
  * Configuración de Spring Security para ms-usuarios.
  *
  * Este microservicio actúa como SERVIDOR DE AUTENTICACIÓN:
- * - Expone /api/v2/auth/** como endpoints públicos (login y registro)
- * - Protege /api/v2/usuarios/** según roles
+ * - Expone /api/v1/auth/** como endpoints públicos (login y registro)
+ * - Protege /api/v1/usuarios/** según roles
  * - Usa sesiones STATELESS (sin cookies de sesión, solo JWT)
  *
  * Matriz de autorización:
  * ┌────────────────────────────┬────────┬────────────────────────────────────┐
  * │ Endpoint                   │ Método │ Acceso                             │
  * ├────────────────────────────┼────────┼────────────────────────────────────┤
- * │ /api/v2/auth/**            │ ALL    │ Público (sin token)                │
+ * │ /api/v1/auth/**            │ ALL    │ Público (sin token)                │
  * │ /actuator/**               │ ALL    │ Público (monitoreo)                │
- * │ /api/v2/usuarios/**        │ GET    │ Administrador, Bibliotecario       │
- * │ /api/v2/usuarios/**        │ POST   │ Administrador                      │
- * │ /api/v2/usuarios/**        │ PUT    │ Administrador                      │
- * │ /api/v2/usuarios/**        │ DELETE │ Administrador                      │
+ * │ /api/v1/usuarios/**        │ GET    │ Administrador, Bibliotecario       │
+ * │ /api/v1/usuarios/**        │ POST   │ Administrador                      │
+ * │ /api/v1/usuarios/**        │ PUT    │ Administrador                      │
+ * │ /api/v1/usuarios/**        │ DELETE │ Administrador                      │
  * │ Cualquier otro             │ ALL    │ Autenticado (con token válido)     │
  * └────────────────────────────┴────────┴────────────────────────────────────┘
  */
@@ -76,17 +76,17 @@ public class SecurityConfig {
                 ).permitAll()
                 // [SWAGGER-FIN]
                 // Endpoints públicos (sin token)
-                .requestMatchers("/api/v2/auth/**").permitAll()
+                .requestMatchers("/api/v1/auth/**").permitAll()
                 .requestMatchers("/actuator/**").permitAll()
 
                 // Endpoints de usuarios por rol
-                .requestMatchers(HttpMethod.GET, "/api/v2/usuarios/**")
+                .requestMatchers(HttpMethod.GET, "/api/v1/usuarios/**")
                     .hasAnyRole("Administrador", "Vendedor")
-                .requestMatchers(HttpMethod.POST, "/api/v2/usuarios/**")
+                .requestMatchers(HttpMethod.POST, "/api/v1/usuarios/**")
                     .hasRole("Administrador")
-                .requestMatchers(HttpMethod.PUT, "/api/v2/usuarios/**")
+                .requestMatchers(HttpMethod.PUT, "/api/v1/usuarios/**")
                     .hasRole("Administrador")
-                .requestMatchers(HttpMethod.DELETE, "/api/v2/usuarios/**")
+                .requestMatchers(HttpMethod.DELETE, "/api/v1/usuarios/**")
                     .hasRole("Administrador")
 
                 // Todo lo demás requiere autenticación
