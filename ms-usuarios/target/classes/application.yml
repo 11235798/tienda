@@ -1,3 +1,4 @@
+#El application.yml se encarga de manejar los puertos del microservicio y se conecta a la base de datos a través de Eureka y Swagger
 server:
   port: 0
   error:

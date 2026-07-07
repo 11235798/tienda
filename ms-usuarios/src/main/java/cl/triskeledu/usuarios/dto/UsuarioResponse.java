@@ -10,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor 
 @Builder 
 public class UsuarioResponse extends RepresentationModel<UsuarioResponse> {
+    //El response son los datos que se le devuelven al cliente como respuesta
     private Long id;
     private String nickname;
     private String email;

@@ -12,6 +12,7 @@ import lombok.*;
 @AllArgsConstructor 
 @Builder 
 public class UsuarioRequest{
+    //El request es lo que se le pide que ingrese al cliente cuando usa el Controller
     @NotBlank(message = "El nickname es obligatorio")
     @Size(max = 100, message = "El nickname no puede superar los 100 caracteres")
     private String nickname;

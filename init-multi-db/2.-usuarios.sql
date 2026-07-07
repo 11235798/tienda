@@ -5,6 +5,8 @@ DROP TABLE IF EXISTS credenciales_usuarios;
 DROP TABLE IF EXISTS perfil_usuarios;
 DROP TABLE IF EXISTS usuarios;
 
+--Cada tabla maestra tiene su propia clase JPA en el modelo representándolo
+
 -- 2. TABLAS MAESTRAS
 CREATE TABLE usuarios (
     id                SERIAL       PRIMARY KEY,

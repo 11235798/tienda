@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
+    //El repository es quien se comunica con la base de datos para guardar, actualizar, eliminar o consultar información.
+
     Optional<Usuario> findByEmail(String email);
 
     boolean existsByEmail(String email);

@@ -31,17 +31,6 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
-    // ─── Métodos auxiliares HATEOAS ───────────────────────────────────────────
-
-    /**
-     *   - self        → GET    /api/v1/usuarios/{id}
-     *   - update      → PUT    /api/v1/usuarios/{id}
-     *   - delete      → DELETE /api/v1/usuarios/{id}
-     *   - activar     → PUT    /api/v1/usuarios/{id}/activar
-     *   - desactivar  → PUT    /api/v1/usuarios/{id}/desactivar
-     *   - all         → GET    /api/v1/usuarios
-     */
-
     //Links-------------------------------------------------------------------
     private UsuarioResponse addLinks(UsuarioResponse usuario) {
         Long id = usuario.getId();
@@ -65,6 +54,9 @@ public class UsuarioController {
 
         return usuario;
     }
+
+    //El controller es la puerta de entrada al microservicio, valida las solicitudes HTTP del cliente, se asegura que los datos básicos estén correctos y
+    //le pasa el trabajo a la capa de Service. Cuando recibe la respuesta, la formatea en JSON y la envía de vuelta al cliente
 
     //Endpoints--------------------------------------------------------------------------
     @GetMapping
