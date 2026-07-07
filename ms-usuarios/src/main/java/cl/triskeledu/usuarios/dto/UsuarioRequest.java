@@ -27,8 +27,8 @@ public class UsuarioRequest{
 
     @NotBlank(message = "El rol es obligatorio")
     @Pattern(
-        regexp = "Administrador|Bibliotecario|Cliente",
-        message = "El rol debe ser: Administrador, Bibliotecario o Cliente"
+        regexp = "Administrador|Vendedor|Cliente",
+        message = "El rol debe ser: Administrador, Vendedor o Cliente"
     )
     private String rol;
 }

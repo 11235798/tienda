@@ -34,18 +34,15 @@ public class UsuarioController {
     // ─── Métodos auxiliares HATEOAS ───────────────────────────────────────────
 
     /**
-     * Agrega los links de navegación a un UsuarioResponse:
      *   - self        → GET    /api/v1/usuarios/{id}
      *   - update      → PUT    /api/v1/usuarios/{id}
      *   - delete      → DELETE /api/v1/usuarios/{id}
      *   - activar     → PUT    /api/v1/usuarios/{id}/activar
      *   - desactivar  → PUT    /api/v1/usuarios/{id}/desactivar
      *   - all         → GET    /api/v1/usuarios
-     *
-     * Los links de activar/desactivar son especialmente útiles aquí
-     * porque no son operaciones CRUD estándar; el cliente los descubre
-     * directamente desde la respuesta sin necesidad de leer documentación.
      */
+
+    //Links-------------------------------------------------------------------
     private UsuarioResponse addLinks(UsuarioResponse usuario) {
         Long id = usuario.getId();
 
@@ -69,8 +66,7 @@ public class UsuarioController {
         return usuario;
     }
 
-    // ─── Endpoints ────────────────────────────────────────────────────────────
-
+    //Endpoints--------------------------------------------------------------------------
     @GetMapping
     public ResponseEntity<CollectionModel<UsuarioResponse>> findAll() {
         List<UsuarioResponse> usuarios = usuarioService.findAll();
