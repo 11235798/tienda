@@ -23,10 +23,12 @@ import cl.triskeledu.usuarios.service.UsuarioService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/usuarios")
+@Slf4j
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
@@ -61,7 +63,9 @@ public class UsuarioController {
     //Endpoints--------------------------------------------------------------------------
     @GetMapping
     public ResponseEntity<CollectionModel<UsuarioResponse>> findAll() {
+        log.info("Petición recibida: Obteniendo todos los usuarios");
         List<UsuarioResponse> usuarios = usuarioService.findAll();
+        log.debug("Usuarios recuperados de la base de datos: {}",usuarios.size());//??????????????????????????
         usuarios.forEach(this::addLinks);
 
         CollectionModel<UsuarioResponse> collection = CollectionModel.of(
